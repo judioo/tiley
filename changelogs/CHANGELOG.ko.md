@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### 삭제
+
+- 레이아웃 그리드의 미니 화면 배경에 바탕화면을 그리기 위해, 전용 썸네일이 없는 바탕화면 유형(Photos 라이브러리, Aerial 등)에 대해 `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`의 BMP 캐시를 참조하던 폴백을 제거했습니다. 이 캐시는 `com.apple.wallpaper.agent`의 컨테이너 안에 있으며, macOS Sequoia에서는 접근 시 "앱 데이터" 권한 대화 상자가 표시되는데, 단지 장식용 배경 이미지를 위해 요구하기에는 너무 무거운 권한이었습니다. 이제 공개 API의 데스크톱 이미지 URL과 `/System/Library/Desktop Pictures/.thumbnails/`만 참조하고, 어느 쪽으로도 확인되지 않는 바탕화면의 경우 배경 이미지를 생략한 채 그리드, 채움 색, 화면 레이아웃만 렌더링하도록 했습니다.
+
 ## [5.1.6] - 2026-05-08
 
 ### 수정

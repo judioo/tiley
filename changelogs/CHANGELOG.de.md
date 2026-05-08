@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### Entfernt
+
+- Der Fallback, der den Hintergrund der Mini-Bildschirme im Layout-Raster bei Hintergrundbildtypen ohne eigenes Vorschaubild (Fotos-Mediathek, Aerial usw.) aus dem BMP-Cache des Wallpaper-Agents unter `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/` füllte, wurde entfernt. Der Cache liegt im Container von `com.apple.wallpaper.agent`, und unter macOS Sequoia löst der Zugriff darauf den neuen Berechtigungsdialog "App-Daten" aus — eine viel zu hohe Anforderung für ein rein kosmetisches Hintergrundbild. Tiley stützt sich jetzt ausschließlich auf die öffentliche Schreibtischbild-URL und `/System/Library/Desktop Pictures/.thumbnails/`. Lässt sich das Hintergrundbild über keine dieser Quellen auflösen, wird es weggelassen und nur Raster, Füllfarbe und Bildschirm-Layout gezeichnet.
+
 ## [5.1.6] - 2026-05-08
 
 ### Behoben

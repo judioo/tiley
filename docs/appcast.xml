@@ -3,6 +3,65 @@
     <channel>
         <title>Tiley</title>
         <item>
+            <title>5.1.7</title>
+            <description xml:lang="ru"><![CDATA[<h3>Удалено</h3>
+<ul>
+<li>Удалён резервный путь, который заполнял фон мини-экранов в сетке раскладки кэшем BMP агента обоев для типов обоев без выделенной миниатюры (библиотека «Фото», Aerial и др.). Этот кэш расположен в контейнере `com.apple.wallpaper.agent` (`~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`), и на macOS Sequoia обращение к нему вызывает новый диалог разрешения «Данные программ», что слишком много для чисто декоративной фоновой картинки. Теперь Tiley опирается только на публичный URL изображения рабочего стола и `/System/Library/Desktop Pictures/.thumbnails/`. Если ни один из этих источников не даёт результата, фоновое изображение пропускается, а сетка, заливочный цвет и компоновка экрана отрисовываются как обычно.</li>
+</ul>]]></description>
+            <description xml:lang="pt-BR"><![CDATA[<h3>Removido</h3>
+<ul>
+<li>Foi removido o caminho de fallback que preenchia o fundo das mini telas da grade de layout com o cache BMP do agente de papel de parede, usado para tipos de papel sem miniatura dedicada (biblioteca do Fotos, Aerial etc.). Esse cache fica dentro do container de `com.apple.wallpaper.agent` (`~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`) e, no macOS Sequoia, acessá-lo dispara o novo aviso de permissão "Dados de apps", uma exigência alta demais para uma imagem de fundo puramente decorativa. Agora o Tiley se apoia somente na URL pública da imagem da mesa e em `/System/Library/Desktop Pictures/.thumbnails/`; quando nenhuma das duas fontes resolve o papel de parede, a imagem de fundo é omitida e apenas a grade, a cor de preenchimento e o layout da tela continuam sendo desenhados.</li>
+</ul>]]></description>
+            <description xml:lang="it"><![CDATA[<h3>Rimosso</h3>
+<ul>
+<li>È stato rimosso il percorso di fallback che riempiva lo sfondo dei mini schermi nella griglia di layout con la cache BMP dell'agente degli sfondi, per i tipi di sfondo privi di una miniatura dedicata (libreria Foto, Aerial ecc.). La cache si trova nel container di `com.apple.wallpaper.agent` (`~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`) e su macOS Sequoia accedervi attiva la nuova finestra di autorizzazione "Dati delle app", una richiesta sproporzionata per un'immagine di sfondo puramente estetica. Ora Tiley si basa solo sull'URL pubblico dello sfondo della scrivania e su `/System/Library/Desktop Pictures/.thumbnails/`; quando nessuna delle due fonti riesce a risolvere lo sfondo, l'immagine viene omessa e vengono disegnate solo la griglia, il colore di riempimento e la disposizione dello schermo.</li>
+</ul>]]></description>
+            <description xml:lang="fr"><![CDATA[<h3>Supprimé</h3>
+<ul>
+<li>Le chemin de repli qui remplissait le fond des mini-écrans de la grille de disposition avec le cache BMP de l'agent de fond d'écran, pour les types de fond sans vignette dédiée (photothèque, Aerial, etc.), a été supprimé. Ce cache, situé dans le conteneur de `com.apple.wallpaper.agent` (`~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`), déclenche sous macOS Sequoia la nouvelle invite d'autorisation « Données d'app », ce qui est une demande disproportionnée pour une image d'arrière-plan purement décorative. Tiley s'appuie désormais uniquement sur l'URL publique du fond d'écran et sur `/System/Library/Desktop Pictures/.thumbnails/` ; lorsque ni l'une ni l'autre de ces sources ne résout le fond, l'image est simplement omise et la grille, la couleur de remplissage et la disposition de l'écran continuent à s'afficher.</li>
+</ul>]]></description>
+            <description xml:lang="es"><![CDATA[<h3>Eliminado</h3>
+<ul>
+<li>Se eliminó el camino de respaldo que rellenaba el fondo de las mini pantallas de la cuadrícula de diseño con el caché BMP del agente de fondos para los tipos de fondo sin miniatura dedicada (biblioteca de Fotos, Aerial, etc.), que se leía desde `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`. Esa caché está dentro del contenedor de `com.apple.wallpaper.agent` y, en macOS Sequoia, acceder a ella desencadena el nuevo diálogo de permiso "Datos de apps", una exigencia demasiado fuerte para una imagen de fondo puramente decorativa. Tiley ahora se apoya solo en la URL pública del fondo de escritorio y en `/System/Library/Desktop Pictures/.thumbnails/`; cuando ninguna de las dos fuentes resuelve el fondo, se omite la imagen y solo se dibujan la cuadrícula, el color de relleno y la disposición de la pantalla.</li>
+</ul>]]></description>
+            <description xml:lang="de"><![CDATA[<h3>Entfernt</h3>
+<ul>
+<li>Der Fallback, der den Hintergrund der Mini-Bildschirme im Layout-Raster bei Hintergrundbildtypen ohne eigenes Vorschaubild (Fotos-Mediathek, Aerial usw.) aus dem BMP-Cache des Wallpaper-Agents unter `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/` füllte, wurde entfernt. Der Cache liegt im Container von `com.apple.wallpaper.agent`, und unter macOS Sequoia löst der Zugriff darauf den neuen Berechtigungsdialog "App-Daten" aus — eine viel zu hohe Anforderung für ein rein kosmetisches Hintergrundbild. Tiley stützt sich jetzt ausschließlich auf die öffentliche Schreibtischbild-URL und `/System/Library/Desktop Pictures/.thumbnails/`. Lässt sich das Hintergrundbild über keine dieser Quellen auflösen, wird es weggelassen und nur Raster, Füllfarbe und Bildschirm-Layout gezeichnet.</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hant"><![CDATA[<h3>移除</h3>
+<ul>
+<li>移除了為配置格線的迷你畫面背景繪製桌布而使用的退回路徑——針對沒有專用縮圖的桌布類型（Photos 圖庫、Aerial 等），原本會讀取 `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/` 底下的 BMP 快取。該快取位於 `com.apple.wallpaper.agent` 的容器中，在 macOS Sequoia 上存取時會彈出「App 資料」權限對話框；僅僅為了一張裝飾性背景圖而要求此權限實在過重。現在僅依靠公開 API 的桌面圖片 URL 以及 `/System/Library/Desktop Pictures/.thumbnails/`。若兩者都無法解析的桌布，會省略背景圖並只繪製格線、填色與螢幕佈局。</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hans"><![CDATA[<h3>移除</h3>
+<ul>
+<li>移除了为在布局网格的迷你屏幕背景上绘制壁纸而使用的回退路径——针对没有专用缩略图的壁纸类型（Photos 图库、Aerial 等），原本会读取 `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/` 下的 BMP 缓存。该缓存位于 `com.apple.wallpaper.agent` 的容器中，在 macOS Sequoia 上访问时会弹出"应用数据"权限对话框；仅仅为了一张装饰性背景图就要求该权限太重了。现在仅依赖公开 API 的桌面图片 URL 与 `/System/Library/Desktop Pictures/.thumbnails/`。两者都无法解析的壁纸将省略背景图，只绘制网格、填充色和屏幕布局。</li>
+</ul>]]></description>
+            <description xml:lang="ko"><![CDATA[<h3>삭제</h3>
+<ul>
+<li>레이아웃 그리드의 미니 화면 배경에 바탕화면을 그리기 위해, 전용 썸네일이 없는 바탕화면 유형(Photos 라이브러리, Aerial 등)에 대해 `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`의 BMP 캐시를 참조하던 폴백을 제거했습니다. 이 캐시는 `com.apple.wallpaper.agent`의 컨테이너 안에 있으며, macOS Sequoia에서는 접근 시 "앱 데이터" 권한 대화 상자가 표시되는데, 단지 장식용 배경 이미지를 위해 요구하기에는 너무 무거운 권한이었습니다. 이제 공개 API의 데스크톱 이미지 URL과 `/System/Library/Desktop Pictures/.thumbnails/`만 참조하고, 어느 쪽으로도 확인되지 않는 바탕화면의 경우 배경 이미지를 생략한 채 그리드, 채움 색, 화면 레이아웃만 렌더링하도록 했습니다.</li>
+</ul>]]></description>
+            <description xml:lang="ja"><![CDATA[<h3>削除</h3>
+<ul>
+<li>レイアウトグリッドのミニ画面背景に壁紙を描画するため、専用サムネイルを持たない壁紙タイプ（Photos ライブラリ、Aerial など）向けに `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/` の BMP キャッシュを参照していたフォールバックを廃止しました。このキャッシュは `com.apple.wallpaper.agent` のコンテナ内にあり、macOS Sequoia ではアクセスすると「アプリデータ」許可ダイアログが表示されてしまうためで、見た目のためだけの背景画像と引き換えに要求するには重すぎる権限でした。今後は公開 API のデスクトップピクチャ URL と `/System/Library/Desktop Pictures/.thumbnails/` のみを参照し、どちらでも解決できない壁紙の場合は背景画像を省略してグリッド・塗り色・スクリーンレイアウトだけを描画するようにしました。</li>
+</ul>]]></description>
+            <description xml:lang="en"><![CDATA[<h3>Removed</h3>
+<ul>
+<li>The wallpaper-agent BMP cache fallback used to fill in the layout grid's mini-screen background for wallpaper types without a dedicated thumbnail (Photos library, Aerial, etc.) has been dropped. Reading the cache required walking `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`, which on macOS Sequoia triggers the new "App Data" permission prompt — a steep ask for a purely cosmetic background. Tiley now relies solely on the public desktop image URL and `/System/Library/Desktop Pictures/.thumbnails/`; for wallpapers neither source resolves, the grid background simply omits the wallpaper image (the grid itself, fill color, and screen layout still render normally).</li>
+</ul>]]></description>
+            <pubDate>Fri, 08 May 2026 23:06:35 +0900</pubDate>
+            <sparkle:version>517</sparkle:version>
+            <sparkle:shortVersionString>5.1.7</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.7/Tiley-5.1.7.zip" length="6470742" type="application/octet-stream" sparkle:edSignature="nUm7n4W6HepGNaBnBOMwZ9q5OkTUm5+BFBG8KXIhrwJE2Ad5Pmk7oLKYTvNk0UPMEjIanCbg1z2Nb8L27pdGBw=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.7/Tiley517-516.delta" sparkle:deltaFrom="516" length="298526" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="V8z+yHaZatCZiowX1DkQUukNxWTx0EXl4EDKjXeD0H5GswbEvY9yy7CJWBlSj9+VcgIvTLmufHv4LUygLFLmDA=="/>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.7/Tiley517-515.delta" sparkle:deltaFrom="515" length="321446" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="84W+C5tlPPBnp5cCVFAUq+9X2DQVtOjNRUPaeJeO47C3dtZI098OTTFxVP3F+naFjtAECqUmnFGK/SPd0QDeCA=="/>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.7/Tiley517-514.delta" sparkle:deltaFrom="514" length="334466" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="VfhbOCjl3Z70164KocDjytwYyWjbaEy8M81Qs0HUIFSO3gtHkU6B25sHpO4eS2spnnLpTR6Y2BOBotQ8TEAgBg=="/>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.7/Tiley517-513.delta" sparkle:deltaFrom="513" length="334938" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="1kE6/nPdO30eM73kPc3LZAg363fJocTefzkeq2lrPi0VEE6o19LuIVSK66aqxIuRODoU7ZAUzJ/69Wd/6eHYCQ=="/>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.7/Tiley517-512.delta" sparkle:deltaFrom="512" length="334718" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="vpXQ0V9Kj+UntO0Do1ifR6KtwCn97ynfU1ybTXp0QNDSRKhQww5pGSbFq5H+YeBeBa6AnxxLkuS3T3DyfZgvBw=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>5.1.6</title>
             <description xml:lang="ru"><![CDATA[<h3>Исправлено</h3>
 <ul>
@@ -59,11 +118,61 @@
 <li>First-launch experience on a fresh machine no longer surfaces a spurious Input Monitoring permission dialog. The dialog was triggered by Tiley creating a `CGEventTap` for mouse-only click monitoring before Accessibility had been granted; the tap is now installed lazily, the moment Accessibility transitions to granted, so macOS treats the tap creation as covered by the existing Accessibility approval and skips the Input Monitoring prompt entirely.</li>
 <li>After granting Accessibility for the first time and returning to Tiley, the sidebar window list and the layout grid now populate immediately instead of staying stuck on "No windows". The window-list cache was previously being filled with an empty result while Accessibility was missing and then trusted as authoritative once permission was granted; the cache refresh is now skipped without Accessibility, and the post-grant return path explicitly enables the layout grid and kicks off a fresh capture.</li>
 </ul>]]></description>
+            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
+<ul>
+<li>No primeiro lançamento em um Mac novo, não aparece mais uma caixa de diálogo de permissão espúria de "Recepção de teclas" (Monitoramento de entrada). A caixa surgia porque o Tiley criava um `CGEventTap` para monitorar cliques do mouse antes de a Acessibilidade ser concedida; o tap agora é criado de forma adiada, no exato momento em que a Acessibilidade passa a ser concedida, fazendo com que o macOS trate a criação do tap como coberta pela aprovação de Acessibilidade e dispense completamente o aviso de Monitoramento de entrada.</li>
+<li>Após conceder a Acessibilidade pela primeira vez e voltar para o Tiley, a lista de janelas da barra lateral e a grade de layout agora são preenchidas imediatamente, em vez de ficarem presas em "Nenhuma janela". Antes, o cache da lista de janelas era preenchido com um resultado vazio enquanto a Acessibilidade estava ausente e depois tratado como autoritativo após a permissão; agora a atualização do cache é ignorada sem Acessibilidade e, no caminho de retorno após a concessão, a grade de layout é ativada explicitamente e uma nova captura é disparada.</li>
+</ul>]]></description>
+            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
+<ul>
+<li>Al primo avvio su un Mac nuovo non compare più una finestra di richiesta di autorizzazione spuria "Ricezione della pressione dei tasti" (Monitoraggio degli input). La finestra veniva mostrata perché Tiley creava un `CGEventTap` per il monitoraggio dei clic del mouse prima che l'Accessibilità fosse concessa; il tap viene ora creato in modo differito, nel momento esatto in cui l'Accessibilità passa allo stato concesso, così macOS considera la creazione del tap coperta dall'approvazione dell'Accessibilità e salta del tutto la richiesta di Monitoraggio degli input.</li>
+<li>Dopo aver concesso l'Accessibilità per la prima volta ed essere tornati a Tiley, l'elenco delle finestre nella barra laterale e la griglia di layout ora si popolano immediatamente invece di restare bloccati su "Nessuna finestra". In precedenza la cache dell'elenco delle finestre veniva riempita con un risultato vuoto mentre l'Accessibilità mancava e poi trattata come affidabile una volta ottenuto il permesso; ora l'aggiornamento della cache viene saltato senza Accessibilità e, nel percorso di ritorno dopo la concessione, la griglia di layout viene attivata esplicitamente e si avvia una nuova cattura.</li>
+</ul>]]></description>
+            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
+<ul>
+<li>Au premier lancement sur un Mac neuf, plus aucune boîte de dialogue d'autorisation parasite "Réception des frappes" (Surveillance de l'entrée) ne s'affiche. Cette boîte apparaissait parce que Tiley créait un `CGEventTap` pour surveiller les clics de souris avant l'octroi de l'Accessibilité ; le tap est désormais créé de manière différée, au moment précis où l'Accessibilité passe à accordée, ce qui amène macOS à considérer la création du tap comme couverte par l'autorisation d'Accessibilité et à omettre entièrement l'invite de Surveillance de l'entrée.</li>
+<li>Après avoir accordé l'Accessibilité pour la première fois et être revenu sur Tiley, la liste des fenêtres de la barre latérale et la grille de disposition se remplissent désormais immédiatement au lieu de rester bloquées sur "Aucune fenêtre". Le cache de la liste des fenêtres était auparavant rempli avec un résultat vide tant que l'Accessibilité manquait, puis traité comme faisant autorité une fois l'autorisation accordée ; le rafraîchissement du cache est désormais ignoré sans Accessibilité, et le chemin de retour après l'octroi active explicitement la grille de disposition et déclenche une nouvelle capture.</li>
+</ul>]]></description>
+            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
+<ul>
+<li>En la primera ejecución sobre un Mac nuevo ya no aparece un diálogo de permiso espurio de "Recepción de pulsaciones de teclas" (Monitoreo de entradas). El diálogo se debía a que Tiley creaba un `CGEventTap` para vigilar los clics del ratón antes de que se concediera el permiso de Accesibilidad; ahora el tap se crea de forma diferida en el mismo instante en que Accesibilidad pasa a estar concedido, de modo que macOS considera la creación del tap cubierta por la aprobación de Accesibilidad y omite por completo la solicitud de Monitoreo de entradas.</li>
+<li>Tras conceder Accesibilidad por primera vez y regresar a Tiley, la lista de ventanas de la barra lateral y la cuadrícula de diseño ahora se rellenan de inmediato en lugar de quedarse atascadas en "Sin ventanas". La caché de la lista de ventanas se llenaba con un resultado vacío mientras Accesibilidad faltaba y luego se trataba como autorizada al obtener el permiso; ahora la actualización de la caché se omite sin Accesibilidad y, en el camino de regreso tras la concesión, se activa explícitamente la cuadrícula de diseño y se dispara una captura nueva.</li>
+</ul>]]></description>
+            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
+<ul>
+<li>Beim ersten Start auf einem frischen Mac erscheint kein überflüssiger Berechtigungsdialog "Tasteneingaben empfangen" (Eingabeüberwachung) mehr. Der Dialog wurde dadurch ausgelöst, dass Tiley einen `CGEventTap` für die Mausklick-Überwachung anlegte, bevor die Bedienungshilfen-Berechtigung erteilt war. Der Tap wird jetzt erst in dem Moment erstellt, in dem die Bedienungshilfen-Freigabe erfolgt; macOS behandelt die Tap-Erstellung dann als von der bestehenden Bedienungshilfen-Zustimmung gedeckt und überspringt die Eingabeüberwachungs-Abfrage komplett.</li>
+<li>Nach dem erstmaligen Erteilen der Bedienungshilfen und der Rückkehr zu Tiley füllen sich die Fensterliste in der Seitenleiste und das Layout-Raster jetzt sofort, statt im Zustand "Keine Fenster" zu verharren. Zuvor wurde der Fensterlisten-Cache bereits ohne Bedienungshilfen mit einem leeren Ergebnis befüllt und nach der Freigabe als verbindlich behandelt; der Cache-Refresh wird nun ohne Bedienungshilfen übersprungen, und der Rückkehrpfad nach der Freigabe aktiviert das Layout-Raster explizit und stößt eine frische Erfassung an.</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
+<ul>
+<li>修正了在新環境上首次啟動時會額外彈出「接收按鍵操作」（輸入監控）權限對話框的問題。該對話框是因為 Tiley 在取得「輔助使用」權限前就先建立了用於監聽滑鼠點擊的 `CGEventTap`。現在改為在「輔助使用」被授予的瞬間再延遲建立該 tap，macOS 會將其視為已被「輔助使用」授權涵蓋，因此「輸入監控」對話框不再出現。</li>
+<li>修正了首次授予「輔助使用」權限並返回 Tiley 後，側邊欄視窗清單與配置格線停留在「無視窗」空白狀態的問題。先前在沒有「輔助使用」的情況下，空的視窗清單快取被標記為「有效」，授權後該空快取又被當作正式資料使用。現在在沒有「輔助使用」時不再刷新快取，並在授權後的回歸路徑上明確開啟配置格線並觸發一次全新的視窗擷取。</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
+<ul>
+<li>修复了在新环境上首次启动时会多弹出一个"接收按键操作"（输入监控）权限对话框的问题。该对话框是因为 Tiley 在获得"辅助功能"权限之前就创建了用于监听鼠标点击的 `CGEventTap`。现在改为在"辅助功能"被授予的瞬间再延迟创建该 tap，macOS 会将其视为已被"辅助功能"授权覆盖，因此不再弹出"输入监控"对话框。</li>
+<li>修复了首次授予"辅助功能"权限并返回 Tiley 后，侧栏窗口列表与布局网格停留在"无窗口"空状态的问题。之前在没有"辅助功能"的情况下，空的窗口列表缓存被标记为"有效"，授权后该空缓存又被当作正式数据使用。现在在没有"辅助功能"时不再刷新缓存，并在授权后的回归路径上显式开启布局网格并触发一次全新的窗口捕获。</li>
+</ul>]]></description>
+            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
+<ul>
+<li>새 환경에서 처음 실행할 때 "키 조작 수신"(입력 모니터링) 권한 대화 상자가 불필요하게 표시되던 문제를 수정했습니다. 마우스 클릭 모니터링용 `CGEventTap`을 손쉬운 사용 권한이 부여되기 전에 만들었기 때문에 발생하던 현상으로, 손쉬운 사용이 허용된 시점에 지연 생성되도록 변경했습니다. macOS가 손쉬운 사용 승인의 일부로 처리하므로 입력 모니터링 대화 상자 자체가 더 이상 나타나지 않습니다.</li>
+<li>손쉬운 사용을 처음 허용하고 Tiley로 돌아온 직후 사이드바의 윈도우 목록과 레이아웃 그리드가 "윈도우 없음" 상태로 비어 있던 문제를 수정했습니다. 손쉬운 사용 권한이 없는 동안 빈 윈도우 목록 캐시가 "유효"로 표시되고, 권한 허용 후 그 빈 캐시가 정식 데이터로 신뢰되었기 때문입니다. 권한이 없는 동안에는 캐시 갱신 자체를 건너뛰고, 허용 후 복귀 경로에서는 레이아웃 그리드를 명시적으로 활성화하고 새 캡처를 실행하도록 변경했습니다.</li>
+</ul>]]></description>
+            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
+<ul>
+<li>新規環境での初回起動時に「キー操作の受信」（入力監視）の許可ダイアログが余計に表示される不具合を修正しました。マウスクリック監視用の `CGEventTap` をアクセシビリティ許可前に作成していたためにダイアログが出ていましたが、アクセシビリティが許可された瞬間に遅延して作成するように変更し、macOS がアクセシビリティの承認に含めて扱うようにすることで入力監視のダイアログ自体が出なくなりました。</li>
+<li>初回にアクセシビリティを許可して Tiley に戻ったあと、サイドバーのウインドウ一覧とレイアウトグリッドが「ウインドウなし」のまま空になる不具合を修正しました。アクセシビリティが無い状態でウインドウリストキャッシュが空のまま「有効」とマークされ、許可後にその空キャッシュが正規データとして信用されていたためです。アクセシビリティが無い間はキャッシュ更新自体をスキップし、許可後の復帰経路ではレイアウトグリッドを明示的に有効化して新規キャプチャを走らせるようにしました。</li>
+</ul>]]></description>
+            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>First-launch experience on a fresh machine no longer surfaces a spurious Input Monitoring permission dialog. The dialog was triggered by Tiley creating a `CGEventTap` for mouse-only click monitoring before Accessibility had been granted; the tap is now installed lazily, the moment Accessibility transitions to granted, so macOS treats the tap creation as covered by the existing Accessibility approval and skips the Input Monitoring prompt entirely.</li>
+<li>After granting Accessibility for the first time and returning to Tiley, the sidebar window list and the layout grid now populate immediately instead of staying stuck on "No windows". The window-list cache was previously being filled with an empty result while Accessibility was missing and then trusted as authoritative once permission was granted; the cache refresh is now skipped without Accessibility, and the post-grant return path explicitly enables the layout grid and kicks off a fresh capture.</li>
+</ul>]]></description>
             <pubDate>Fri, 08 May 2026 22:25:21 +0900</pubDate>
             <sparkle:version>516</sparkle:version>
             <sparkle:shortVersionString>5.1.6</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.6/Tiley-5.1.6.zip" length="6476067" type="application/octet-stream" sparkle:edSignature="88gRRRvbBYqE90FH4TM2HVzCXLUfxigjV2ISztA6cHHwddH3ddA2ERMToOflenitYXSaxVgEXUgDKe8RryanDg=="/>
+            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.7/Tiley-5.1.6.zip" length="6476067" type="application/octet-stream" sparkle:edSignature="88gRRRvbBYqE90FH4TM2HVzCXLUfxigjV2ISztA6cHHwddH3ddA2ERMToOflenitYXSaxVgEXUgDKe8RryanDg=="/>
             <sparkle:deltas>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.6/Tiley516-515.delta" sparkle:deltaFrom="515" length="247178" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="fFnkWZpXUZnuaGgVY0GV9rGgYpqHmje8zwHjsJIvqAwBCDBPeSZ//SL/BXd2YWGURWiaXZpuDrZYFAzSE+gsAg=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.6/Tiley516-514.delta" sparkle:deltaFrom="514" length="285322" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="zOHYCbO4u2ML+EyqEGO58Dd3eQMC+/wTdrADFnyI3XR7OzibK1BLbcOXcqbivq7aXt845oQ7f1gAzz7KBO//BA=="/>
@@ -158,156 +267,57 @@
 <ul>
 <li>The window-grouping badge (the floating circle shown between linked windows) no longer hovers on top of sheets and modal dialogs presented by the same app. Detection covers focused-window subroles `AXDialog`/`AXSystemDialog`, role `AXSheet`, and parent windows with an attached sheet; while any of those are up the badge is hidden and reappears once the modal closes.</li>
 </ul>]]></description>
+            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
+<ul>
+<li>O emblema de agrupamento de janelas (o círculo flutuante mostrado entre janelas vinculadas) não fica mais sobreposto a sheets e diálogos modais apresentados pelo próprio aplicativo. A detecção cobre os subpapéis da janela em foco `AXDialog` / `AXSystemDialog`, o papel `AXSheet` e janelas pai com um sheet anexado; enquanto qualquer um deles estiver visível, o emblema é ocultado e volta a aparecer depois que o modal é fechado.</li>
+</ul>]]></description>
+            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
+<ul>
+<li>Il badge di raggruppamento finestre (il cerchio fluttuante mostrato tra le finestre collegate) non si sovrappone più ai sheet e alle finestre di dialogo modali presentati dalla stessa applicazione. Il rilevamento copre i sottoruoli della finestra in primo piano `AXDialog` / `AXSystemDialog`, il ruolo `AXSheet` e le finestre padre con uno sheet associato; finché uno qualsiasi di questi è visibile il badge viene nascosto e riappare una volta chiuso il modale.</li>
+</ul>]]></description>
+            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
+<ul>
+<li>Le badge de groupement de fenêtres (le cercle flottant affiché entre les fenêtres liées) ne survole plus les feuilles ni les dialogues modaux présentés par la même application. La détection couvre les sous-rôles de la fenêtre focalisée `AXDialog` / `AXSystemDialog`, le rôle `AXSheet` et les fenêtres parentes avec une feuille attachée ; tant que l'un d'eux est affiché, le badge est masqué et réapparaît une fois le modal fermé.</li>
+</ul>]]></description>
+            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
+<ul>
+<li>La insignia de agrupación de ventanas (el círculo flotante mostrado entre las ventanas enlazadas) ya no se superpone a las hojas ni a los diálogos modales presentados por la misma aplicación. La detección abarca los subroles de la ventana enfocada `AXDialog` / `AXSystemDialog`, el rol `AXSheet` y las ventanas padre con una hoja adjunta; mientras cualquiera de ellos esté visible, la insignia se oculta y vuelve a aparecer cuando el modal se cierra.</li>
+</ul>]]></description>
+            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
+<ul>
+<li>Das Fenstergruppierungs-Badge (der schwebende Kreis zwischen verknüpften Fenstern) liegt nicht mehr über Sheets und modalen Dialogen, die von derselben Anwendung präsentiert werden. Erkannt werden Fokusfenster mit der Subrolle `AXDialog` / `AXSystemDialog`, der Rolle `AXSheet` sowie übergeordnete Fenster mit angehängtem Sheet; solange eine dieser Bedingungen zutrifft, wird das Badge ausgeblendet und erscheint erst wieder, wenn der modale Dialog geschlossen ist.</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
+<ul>
+<li>視窗群組徽章（在已連結視窗之間顯示的浮動圓形）不再浮動在同一應用程式所呈現的工作表或強制回應對話框之上。偵測涵蓋聚焦視窗的子角色 `AXDialog` / `AXSystemDialog`、角色 `AXSheet`，以及附有工作表的父視窗；只要其中任一項處於顯示狀態，徽章就會被隱藏，並在強制回應視窗關閉後重新出現。</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
+<ul>
+<li>窗口分组徽章（在已链接的窗口之间显示的悬浮圆形）不再悬浮在同一应用程序所呈现的工作表或模态对话框之上。检测涵盖聚焦窗口的子角色 `AXDialog` / `AXSystemDialog`、角色 `AXSheet`，以及附有工作表的父窗口；只要其中任意一项处于显示状态，徽章就会被隐藏，并在模态关闭后重新出现。</li>
+</ul>]]></description>
+            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
+<ul>
+<li>창 그룹화 배지(연결된 창 사이에 표시되는 떠 있는 원)가 같은 애플리케이션이 표시하는 시트나 모달 대화상자 위로 떠 있지 않게 되었습니다. 포커스된 창의 서브롤 `AXDialog` / `AXSystemDialog`, 롤 `AXSheet`, 시트가 부착된 부모 창을 감지하여 그 중 어느 하나가 표시되는 동안에는 배지를 숨기고, 모달이 닫힌 뒤에 다시 표시합니다.</li>
+</ul>]]></description>
+            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
+<ul>
+<li>ウインドウグループ化バッジ（リンクされたウインドウの間に表示されるフローティングの円）が、同じアプリケーションが表示するシートやモーダルダイアログの上に重なって表示されないようになりました。フォーカス中ウインドウのサブロール `AXDialog` / `AXSystemDialog`、ロール `AXSheet`、およびシートが付随している親ウインドウを検出対象とし、いずれかが表示されている間はバッジを非表示にして、モーダルが閉じられたあとに再表示します。</li>
+</ul>]]></description>
+            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>The window-grouping badge (the floating circle shown between linked windows) no longer hovers on top of sheets and modal dialogs presented by the same app. Detection covers focused-window subroles `AXDialog`/`AXSystemDialog`, role `AXSheet`, and parent windows with an attached sheet; while any of those are up the badge is hidden and reappears once the modal closes.</li>
+</ul>]]></description>
             <pubDate>Fri, 08 May 2026 16:44:18 +0900</pubDate>
             <sparkle:version>515</sparkle:version>
             <sparkle:shortVersionString>5.1.5</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.6/Tiley-5.1.5.zip" length="6475741" type="application/octet-stream" sparkle:edSignature="Fqc4CTIxMFGyLm24CwbnUrVFQ4PtfJW1SaPVkU4ub6Wcgc/fqB2LAtKTNpxFGriyDnlUDAoMF+ULA0MUqh0+BQ=="/>
+            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.7/Tiley-5.1.5.zip" length="6475741" type="application/octet-stream" sparkle:edSignature="Fqc4CTIxMFGyLm24CwbnUrVFQ4PtfJW1SaPVkU4ub6Wcgc/fqB2LAtKTNpxFGriyDnlUDAoMF+ULA0MUqh0+BQ=="/>
             <sparkle:deltas>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-514.delta" sparkle:deltaFrom="514" length="230926" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="Lajf73FGyuXUGXXJt7dI9jcexkWbPQu49WoL9BTcAOzAqR8MtbBEI5rWqC9DlgwDe6VDOSyQyWNntwlXK7xCAA=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-513.delta" sparkle:deltaFrom="513" length="234906" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="tXhw1A9PARD2fE1Zf3YHenX3KeR+ShMy8lLTm08tw0n3YYCM927OfM3IYzedse47IgEUq3gWrNCzoZ7kXw/wDQ=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-512.delta" sparkle:deltaFrom="512" length="234978" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="hRGHndUxPA0HxkWkBqIh8mXAynHDITswvhgmXbat57Tx1Bj2+8CGoZ5YaxZ4BsjczcnTxdeubhIHPbhV2yYgBg=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-511.delta" sparkle:deltaFrom="511" length="399782" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="HLOj7L4eOvcF2IOa1ay/WbRgEgL5B1fmmgzF5xHCHdSJOOlAcQds04/OuVAf/cGaRzJxAdABB7I/0VR8USg1Aw=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-510.delta" sparkle:deltaFrom="510" length="649786" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="1dMk6bx5xRrXspimFUJlhy+q/+tPVmxjds1xs7F+a2+ulpjI5QUUB9LVunjdJrkrbFTpn7cZuJ7TsomItzUJDQ=="/>
-            </sparkle:deltas>
-        </item>
-        <item>
-            <title>5.1.4</title>
-            <description xml:lang="ru"><![CDATA[<h3>Исправлено</h3>
-<ul>
-<li>После того как пара окон была явно разгруппирована, разведена в стороны, а затем снова сведена так, чтобы их кромки соприкасались, значок кандидата на «образование группы» снова появляется. Ранее разгруппирование останавливало наблюдение Accessibility за теперь уже изолированными окнами, поэтому их последующие ручные перемещения больше не вызывали события, на которых строится обнаружение смежности — значок тихо переставал появляться до тех пор, пока какое-нибудь иное событие (смена Space, активация приложения и т. п.) повторно не запускало обновление кеша списка окон.</li>
-</ul>]]></description>
-            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
-<ul>
-<li>Depois de desagrupar explicitamente um par de janelas, afastá-las e voltar a aproximá-las até as bordas se tocarem, o emblema candidato de "formar grupo" volta a aparecer. Antes, o desagrupamento interrompia a observação de Acessibilidade nas janelas que ficavam isoladas, de modo que os movimentos manuais subsequentes deixavam de disparar os eventos que alimentam a detecção de adjacência — o emblema silenciosamente deixava de reaparecer até que outro evento (troca de Space, ativação de um app, etc.) reativasse a atualização do cache da lista de janelas.</li>
-</ul>]]></description>
-            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
-<ul>
-<li>Dopo aver disgregato esplicitamente una coppia di finestre, averle allontanate e poi riavvicinate fino a far combaciare i bordi, il badge candidato "forma gruppo" riappare di nuovo. In precedenza la disgregazione interrompeva l'osservazione Accessibility sulle finestre ormai isolate, quindi i loro spostamenti manuali successivi non emettevano più gli eventi che alimentano la rilevazione di adiacenza — il badge smetteva silenziosamente di ricomparire finché qualcos'altro (un cambio di Space, l'attivazione di un'app, ecc.) non riattivava l'aggiornamento della cache dell'elenco finestre.</li>
-</ul>]]></description>
-            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
-<ul>
-<li>Après avoir explicitement dégroupé deux fenêtres, les avoir éloignées puis remises bord à bord, le badge candidat « former un groupe » réapparaît à nouveau. Auparavant, le dégroupage arrêtait l'observation d'Accessibilité des fenêtres devenues isolées, de sorte que leurs déplacements manuels ultérieurs ne déclenchaient plus les événements qui pilotent la détection d'adjacence — le badge ne réapparaissait silencieusement plus jusqu'à ce qu'un autre événement (changement de Space, activation d'une app, etc.) déclenche à nouveau le rafraîchissement du cache de liste de fenêtres.</li>
-</ul>]]></description>
-            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
-<ul>
-<li>Tras desagrupar explícitamente un par de ventanas, separarlas y volver a juntar sus bordes hasta que se toquen, vuelve a aparecer la insignia candidata de "formar grupo". Antes, la desagrupación detenía la observación de Accesibilidad sobre las ventanas ya aisladas, de modo que sus movimientos manuales posteriores ya no disparaban los eventos que impulsan la detección de adyacencia — la insignia dejaba de reaparecer en silencio hasta que algún otro evento (cambio de Space, activación de una app, etc.) volvía a disparar el refresco de la caché de la lista de ventanas.</li>
-</ul>]]></description>
-            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
-<ul>
-<li>Wenn ein Fensterpaar explizit aus einer Gruppe gelöst, anschließend auseinandergezogen und wieder mit den Kanten zusammengeführt wird, erscheint nun erneut ein "Gruppe bilden"-Kandidaten-Badge. Zuvor stoppte das Gruppe-Lösen die Accessibility-Beobachtung der nun isolierten Fenster, sodass nachfolgende manuelle Bewegungen die Ereignisse, die die Nachbarschaftserkennung antreiben, nicht mehr auslösten — das Badge tauchte stillschweigend nicht mehr auf, bis ein anderer Auslöser (Space-Wechsel, App-Aktivierung usw.) die Fensterlisten-Cache-Aktualisierung erneut anstieß.</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
-<ul>
-<li>在明確解除兩個視窗的群組後，將它們拉開再讓邊緣重新貼合時，「形成群組」候選徽章會再次出現。先前在解除群組時會停止對已變為孤立狀態的視窗的 Accessibility 觀察，導致後續的手動移動不再觸發驅動相鄰偵測的事件 — 在 Space 切換或 App 啟用等其他事件觸發視窗列表快取重新整理之前，徽章會靜默地不再出現。</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
-<ul>
-<li>在显式取消两个窗口的分组后，将它们拉开再让边缘重新贴合时，"形成分组" 候选徽章会再次出现。此前，取消分组会停止对已变为孤立状态的窗口的 Accessibility 观察，导致后续的手动移动不再触发驱动相邻检测的事件 — 在 Space 切换或应用激活等其他事件触发窗口列表缓存刷新之前，徽章会静默地不再出现。</li>
-</ul>]]></description>
-            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
-<ul>
-<li>두 창의 그룹화를 명시적으로 해제한 뒤 일단 떨어뜨렸다가 다시 가장자리를 맞붙이면 "그룹 만들기" 후보 배지가 다시 표시됩니다. 이전에는 그룹 해제로 고립된 창에 대한 Accessibility 관찰이 중단되어, 이후 수동 이동에서 인접 감지를 구동하는 이벤트가 발생하지 않아 Space 전환이나 앱 활성화 등으로 창 목록 캐시가 다시 갱신되기 전까지는 배지가 조용히 표시되지 않았습니다.</li>
-</ul>]]></description>
-            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
-<ul>
-<li>2 つのウインドウのグループ化を明示的に解除したあと、いったん離してから再びエッジを接触させると、「グループ化」候補バッジが再び表示されるようになりました。これまでは、グループ解除によって孤立したウインドウへの Accessibility 監視が停止してしまい、その後の手動移動で隣接検出を駆動するイベントが発火しなくなっていたため、Space 切替やアプリ起動などで別途ウインドウリストキャッシュの更新がかかるまでバッジが復活しませんでした。</li>
-</ul>]]></description>
-            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
-<ul>
-<li>After explicitly ungrouping a pair of windows, dragging them apart and back into edge contact now surfaces a "form group" candidate badge again. Previously, ungrouping stopped Accessibility observation on the now-isolated windows, so their subsequent manual moves no longer fired the events that drive adjacency detection — the badge silently failed to reappear until something else (a Space change, an app activation, etc.) re-triggered the window-list cache refresh.</li>
-</ul>]]></description>
-            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
-<ul>
-<li>Depois de desagrupar explicitamente um par de janelas, afastá-las e voltar a aproximá-las até as bordas se tocarem, o emblema candidato de "formar grupo" volta a aparecer. Antes, o desagrupamento interrompia a observação de Acessibilidade nas janelas que ficavam isoladas, de modo que os movimentos manuais subsequentes deixavam de disparar os eventos que alimentam a detecção de adjacência — o emblema silenciosamente deixava de reaparecer até que outro evento (troca de Space, ativação de um app, etc.) reativasse a atualização do cache da lista de janelas.</li>
-</ul>]]></description>
-            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
-<ul>
-<li>Dopo aver disgregato esplicitamente una coppia di finestre, averle allontanate e poi riavvicinate fino a far combaciare i bordi, il badge candidato "forma gruppo" riappare di nuovo. In precedenza la disgregazione interrompeva l'osservazione Accessibility sulle finestre ormai isolate, quindi i loro spostamenti manuali successivi non emettevano più gli eventi che alimentano la rilevazione di adiacenza — il badge smetteva silenziosamente di ricomparire finché qualcos'altro (un cambio di Space, l'attivazione di un'app, ecc.) non riattivava l'aggiornamento della cache dell'elenco finestre.</li>
-</ul>]]></description>
-            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
-<ul>
-<li>Après avoir explicitement dégroupé deux fenêtres, les avoir éloignées puis remises bord à bord, le badge candidat « former un groupe » réapparaît à nouveau. Auparavant, le dégroupage arrêtait l'observation d'Accessibilité des fenêtres devenues isolées, de sorte que leurs déplacements manuels ultérieurs ne déclenchaient plus les événements qui pilotent la détection d'adjacence — le badge ne réapparaissait silencieusement plus jusqu'à ce qu'un autre événement (changement de Space, activation d'une app, etc.) déclenche à nouveau le rafraîchissement du cache de liste de fenêtres.</li>
-</ul>]]></description>
-            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
-<ul>
-<li>Tras desagrupar explícitamente un par de ventanas, separarlas y volver a juntar sus bordes hasta que se toquen, vuelve a aparecer la insignia candidata de "formar grupo". Antes, la desagrupación detenía la observación de Accesibilidad sobre las ventanas ya aisladas, de modo que sus movimientos manuales posteriores ya no disparaban los eventos que impulsan la detección de adyacencia — la insignia dejaba de reaparecer en silencio hasta que algún otro evento (cambio de Space, activación de una app, etc.) volvía a disparar el refresco de la caché de la lista de ventanas.</li>
-</ul>]]></description>
-            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
-<ul>
-<li>Wenn ein Fensterpaar explizit aus einer Gruppe gelöst, anschließend auseinandergezogen und wieder mit den Kanten zusammengeführt wird, erscheint nun erneut ein "Gruppe bilden"-Kandidaten-Badge. Zuvor stoppte das Gruppe-Lösen die Accessibility-Beobachtung der nun isolierten Fenster, sodass nachfolgende manuelle Bewegungen die Ereignisse, die die Nachbarschaftserkennung antreiben, nicht mehr auslösten — das Badge tauchte stillschweigend nicht mehr auf, bis ein anderer Auslöser (Space-Wechsel, App-Aktivierung usw.) die Fensterlisten-Cache-Aktualisierung erneut anstieß.</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
-<ul>
-<li>在明確解除兩個視窗的群組後，將它們拉開再讓邊緣重新貼合時，「形成群組」候選徽章會再次出現。先前在解除群組時會停止對已變為孤立狀態的視窗的 Accessibility 觀察，導致後續的手動移動不再觸發驅動相鄰偵測的事件 — 在 Space 切換或 App 啟用等其他事件觸發視窗列表快取重新整理之前，徽章會靜默地不再出現。</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
-<ul>
-<li>在显式取消两个窗口的分组后，将它们拉开再让边缘重新贴合时，"形成分组" 候选徽章会再次出现。此前，取消分组会停止对已变为孤立状态的窗口的 Accessibility 观察，导致后续的手动移动不再触发驱动相邻检测的事件 — 在 Space 切换或应用激活等其他事件触发窗口列表缓存刷新之前，徽章会静默地不再出现。</li>
-</ul>]]></description>
-            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
-<ul>
-<li>두 창의 그룹화를 명시적으로 해제한 뒤 일단 떨어뜨렸다가 다시 가장자리를 맞붙이면 "그룹 만들기" 후보 배지가 다시 표시됩니다. 이전에는 그룹 해제로 고립된 창에 대한 Accessibility 관찰이 중단되어, 이후 수동 이동에서 인접 감지를 구동하는 이벤트가 발생하지 않아 Space 전환이나 앱 활성화 등으로 창 목록 캐시가 다시 갱신되기 전까지는 배지가 조용히 표시되지 않았습니다.</li>
-</ul>]]></description>
-            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
-<ul>
-<li>2 つのウインドウのグループ化を明示的に解除したあと、いったん離してから再びエッジを接触させると、「グループ化」候補バッジが再び表示されるようになりました。これまでは、グループ解除によって孤立したウインドウへの Accessibility 監視が停止してしまい、その後の手動移動で隣接検出を駆動するイベントが発火しなくなっていたため、Space 切替やアプリ起動などで別途ウインドウリストキャッシュの更新がかかるまでバッジが復活しませんでした。</li>
-</ul>]]></description>
-            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
-<ul>
-<li>After explicitly ungrouping a pair of windows, dragging them apart and back into edge contact now surfaces a "form group" candidate badge again. Previously, ungrouping stopped Accessibility observation on the now-isolated windows, so their subsequent manual moves no longer fired the events that drive adjacency detection — the badge silently failed to reappear until something else (a Space change, an app activation, etc.) re-triggered the window-list cache refresh.</li>
-</ul>]]></description>
-            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
-<ul>
-<li>Depois de desagrupar explicitamente um par de janelas, afastá-las e voltar a aproximá-las até as bordas se tocarem, o emblema candidato de "formar grupo" volta a aparecer. Antes, o desagrupamento interrompia a observação de Acessibilidade nas janelas que ficavam isoladas, de modo que os movimentos manuais subsequentes deixavam de disparar os eventos que alimentam a detecção de adjacência — o emblema silenciosamente deixava de reaparecer até que outro evento (troca de Space, ativação de um app, etc.) reativasse a atualização do cache da lista de janelas.</li>
-</ul>]]></description>
-            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
-<ul>
-<li>Dopo aver disgregato esplicitamente una coppia di finestre, averle allontanate e poi riavvicinate fino a far combaciare i bordi, il badge candidato "forma gruppo" riappare di nuovo. In precedenza la disgregazione interrompeva l'osservazione Accessibility sulle finestre ormai isolate, quindi i loro spostamenti manuali successivi non emettevano più gli eventi che alimentano la rilevazione di adiacenza — il badge smetteva silenziosamente di ricomparire finché qualcos'altro (un cambio di Space, l'attivazione di un'app, ecc.) non riattivava l'aggiornamento della cache dell'elenco finestre.</li>
-</ul>]]></description>
-            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
-<ul>
-<li>Après avoir explicitement dégroupé deux fenêtres, les avoir éloignées puis remises bord à bord, le badge candidat « former un groupe » réapparaît à nouveau. Auparavant, le dégroupage arrêtait l'observation d'Accessibilité des fenêtres devenues isolées, de sorte que leurs déplacements manuels ultérieurs ne déclenchaient plus les événements qui pilotent la détection d'adjacence — le badge ne réapparaissait silencieusement plus jusqu'à ce qu'un autre événement (changement de Space, activation d'une app, etc.) déclenche à nouveau le rafraîchissement du cache de liste de fenêtres.</li>
-</ul>]]></description>
-            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
-<ul>
-<li>Tras desagrupar explícitamente un par de ventanas, separarlas y volver a juntar sus bordes hasta que se toquen, vuelve a aparecer la insignia candidata de "formar grupo". Antes, la desagrupación detenía la observación de Accesibilidad sobre las ventanas ya aisladas, de modo que sus movimientos manuales posteriores ya no disparaban los eventos que impulsan la detección de adyacencia — la insignia dejaba de reaparecer en silencio hasta que algún otro evento (cambio de Space, activación de una app, etc.) volvía a disparar el refresco de la caché de la lista de ventanas.</li>
-</ul>]]></description>
-            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
-<ul>
-<li>Wenn ein Fensterpaar explizit aus einer Gruppe gelöst, anschließend auseinandergezogen und wieder mit den Kanten zusammengeführt wird, erscheint nun erneut ein "Gruppe bilden"-Kandidaten-Badge. Zuvor stoppte das Gruppe-Lösen die Accessibility-Beobachtung der nun isolierten Fenster, sodass nachfolgende manuelle Bewegungen die Ereignisse, die die Nachbarschaftserkennung antreiben, nicht mehr auslösten — das Badge tauchte stillschweigend nicht mehr auf, bis ein anderer Auslöser (Space-Wechsel, App-Aktivierung usw.) die Fensterlisten-Cache-Aktualisierung erneut anstieß.</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
-<ul>
-<li>在明確解除兩個視窗的群組後，將它們拉開再讓邊緣重新貼合時，「形成群組」候選徽章會再次出現。先前在解除群組時會停止對已變為孤立狀態的視窗的 Accessibility 觀察，導致後續的手動移動不再觸發驅動相鄰偵測的事件 — 在 Space 切換或 App 啟用等其他事件觸發視窗列表快取重新整理之前，徽章會靜默地不再出現。</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
-<ul>
-<li>在显式取消两个窗口的分组后，将它们拉开再让边缘重新贴合时，"形成分组" 候选徽章会再次出现。此前，取消分组会停止对已变为孤立状态的窗口的 Accessibility 观察，导致后续的手动移动不再触发驱动相邻检测的事件 — 在 Space 切换或应用激活等其他事件触发窗口列表缓存刷新之前，徽章会静默地不再出现。</li>
-</ul>]]></description>
-            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
-<ul>
-<li>두 창의 그룹화를 명시적으로 해제한 뒤 일단 떨어뜨렸다가 다시 가장자리를 맞붙이면 "그룹 만들기" 후보 배지가 다시 표시됩니다. 이전에는 그룹 해제로 고립된 창에 대한 Accessibility 관찰이 중단되어, 이후 수동 이동에서 인접 감지를 구동하는 이벤트가 발생하지 않아 Space 전환이나 앱 활성화 등으로 창 목록 캐시가 다시 갱신되기 전까지는 배지가 조용히 표시되지 않았습니다.</li>
-</ul>]]></description>
-            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
-<ul>
-<li>2 つのウインドウのグループ化を明示的に解除したあと、いったん離してから再びエッジを接触させると、「グループ化」候補バッジが再び表示されるようになりました。これまでは、グループ解除によって孤立したウインドウへの Accessibility 監視が停止してしまい、その後の手動移動で隣接検出を駆動するイベントが発火しなくなっていたため、Space 切替やアプリ起動などで別途ウインドウリストキャッシュの更新がかかるまでバッジが復活しませんでした。</li>
-</ul>]]></description>
-            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
-<ul>
-<li>After explicitly ungrouping a pair of windows, dragging them apart and back into edge contact now surfaces a "form group" candidate badge again. Previously, ungrouping stopped Accessibility observation on the now-isolated windows, so their subsequent manual moves no longer fired the events that drive adjacency detection — the badge silently failed to reappear until something else (a Space change, an app activation, etc.) re-triggered the window-list cache refresh.</li>
-</ul>]]></description>
-            <pubDate>Sun, 03 May 2026 17:13:25 +0900</pubDate>
-            <sparkle:version>514</sparkle:version>
-            <sparkle:shortVersionString>5.1.4</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.6/Tiley-5.1.4.zip" length="6472976" type="application/octet-stream" sparkle:edSignature="eEOfhpkNO5CT6t4ntNQ7WYerR6HO6a94ng2JwtHvUZQk9xGoSa202gEyCrAkp/H9oKN3Fv1K5HsCPnvsBX08CA=="/>
-            <sparkle:deltas>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley514-513.delta" sparkle:deltaFrom="513" length="121642" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="hDXr6mt/1Br5hyI7RZbeWtMl7qMF6w3SvhTGhMpIrWs3hriNuIv2jae7Aj8XwvB8lZGNjrb7RyHJmL2M+G9ECA=="/>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley514-512.delta" sparkle:deltaFrom="512" length="121622" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="qU0n4P3na4V4MA+b0N6vJRToL9ymWfdCvoPcV0pnEfvDoJy6jRrexPJqG81spuNGzNaSWQw2MMVf57PlV0X8AA=="/>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley514-511.delta" sparkle:deltaFrom="511" length="401298" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="lmiZi0RZw7+MnTTCDqUzKDBKECwylXyT1v5rnlysi/TIz37mgl9bktazw0QJIo7SmPFE8q41oQJbtCYdT9h3Bw=="/>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley514-510.delta" sparkle:deltaFrom="510" length="646738" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="nAWH6SqdhHC/dPJxfMrDhBOedMO5X2OA2l6FnPoLjk1QUEwTdtF4rOoStekn4mME0Z1k60RsqBvCDCtm4qAmDA=="/>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley514-501.delta" sparkle:deltaFrom="501" length="1137306" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="MkdkjRPDvJKiiv2GAjcZLlIYBpq2yaPAxYyvS4TlB6BlH5eNCHF0x6edaygneGkz6HzKqed52sEQkluUiFgzDg=="/>
             </sparkle:deltas>
         </item>
     </channel>

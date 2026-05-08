@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### 移除
+
+- 移除了为在布局网格的迷你屏幕背景上绘制壁纸而使用的回退路径——针对没有专用缩略图的壁纸类型（Photos 图库、Aerial 等），原本会读取 `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/` 下的 BMP 缓存。该缓存位于 `com.apple.wallpaper.agent` 的容器中，在 macOS Sequoia 上访问时会弹出"应用数据"权限对话框；仅仅为了一张装饰性背景图就要求该权限太重了。现在仅依赖公开 API 的桌面图片 URL 与 `/System/Library/Desktop Pictures/.thumbnails/`。两者都无法解析的壁纸将省略背景图，只绘制网格、填充色和屏幕布局。
+
 ## [5.1.6] - 2026-05-08
 
 ### 修复

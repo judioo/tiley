@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### Removed
+
+- The wallpaper-agent BMP cache fallback used to fill in the layout grid's mini-screen background for wallpaper types without a dedicated thumbnail (Photos library, Aerial, etc.) has been dropped. Reading the cache required walking `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`, which on macOS Sequoia triggers the new "App Data" permission prompt — a steep ask for a purely cosmetic background. Tiley now relies solely on the public desktop image URL and `/System/Library/Desktop Pictures/.thumbnails/`; for wallpapers neither source resolves, the grid background simply omits the wallpaper image (the grid itself, fill color, and screen layout still render normally).
+
 ## [5.1.6] - 2026-05-08
 
 ### Fixed
@@ -841,7 +847,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Localization: English, Japanese, Korean, Simplified Chinese, Traditional Chinese
 
 
-[Unreleased]: https://github.com/yusuke/tiley/compare/v5.1.6...HEAD
+[Unreleased]: https://github.com/yusuke/tiley/compare/v5.1.7...HEAD
+[5.1.7]: https://github.com/yusuke/tiley/releases/tag/v5.1.7
 [5.1.6]: https://github.com/yusuke/tiley/releases/tag/v5.1.6
 [5.1.5]: https://github.com/yusuke/tiley/releases/tag/v5.1.5
 [5.1.4]: https://github.com/yusuke/tiley/releases/tag/v5.1.4

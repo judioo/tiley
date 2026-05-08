@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### Eliminado
+
+- Se eliminó el camino de respaldo que rellenaba el fondo de las mini pantallas de la cuadrícula de diseño con el caché BMP del agente de fondos para los tipos de fondo sin miniatura dedicada (biblioteca de Fotos, Aerial, etc.), que se leía desde `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`. Esa caché está dentro del contenedor de `com.apple.wallpaper.agent` y, en macOS Sequoia, acceder a ella desencadena el nuevo diálogo de permiso "Datos de apps", una exigencia demasiado fuerte para una imagen de fondo puramente decorativa. Tiley ahora se apoya solo en la URL pública del fondo de escritorio y en `/System/Library/Desktop Pictures/.thumbnails/`; cuando ninguna de las dos fuentes resuelve el fondo, se omite la imagen y solo se dibujan la cuadrícula, el color de relleno y la disposición de la pantalla.
+
 ## [5.1.6] - 2026-05-08
 
 ### Corregido

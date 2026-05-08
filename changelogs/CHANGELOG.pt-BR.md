@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### Removido
+
+- Foi removido o caminho de fallback que preenchia o fundo das mini telas da grade de layout com o cache BMP do agente de papel de parede, usado para tipos de papel sem miniatura dedicada (biblioteca do Fotos, Aerial etc.). Esse cache fica dentro do container de `com.apple.wallpaper.agent` (`~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`) e, no macOS Sequoia, acessá-lo dispara o novo aviso de permissão "Dados de apps", uma exigência alta demais para uma imagem de fundo puramente decorativa. Agora o Tiley se apoia somente na URL pública da imagem da mesa e em `/System/Library/Desktop Pictures/.thumbnails/`; quando nenhuma das duas fontes resolve o papel de parede, a imagem de fundo é omitida e apenas a grade, a cor de preenchimento e o layout da tela continuam sendo desenhados.
+
 ## [5.1.6] - 2026-05-08
 
 ### Corrigido

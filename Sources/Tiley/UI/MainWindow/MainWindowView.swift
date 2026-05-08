@@ -379,23 +379,12 @@ struct MainWindowView: View {
             fillColor = nil
         }
         // For system wallpapers without a resolvable thumbnail (e.g. programmatic
-        // wallpapers like "Macintosh"), DefaultDesktop.heic is NOT the correct image.
-        // Try the wallpaper agent's rendered BMP cache as a last resort (covers
-        // Photos wallpapers and other providers without dedicated thumbnails).
-        // If no cache hit either, skip showing the wallpaper entirely.
+        // wallpapers like "Macintosh", or Photos-library wallpapers), skip showing
+        // the wallpaper entirely. We previously read the wallpaper agent's
+        // rendered BMP cache out of `~/Library/Containers/com.apple.wallpaper.agent/`,
+        // but on macOS Sequoia that triggers the "App Data" TCC prompt — the
+        // grid background is a cosmetic flourish and not worth that permission.
         if storeInfo?.thumbnailURL == nil && !isCustomImage {
-            if let cachedURL = Self.wallpaperCacheBMP(forScreenWidth: Int(screen.frame.width * screen.backingScaleFactor),
-                                                      height: Int(screen.frame.height * screen.backingScaleFactor)) {
-                // Read pixel dimensions from the BMP (its DPI may differ from 72)
-                var bmpPixelSize: CGSize? = nil
-                if let src = CGImageSourceCreateWithURL(cachedURL as CFURL, nil),
-                   let props = CGImageSourceCopyPropertiesAtIndex(src, 0, nil) as? [CFString: Any],
-                   let pw = props[kCGImagePropertyPixelWidth] as? CGFloat,
-                   let ph = props[kCGImagePropertyPixelHeight] as? CGFloat {
-                    bmpPixelSize = CGSize(width: pw, height: ph)
-                }
-                return DesktopPictureInfo(url: cachedURL, scaling: scaling, allowClipping: allowClipping, isTiled: isTiled, screenSize: screen.frame.size, screenScale: screen.backingScaleFactor, fillColor: fillColor, originalImageSize: bmpPixelSize)
-            }
             return nil
         }
 
@@ -601,43 +590,6 @@ struct MainWindowView: View {
             }
         }
         return nil
-    }
-
-    /// Searches the wallpaper agent's rendered BMP cache for an image matching
-    /// the given physical screen dimensions. This covers wallpaper types that
-    /// have no dedicated thumbnail (e.g. Photos wallpapers).
-    /// The cache lives in the wallpaper agent's container and stores rendered
-    /// BMP files with filenames like `{hash}-{width}-{height}-{flags}.bmp`.
-    /// Providers whose caches should be skipped during BMP fallback lookup,
-    /// because they already have dedicated thumbnail resolution in `thumbnailForProvider`.
-    private static let handledCacheProviders: Set<String> = [
-        "aerials", "sequoia", "sonoma", "ventura", "monterey", "macintosh",
-    ]
-
-    private static func wallpaperCacheBMP(forScreenWidth width: Int, height: Int) -> URL? {
-        let cacheBase = FileManager.default.homeDirectoryForCurrentUser
-            .appendingPathComponent("Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/com.apple.wallpaper.caches")
-        guard let extensionDirs = try? FileManager.default.contentsOfDirectory(atPath: cacheBase.path) else { return nil }
-        let suffix = "-\(width)-\(height)-"
-        var bestURL: URL? = nil
-        var bestDate: Date = .distantPast
-        for dir in extensionDirs {
-            // Skip cache directories for providers that have dedicated thumbnail handlers.
-            // Their BMPs may be stale leftovers that would incorrectly win the recency check.
-            if handledCacheProviders.contains(where: { dir.contains($0) }) { continue }
-            let dirURL = cacheBase.appendingPathComponent(dir)
-            guard let files = try? FileManager.default.contentsOfDirectory(atPath: dirURL.path) else { continue }
-            for file in files where file.hasSuffix(".bmp") && file.contains(suffix) {
-                let fileURL = dirURL.appendingPathComponent(file)
-                if let attrs = try? FileManager.default.attributesOfItem(atPath: fileURL.path),
-                   let modified = attrs[.modificationDate] as? Date,
-                   modified > bestDate {
-                    bestDate = modified
-                    bestURL = fileURL
-                }
-            }
-        }
-        return bestURL
     }
 
     /// Determines the menu bar text color for the current preview screen.

@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### 移除
+
+- 移除了為配置格線的迷你畫面背景繪製桌布而使用的退回路徑——針對沒有專用縮圖的桌布類型（Photos 圖庫、Aerial 等），原本會讀取 `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/` 底下的 BMP 快取。該快取位於 `com.apple.wallpaper.agent` 的容器中，在 macOS Sequoia 上存取時會彈出「App 資料」權限對話框；僅僅為了一張裝飾性背景圖而要求此權限實在過重。現在僅依靠公開 API 的桌面圖片 URL 以及 `/System/Library/Desktop Pictures/.thumbnails/`。若兩者都無法解析的桌布，會省略背景圖並只繪製格線、填色與螢幕佈局。
+
 ## [5.1.6] - 2026-05-08
 
 ### 修正

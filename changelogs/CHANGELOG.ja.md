@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### 削除
+
+- レイアウトグリッドのミニ画面背景に壁紙を描画するため、専用サムネイルを持たない壁紙タイプ（Photos ライブラリ、Aerial など）向けに `~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/` の BMP キャッシュを参照していたフォールバックを廃止しました。このキャッシュは `com.apple.wallpaper.agent` のコンテナ内にあり、macOS Sequoia ではアクセスすると「アプリデータ」許可ダイアログが表示されてしまうためで、見た目のためだけの背景画像と引き換えに要求するには重すぎる権限でした。今後は公開 API のデスクトップピクチャ URL と `/System/Library/Desktop Pictures/.thumbnails/` のみを参照し、どちらでも解決できない壁紙の場合は背景画像を省略してグリッド・塗り色・スクリーンレイアウトだけを描画するようにしました。
+
 ## [5.1.6] - 2026-05-08
 
 ### 修正

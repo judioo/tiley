@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### Supprimé
+
+- Le chemin de repli qui remplissait le fond des mini-écrans de la grille de disposition avec le cache BMP de l'agent de fond d'écran, pour les types de fond sans vignette dédiée (photothèque, Aerial, etc.), a été supprimé. Ce cache, situé dans le conteneur de `com.apple.wallpaper.agent` (`~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`), déclenche sous macOS Sequoia la nouvelle invite d'autorisation « Données d'app », ce qui est une demande disproportionnée pour une image d'arrière-plan purement décorative. Tiley s'appuie désormais uniquement sur l'URL publique du fond d'écran et sur `/System/Library/Desktop Pictures/.thumbnails/` ; lorsque ni l'une ni l'autre de ces sources ne résout le fond, l'image est simplement omise et la grille, la couleur de remplissage et la disposition de l'écran continuent à s'afficher.
+
 ## [5.1.6] - 2026-05-08
 
 ### Corrigé

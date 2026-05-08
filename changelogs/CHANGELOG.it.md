@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.7] - 2026-05-08
+
+### Rimosso
+
+- È stato rimosso il percorso di fallback che riempiva lo sfondo dei mini schermi nella griglia di layout con la cache BMP dell'agente degli sfondi, per i tipi di sfondo privi di una miniatura dedicata (libreria Foto, Aerial ecc.). La cache si trova nel container di `com.apple.wallpaper.agent` (`~/Library/Containers/com.apple.wallpaper.agent/Data/Library/Caches/`) e su macOS Sequoia accedervi attiva la nuova finestra di autorizzazione "Dati delle app", una richiesta sproporzionata per un'immagine di sfondo puramente estetica. Ora Tiley si basa solo sull'URL pubblico dello sfondo della scrivania e su `/System/Library/Desktop Pictures/.thumbnails/`; quando nessuna delle due fonti riesce a risolvere lo sfondo, l'immagine viene omessa e vengono disegnate solo la griglia, il colore di riempimento e la disposizione dello schermo.
+
 ## [5.1.6] - 2026-05-08
 
 ### Corretto
