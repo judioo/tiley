@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.5] - 2026-05-08
+
+### Behoben
+
+- Das Fenstergruppierungs-Badge (der schwebende Kreis zwischen verknüpften Fenstern) liegt nicht mehr über Sheets und modalen Dialogen, die von derselben Anwendung präsentiert werden. Erkannt werden Fokusfenster mit der Subrolle `AXDialog` / `AXSystemDialog`, der Rolle `AXSheet` sowie übergeordnete Fenster mit angehängtem Sheet; solange eine dieser Bedingungen zutrifft, wird das Badge ausgeblendet und erscheint erst wieder, wenn der modale Dialog geschlossen ist.
+
 ## [5.1.4] - 2026-05-03
 
 ### Behoben

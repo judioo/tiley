@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [5.1.5] - 2026-05-08
+
+### Fixed
+
+- The window-grouping badge (the floating circle shown between linked windows) no longer hovers on top of sheets and modal dialogs presented by the same app. Detection covers focused-window subroles `AXDialog`/`AXSystemDialog`, role `AXSheet`, and parent windows with an attached sheet; while any of those are up the badge is hidden and reappears once the modal closes.
+
 ## [5.1.4] - 2026-05-03
 
 ### Fixed
@@ -828,7 +834,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Localization: English, Japanese, Korean, Simplified Chinese, Traditional Chinese
 
 
-[Unreleased]: https://github.com/yusuke/tiley/compare/v5.1.4...HEAD
+[Unreleased]: https://github.com/yusuke/tiley/compare/v5.1.5...HEAD
+[5.1.5]: https://github.com/yusuke/tiley/releases/tag/v5.1.5
 [5.1.4]: https://github.com/yusuke/tiley/releases/tag/v5.1.4
 [5.1.3]: https://github.com/yusuke/tiley/releases/tag/v5.1.3
 [5.1.2]: https://github.com/yusuke/tiley/releases/tag/v5.1.2

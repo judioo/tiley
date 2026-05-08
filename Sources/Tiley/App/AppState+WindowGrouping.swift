@@ -804,6 +804,12 @@ extension AppState {
                 }
             }
         }
+        // Suppress all badges while the frontmost app is showing a sheet or
+        // modal dialog. The badge panel sits at `.floating` level and would
+        // otherwise hover on top of the modal.
+        if !badges.isEmpty, isFrontmostShowingModalDialog() {
+            badges.removeAll()
+        }
         debugLog("WindowGrouping: refreshBadgeOverlays total badges=\(badges.count) frontmostPID=\(frontmostPID ?? -1) isInteracting=\(isInteracting)")
 
         if groupLinkBadgeController == nil {
@@ -1677,6 +1683,12 @@ extension AppState {
             // event) can trigger the anchor-or-satellite raise.
             handleAppSlotSatelliteRaise(focusedID: id)
             handleWindowAnchorSatelliteRaise(focusedID: id)
+        case .focusChanged:
+            // Re-evaluate badge visibility — covers sheets / modal dialogs
+            // appearing or being dismissed within the same app, which the
+            // `.raised` path can't handle (the sheet isn't in our observed
+            // window map).
+            refreshBadgeOverlays()
         }
     }
 
@@ -2317,6 +2329,50 @@ extension AppState {
             windowGroups[gid] = group
         }
         refreshBadgeOverlays()
+    }
+
+    /// True when the frontmost app is presenting a sheet or modal dialog that
+    /// the group-link badge shouldn't be allowed to float above. Detection
+    /// covers sheets (focused window has role `AXSheet`), dialog windows
+    /// (subrole `AXDialog`/`AXSystemDialog`), and parent windows that
+    /// currently have a sheet attached via `AXSheets`.
+    func isFrontmostShowingModalDialog() -> Bool {
+        guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier,
+              pid != getpid() else { return false }
+        let appElement = AXUIElementCreateApplication(pid)
+
+        var focused: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(
+                appElement,
+                kAXFocusedWindowAttribute as CFString,
+                &focused
+              ) == .success,
+              let focusedCF = focused,
+              CFGetTypeID(focusedCF) == AXUIElementGetTypeID() else {
+            return false
+        }
+        let focusedWindow = focusedCF as! AXUIElement
+
+        var roleRef: CFTypeRef?
+        if AXUIElementCopyAttributeValue(focusedWindow, kAXRoleAttribute as CFString, &roleRef) == .success,
+           let role = roleRef as? String, role == "AXSheet" {
+            return true
+        }
+
+        var subroleRef: CFTypeRef?
+        if AXUIElementCopyAttributeValue(focusedWindow, kAXSubroleAttribute as CFString, &subroleRef) == .success,
+           let subrole = subroleRef as? String,
+           subrole == "AXDialog" || subrole == "AXSystemDialog" {
+            return true
+        }
+
+        var sheetsRef: CFTypeRef?
+        if AXUIElementCopyAttributeValue(focusedWindow, "AXSheets" as CFString, &sheetsRef) == .success,
+           let sheets = sheetsRef as? [AXUIElement], !sheets.isEmpty {
+            return true
+        }
+
+        return false
     }
 
     /// Returns the CGWindowID of the currently-focused window for the given PID.

@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.5] - 2026-05-08
+
+### Corregido
+
+- La insignia de agrupación de ventanas (el círculo flotante mostrado entre las ventanas enlazadas) ya no se superpone a las hojas ni a los diálogos modales presentados por la misma aplicación. La detección abarca los subroles de la ventana enfocada `AXDialog` / `AXSystemDialog`, el rol `AXSheet` y las ventanas padre con una hoja adjunta; mientras cualquiera de ellos esté visible, la insignia se oculta y vuelve a aparecer cuando el modal se cierra.
+
 ## [5.1.4] - 2026-05-03
 
 ### Corregido

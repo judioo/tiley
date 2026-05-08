@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.5] - 2026-05-08
+
+### Corretto
+
+- Il badge di raggruppamento finestre (il cerchio fluttuante mostrato tra le finestre collegate) non si sovrappone più ai sheet e alle finestre di dialogo modali presentati dalla stessa applicazione. Il rilevamento copre i sottoruoli della finestra in primo piano `AXDialog` / `AXSystemDialog`, il ruolo `AXSheet` e le finestre padre con uno sheet associato; finché uno qualsiasi di questi è visibile il badge viene nascosto e riappare una volta chiuso il modale.
+
 ## [5.1.4] - 2026-05-03
 
 ### Corretto

@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.5] - 2026-05-08
+
+### Corrigé
+
+- Le badge de groupement de fenêtres (le cercle flottant affiché entre les fenêtres liées) ne survole plus les feuilles ni les dialogues modaux présentés par la même application. La détection couvre les sous-rôles de la fenêtre focalisée `AXDialog` / `AXSystemDialog`, le rôle `AXSheet` et les fenêtres parentes avec une feuille attachée ; tant que l'un d'eux est affiché, le badge est masqué et réapparaît une fois le modal fermé.
+
 ## [5.1.4] - 2026-05-03
 
 ### Corrigé

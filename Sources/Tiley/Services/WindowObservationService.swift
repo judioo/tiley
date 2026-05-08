@@ -16,6 +16,10 @@ final class WindowObservationService {
         case resized(CGWindowID, CGRect)
         case destroyed(CGWindowID)
         case raised(CGWindowID)
+        /// The focused/main window of the given app changed. Fires regardless
+        /// of whether the new focused window is in our observed map — used to
+        /// react to sheets/dialogs appearing or being dismissed.
+        case focusChanged(pid_t)
     }
 
     var onEvent: ((Event) -> Void)?
@@ -157,6 +161,13 @@ final class WindowObservationService {
                 if let cgID = windowIDByAXElement[AXUIElementBox(element: windowElement)] {
                     onEvent?(.raised(cgID))
                 }
+            }
+            // Always fire a generic focus-changed event so listeners can react
+            // even when the new focused element isn't a window we observe
+            // (notably: sheets and modal dialogs the app just presented).
+            var pid: pid_t = 0
+            if AXUIElementGetPid(element, &pid) == .success {
+                onEvent?(.focusChanged(pid))
             }
             return
         }

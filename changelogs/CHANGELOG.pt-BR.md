@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [5.1.5] - 2026-05-08
+
+### Corrigido
+
+- O emblema de agrupamento de janelas (o círculo flutuante mostrado entre janelas vinculadas) não fica mais sobreposto a sheets e diálogos modais apresentados pelo próprio aplicativo. A detecção cobre os subpapéis da janela em foco `AXDialog` / `AXSystemDialog`, o papel `AXSheet` e janelas pai com um sheet anexado; enquanto qualquer um deles estiver visível, o emblema é ocultado e volta a aparecer depois que o modal é fechado.
+
 ## [5.1.4] - 2026-05-03
 
 ### Corrigido

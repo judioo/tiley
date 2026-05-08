@@ -3,6 +3,65 @@
     <channel>
         <title>Tiley</title>
         <item>
+            <title>5.1.5</title>
+            <description xml:lang="ru"><![CDATA[<h3>Исправлено</h3>
+<ul>
+<li>Значок группировки окон (плавающий кружок, отображаемый между связанными окнами) больше не выводится поверх листов и модальных диалогов, открытых тем же приложением. Распознавание охватывает подроль `AXDialog` / `AXSystemDialog` сфокусированного окна, роль `AXSheet`, а также родительские окна, к которым прикреплён лист; пока выполняется любое из этих условий, значок скрывается и снова появляется после закрытия модального окна.</li>
+</ul>]]></description>
+            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
+<ul>
+<li>O emblema de agrupamento de janelas (o círculo flutuante mostrado entre janelas vinculadas) não fica mais sobreposto a sheets e diálogos modais apresentados pelo próprio aplicativo. A detecção cobre os subpapéis da janela em foco `AXDialog` / `AXSystemDialog`, o papel `AXSheet` e janelas pai com um sheet anexado; enquanto qualquer um deles estiver visível, o emblema é ocultado e volta a aparecer depois que o modal é fechado.</li>
+</ul>]]></description>
+            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
+<ul>
+<li>Il badge di raggruppamento finestre (il cerchio fluttuante mostrato tra le finestre collegate) non si sovrappone più ai sheet e alle finestre di dialogo modali presentati dalla stessa applicazione. Il rilevamento copre i sottoruoli della finestra in primo piano `AXDialog` / `AXSystemDialog`, il ruolo `AXSheet` e le finestre padre con uno sheet associato; finché uno qualsiasi di questi è visibile il badge viene nascosto e riappare una volta chiuso il modale.</li>
+</ul>]]></description>
+            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
+<ul>
+<li>Le badge de groupement de fenêtres (le cercle flottant affiché entre les fenêtres liées) ne survole plus les feuilles ni les dialogues modaux présentés par la même application. La détection couvre les sous-rôles de la fenêtre focalisée `AXDialog` / `AXSystemDialog`, le rôle `AXSheet` et les fenêtres parentes avec une feuille attachée ; tant que l'un d'eux est affiché, le badge est masqué et réapparaît une fois le modal fermé.</li>
+</ul>]]></description>
+            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
+<ul>
+<li>La insignia de agrupación de ventanas (el círculo flotante mostrado entre las ventanas enlazadas) ya no se superpone a las hojas ni a los diálogos modales presentados por la misma aplicación. La detección abarca los subroles de la ventana enfocada `AXDialog` / `AXSystemDialog`, el rol `AXSheet` y las ventanas padre con una hoja adjunta; mientras cualquiera de ellos esté visible, la insignia se oculta y vuelve a aparecer cuando el modal se cierra.</li>
+</ul>]]></description>
+            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
+<ul>
+<li>Das Fenstergruppierungs-Badge (der schwebende Kreis zwischen verknüpften Fenstern) liegt nicht mehr über Sheets und modalen Dialogen, die von derselben Anwendung präsentiert werden. Erkannt werden Fokusfenster mit der Subrolle `AXDialog` / `AXSystemDialog`, der Rolle `AXSheet` sowie übergeordnete Fenster mit angehängtem Sheet; solange eine dieser Bedingungen zutrifft, wird das Badge ausgeblendet und erscheint erst wieder, wenn der modale Dialog geschlossen ist.</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
+<ul>
+<li>視窗群組徽章（在已連結視窗之間顯示的浮動圓形）不再浮動在同一應用程式所呈現的工作表或強制回應對話框之上。偵測涵蓋聚焦視窗的子角色 `AXDialog` / `AXSystemDialog`、角色 `AXSheet`，以及附有工作表的父視窗；只要其中任一項處於顯示狀態，徽章就會被隱藏，並在強制回應視窗關閉後重新出現。</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
+<ul>
+<li>窗口分组徽章（在已链接的窗口之间显示的悬浮圆形）不再悬浮在同一应用程序所呈现的工作表或模态对话框之上。检测涵盖聚焦窗口的子角色 `AXDialog` / `AXSystemDialog`、角色 `AXSheet`，以及附有工作表的父窗口；只要其中任意一项处于显示状态，徽章就会被隐藏，并在模态关闭后重新出现。</li>
+</ul>]]></description>
+            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
+<ul>
+<li>창 그룹화 배지(연결된 창 사이에 표시되는 떠 있는 원)가 같은 애플리케이션이 표시하는 시트나 모달 대화상자 위로 떠 있지 않게 되었습니다. 포커스된 창의 서브롤 `AXDialog` / `AXSystemDialog`, 롤 `AXSheet`, 시트가 부착된 부모 창을 감지하여 그 중 어느 하나가 표시되는 동안에는 배지를 숨기고, 모달이 닫힌 뒤에 다시 표시합니다.</li>
+</ul>]]></description>
+            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
+<ul>
+<li>ウインドウグループ化バッジ（リンクされたウインドウの間に表示されるフローティングの円）が、同じアプリケーションが表示するシートやモーダルダイアログの上に重なって表示されないようになりました。フォーカス中ウインドウのサブロール `AXDialog` / `AXSystemDialog`、ロール `AXSheet`、およびシートが付随している親ウインドウを検出対象とし、いずれかが表示されている間はバッジを非表示にして、モーダルが閉じられたあとに再表示します。</li>
+</ul>]]></description>
+            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>The window-grouping badge (the floating circle shown between linked windows) no longer hovers on top of sheets and modal dialogs presented by the same app. Detection covers focused-window subroles `AXDialog`/`AXSystemDialog`, role `AXSheet`, and parent windows with an attached sheet; while any of those are up the badge is hidden and reappears once the modal closes.</li>
+</ul>]]></description>
+            <pubDate>Fri, 08 May 2026 16:44:18 +0900</pubDate>
+            <sparkle:version>515</sparkle:version>
+            <sparkle:shortVersionString>5.1.5</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley-5.1.5.zip" length="6475741" type="application/octet-stream" sparkle:edSignature="Fqc4CTIxMFGyLm24CwbnUrVFQ4PtfJW1SaPVkU4ub6Wcgc/fqB2LAtKTNpxFGriyDnlUDAoMF+ULA0MUqh0+BQ=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-514.delta" sparkle:deltaFrom="514" length="230926" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="Lajf73FGyuXUGXXJt7dI9jcexkWbPQu49WoL9BTcAOzAqR8MtbBEI5rWqC9DlgwDe6VDOSyQyWNntwlXK7xCAA=="/>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-513.delta" sparkle:deltaFrom="513" length="234906" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="tXhw1A9PARD2fE1Zf3YHenX3KeR+ShMy8lLTm08tw0n3YYCM927OfM3IYzedse47IgEUq3gWrNCzoZ7kXw/wDQ=="/>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-512.delta" sparkle:deltaFrom="512" length="234978" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="hRGHndUxPA0HxkWkBqIh8mXAynHDITswvhgmXbat57Tx1Bj2+8CGoZ5YaxZ4BsjczcnTxdeubhIHPbhV2yYgBg=="/>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-511.delta" sparkle:deltaFrom="511" length="399782" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="HLOj7L4eOvcF2IOa1ay/WbRgEgL5B1fmmgzF5xHCHdSJOOlAcQds04/OuVAf/cGaRzJxAdABB7I/0VR8USg1Aw=="/>
+                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley515-510.delta" sparkle:deltaFrom="510" length="649786" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="1dMk6bx5xRrXspimFUJlhy+q/+tPVmxjds1xs7F+a2+ulpjI5QUUB9LVunjdJrkrbFTpn7cZuJ7TsomItzUJDQ=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>5.1.4</title>
             <description xml:lang="ru"><![CDATA[<h3>Исправлено</h3>
 <ul>
@@ -48,11 +107,51 @@
 <ul>
 <li>After explicitly ungrouping a pair of windows, dragging them apart and back into edge contact now surfaces a "form group" candidate badge again. Previously, ungrouping stopped Accessibility observation on the now-isolated windows, so their subsequent manual moves no longer fired the events that drive adjacency detection — the badge silently failed to reappear until something else (a Space change, an app activation, etc.) re-triggered the window-list cache refresh.</li>
 </ul>]]></description>
+            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
+<ul>
+<li>Depois de desagrupar explicitamente um par de janelas, afastá-las e voltar a aproximá-las até as bordas se tocarem, o emblema candidato de "formar grupo" volta a aparecer. Antes, o desagrupamento interrompia a observação de Acessibilidade nas janelas que ficavam isoladas, de modo que os movimentos manuais subsequentes deixavam de disparar os eventos que alimentam a detecção de adjacência — o emblema silenciosamente deixava de reaparecer até que outro evento (troca de Space, ativação de um app, etc.) reativasse a atualização do cache da lista de janelas.</li>
+</ul>]]></description>
+            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
+<ul>
+<li>Dopo aver disgregato esplicitamente una coppia di finestre, averle allontanate e poi riavvicinate fino a far combaciare i bordi, il badge candidato "forma gruppo" riappare di nuovo. In precedenza la disgregazione interrompeva l'osservazione Accessibility sulle finestre ormai isolate, quindi i loro spostamenti manuali successivi non emettevano più gli eventi che alimentano la rilevazione di adiacenza — il badge smetteva silenziosamente di ricomparire finché qualcos'altro (un cambio di Space, l'attivazione di un'app, ecc.) non riattivava l'aggiornamento della cache dell'elenco finestre.</li>
+</ul>]]></description>
+            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
+<ul>
+<li>Après avoir explicitement dégroupé deux fenêtres, les avoir éloignées puis remises bord à bord, le badge candidat « former un groupe » réapparaît à nouveau. Auparavant, le dégroupage arrêtait l'observation d'Accessibilité des fenêtres devenues isolées, de sorte que leurs déplacements manuels ultérieurs ne déclenchaient plus les événements qui pilotent la détection d'adjacence — le badge ne réapparaissait silencieusement plus jusqu'à ce qu'un autre événement (changement de Space, activation d'une app, etc.) déclenche à nouveau le rafraîchissement du cache de liste de fenêtres.</li>
+</ul>]]></description>
+            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
+<ul>
+<li>Tras desagrupar explícitamente un par de ventanas, separarlas y volver a juntar sus bordes hasta que se toquen, vuelve a aparecer la insignia candidata de "formar grupo". Antes, la desagrupación detenía la observación de Accesibilidad sobre las ventanas ya aisladas, de modo que sus movimientos manuales posteriores ya no disparaban los eventos que impulsan la detección de adyacencia — la insignia dejaba de reaparecer en silencio hasta que algún otro evento (cambio de Space, activación de una app, etc.) volvía a disparar el refresco de la caché de la lista de ventanas.</li>
+</ul>]]></description>
+            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
+<ul>
+<li>Wenn ein Fensterpaar explizit aus einer Gruppe gelöst, anschließend auseinandergezogen und wieder mit den Kanten zusammengeführt wird, erscheint nun erneut ein "Gruppe bilden"-Kandidaten-Badge. Zuvor stoppte das Gruppe-Lösen die Accessibility-Beobachtung der nun isolierten Fenster, sodass nachfolgende manuelle Bewegungen die Ereignisse, die die Nachbarschaftserkennung antreiben, nicht mehr auslösten — das Badge tauchte stillschweigend nicht mehr auf, bis ein anderer Auslöser (Space-Wechsel, App-Aktivierung usw.) die Fensterlisten-Cache-Aktualisierung erneut anstieß.</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
+<ul>
+<li>在明確解除兩個視窗的群組後，將它們拉開再讓邊緣重新貼合時，「形成群組」候選徽章會再次出現。先前在解除群組時會停止對已變為孤立狀態的視窗的 Accessibility 觀察，導致後續的手動移動不再觸發驅動相鄰偵測的事件 — 在 Space 切換或 App 啟用等其他事件觸發視窗列表快取重新整理之前，徽章會靜默地不再出現。</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
+<ul>
+<li>在显式取消两个窗口的分组后，将它们拉开再让边缘重新贴合时，"形成分组" 候选徽章会再次出现。此前，取消分组会停止对已变为孤立状态的窗口的 Accessibility 观察，导致后续的手动移动不再触发驱动相邻检测的事件 — 在 Space 切换或应用激活等其他事件触发窗口列表缓存刷新之前，徽章会静默地不再出现。</li>
+</ul>]]></description>
+            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
+<ul>
+<li>두 창의 그룹화를 명시적으로 해제한 뒤 일단 떨어뜨렸다가 다시 가장자리를 맞붙이면 "그룹 만들기" 후보 배지가 다시 표시됩니다. 이전에는 그룹 해제로 고립된 창에 대한 Accessibility 관찰이 중단되어, 이후 수동 이동에서 인접 감지를 구동하는 이벤트가 발생하지 않아 Space 전환이나 앱 활성화 등으로 창 목록 캐시가 다시 갱신되기 전까지는 배지가 조용히 표시되지 않았습니다.</li>
+</ul>]]></description>
+            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
+<ul>
+<li>2 つのウインドウのグループ化を明示的に解除したあと、いったん離してから再びエッジを接触させると、「グループ化」候補バッジが再び表示されるようになりました。これまでは、グループ解除によって孤立したウインドウへの Accessibility 監視が停止してしまい、その後の手動移動で隣接検出を駆動するイベントが発火しなくなっていたため、Space 切替やアプリ起動などで別途ウインドウリストキャッシュの更新がかかるまでバッジが復活しませんでした。</li>
+</ul>]]></description>
+            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>After explicitly ungrouping a pair of windows, dragging them apart and back into edge contact now surfaces a "form group" candidate badge again. Previously, ungrouping stopped Accessibility observation on the now-isolated windows, so their subsequent manual moves no longer fired the events that drive adjacency detection — the badge silently failed to reappear until something else (a Space change, an app activation, etc.) re-triggered the window-list cache refresh.</li>
+</ul>]]></description>
             <pubDate>Sun, 03 May 2026 17:13:25 +0900</pubDate>
             <sparkle:version>514</sparkle:version>
             <sparkle:shortVersionString>5.1.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley-5.1.4.zip" length="6472976" type="application/octet-stream" sparkle:edSignature="eEOfhpkNO5CT6t4ntNQ7WYerR6HO6a94ng2JwtHvUZQk9xGoSa202gEyCrAkp/H9oKN3Fv1K5HsCPnvsBX08CA=="/>
+            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley-5.1.4.zip" length="6472976" type="application/octet-stream" sparkle:edSignature="eEOfhpkNO5CT6t4ntNQ7WYerR6HO6a94ng2JwtHvUZQk9xGoSa202gEyCrAkp/H9oKN3Fv1K5HsCPnvsBX08CA=="/>
             <sparkle:deltas>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley514-513.delta" sparkle:deltaFrom="513" length="121642" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="hDXr6mt/1Br5hyI7RZbeWtMl7qMF6w3SvhTGhMpIrWs3hriNuIv2jae7Aj8XwvB8lZGNjrb7RyHJmL2M+G9ECA=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley514-512.delta" sparkle:deltaFrom="512" length="121622" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="qU0n4P3na4V4MA+b0N6vJRToL9ymWfdCvoPcV0pnEfvDoJy6jRrexPJqG81spuNGzNaSWQw2MMVf57PlV0X8AA=="/>
@@ -147,342 +246,57 @@
 <ul>
 <li>The Settings window now opens centered on the full screen instead of centered within the Dock-excluded visible area, so it appears at the actual screen center regardless of the Dock's position.</li>
 </ul>]]></description>
+            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
+<ul>
+<li>A janela de Ajustes agora abre centralizada na tela inteira em vez de no centro da área visível sem o Dock, aparecendo no centro real da tela independentemente da posição do Dock.</li>
+</ul>]]></description>
+            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
+<ul>
+<li>La finestra Impostazioni ora si apre al centro dell'intero schermo invece che al centro dell'area visibile esclusa del Dock, quindi appare nel vero centro dello schermo indipendentemente dalla posizione del Dock.</li>
+</ul>]]></description>
+            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
+<ul>
+<li>La fenêtre des Réglages s'ouvre désormais centrée sur l'écran entier, et non plus au centre de la zone visible excluant le Dock : elle apparaît au véritable centre de l'écran quelle que soit la position du Dock.</li>
+</ul>]]></description>
+            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
+<ul>
+<li>La ventana de Ajustes ahora se abre centrada en toda la pantalla en lugar de centrada en el área visible sin el Dock, por lo que aparece en el centro real de la pantalla independientemente de la posición del Dock.</li>
+</ul>]]></description>
+            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
+<ul>
+<li>Das Einstellungsfenster wird nun in der Mitte des gesamten Bildschirms geöffnet statt im Zentrum des sichtbaren Bereichs ohne Dock. Es erscheint damit unabhängig von der Position des Docks in der tatsächlichen Bildschirmmitte.</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
+<ul>
+<li>設定視窗現在會顯示在整個螢幕的中央，而非排除 Dock 後的可見區域中央。無論 Dock 位於何處，都會顯示在螢幕的實際中央。</li>
+</ul>]]></description>
+            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
+<ul>
+<li>设置窗口现在显示在整个屏幕的中央，而不是排除 Dock 后的可见区域中央。无论 Dock 位置如何，都会显示在屏幕的实际中央。</li>
+</ul>]]></description>
+            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
+<ul>
+<li>설정 창이 Dock을 제외한 표시 영역의 중앙이 아니라 화면 전체의 중앙에 열리도록 수정했습니다. Dock 위치와 관계없이 실제 화면 중앙에 표시됩니다.</li>
+</ul>]]></description>
+            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
+<ul>
+<li>設定ウインドウが、Dock を除いた表示領域の中央ではなく、画面全体の中央に表示されるようになりました。Dock の位置にかかわらず、本来の画面の中央に開きます。</li>
+</ul>]]></description>
+            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
+<ul>
+<li>The Settings window now opens centered on the full screen instead of centered within the Dock-excluded visible area, so it appears at the actual screen center regardless of the Dock's position.</li>
+</ul>]]></description>
             <pubDate>Mon, 27 Apr 2026 08:47:48 +0900</pubDate>
             <sparkle:version>513</sparkle:version>
             <sparkle:shortVersionString>5.1.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley-5.1.3.zip" length="6473197" type="application/octet-stream" sparkle:edSignature="qTSICLA666H8xTK9ZBQW7cF58fqgkG9SGy0sYDbyIN23/zLhP6lTaF7UqjoV6hZaCTDDciAaocr37dJP2kE9AQ=="/>
+            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.5/Tiley-5.1.3.zip" length="6473197" type="application/octet-stream" sparkle:edSignature="qTSICLA666H8xTK9ZBQW7cF58fqgkG9SGy0sYDbyIN23/zLhP6lTaF7UqjoV6hZaCTDDciAaocr37dJP2kE9AQ=="/>
             <sparkle:deltas>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.3/Tiley513-512.delta" sparkle:deltaFrom="512" length="29746" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="fCVoYkuXuRw+TQA4QRjhsDUFxjrzDckhgGBSfwBnE76BFG1hJdOmvVyY4e3zDmt+bxFrBfdWamtUDjkPi/jGBA=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.3/Tiley513-511.delta" sparkle:deltaFrom="511" length="399878" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="989qjcLqT8EdEwk8rmq9tWqyffXsncvpB8laKRfMzPoiIHo8xBlW200eOTFtsVMoKmyoJ7CkePHzgt7OVEo8DQ=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.3/Tiley513-510.delta" sparkle:deltaFrom="510" length="644278" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="BqeDWgv2h3CeZQw8q3XOUpkpbKVvapFeDHL2rJeTJa+knNgzYJMVZ+cAktKZjjehwiSRC35iOhixknHy/ujQBg=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.3/Tiley513-501.delta" sparkle:deltaFrom="501" length="1137046" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="scq2oxeGiz9JHcHdq0ACcZJF3oyBoLoawf/BWplXbipGaGjuAZsaLxPREYrbIFcmgl2uhUL/Ctw57wkxnAmVAw=="/>
                 <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.3/Tiley513-500.delta" sparkle:deltaFrom="500" length="1136402" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="SQQIqKXuqp2jzvQpHY/BdGBURDV7RrgGoVosslPGdWAOf4X7XAM13jMKBK6eRIZ9H1abxO0LllkpzOyEQbGhDg=="/>
-            </sparkle:deltas>
-        </item>
-        <item>
-            <title>5.1.2</title>
-            <description xml:lang="ru"><![CDATA[<h3>Исправлено</h3>
-<ul>
-<li>Между уже связанными окнами больше не появляется бейдж кандидата «Создать группу» — ни между парами, случайно соприкоснувшимися после применения пресета, ни между парами из двух разных существующих групп, ни между парами, уже соединёнными через механизм спутников пресетов с привязкой к приложениям.</li>
-<li>Бейджи связанных групп теперь показываются только для группы, которая содержит переднее окно (или связана с ним через спутники). Бейджи посторонних фоновых групп, которые лишь делили приложение с активным окном, больше не появляются.</li>
-<li>Вывод сгруппированного окна на передний план — кликом, выбором в боковой панели Tiley с Enter или через click-to-activate macOS — теперь надёжно поднимает всю группу вместе. Исправлены несколько случаев, когда родственное окно группы оставалось за другим окном (окна другого приложения, зажатые между участниками группы; приложение возвращало вперёд ранее главное окно, а не выбранное; собственная анимация восстановления смещённых за экран окон Tiley воспринималась как ручное перетаскивание).</li>
-</ul>
-<h3>Изменено</h3>
-<ul>
-<li>Применение пресета макета, чья сгруппированная пара затрагивает окно, уже входящее в существующую группу, больше не объединяет всё в одну большую группу. Общее окно становится «оконным якорем», а каждый из его партнёров (остальные участники существующей группы и вновь добавленный партнёр) регистрируется как спутник, повторяя модель, уже используемую для слотов пресета с привязкой к приложениям. Каждая пара сохраняет собственный запомненный макет: клик по спутнику выдвигает якорь вперёд и восстанавливает сохранённые позиции этой пары; клик по якорю делает активной парой тот спутник, который сейчас наиболее впереди. Пример: при существующей группе A↔B применение пресета, объединяющего C↔A, оставляет A↔B без изменений — клик по B возвращает A рядом с B в исходном макете A↔B, а клик по C размещает A рядом с C в макете C↔A пресета. Активная пара отображает значок связи как раньше; переключение между спутниками динамически перестраивает пространственную группу</li>
-</ul>]]></description>
-            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
-<ul>
-<li>Não aparece mais o emblema candidato "Criar grupo" entre janelas já vinculadas — nem entre pares que ficam adjacentes por acaso após uma predefinição, nem entre pares pertencentes a dois grupos distintos, nem entre pares já conectados pelo mecanismo de satélites das predefinições com apps atribuídos.</li>
-<li>Os emblemas de grupos vinculados agora aparecem apenas para o grupo que contém a janela em primeiro plano (ou conectado a ela via satélites). Os emblemas de grupos de fundo não relacionados, que apenas compartilhavam o app da janela focalizada, sumiram.</li>
-<li>Trazer uma janela agrupada para a frente — clicando, selecionando-a na barra lateral do Tiley e pressionando Enter, ou via click-to-activate do macOS — agora traz o grupo inteiro junto de forma confiável. Foram corrigidos vários casos em que uma janela irmã do grupo permanecia atrás de outra janela (janelas de outro app intercaladas entre membros do grupo, o app reascendendo a janela principal anterior em vez da selecionada e a animação de restauração de deslocamento fora da tela do próprio Tiley sendo interpretada como arrasto manual).</li>
-</ul>
-<h3>Alterado</h3>
-<ul>
-<li>Ao aplicar uma predefinição de layout cujo par agrupado afeta uma janela que já faz parte de um grupo existente, tudo não é mais mesclado em um único grupo maior. A janela compartilhada se torna uma "âncora de janela" e cada um de seus parceiros (os outros membros do grupo preexistente e o parceiro recém-adicionado) é registrado como satélite, espelhando o modelo já usado para slots de predefinição atribuídos a aplicativos. Cada par mantém seu próprio layout lembrado: clicar em um satélite traz a âncora para frente e restaura as posições salvas desse par; clicar na âncora faz com que o satélite atualmente mais à frente se torne o par ativo. Exemplo: com um grupo A↔B existente, aplicar uma predefinição que pareia C↔A deixa A↔B intacto — clicar em B traz A de volta ao lado de B no layout A↔B original; clicar em C posiciona A ao lado de C no layout C↔A da predefinição. O par ativo exibe o emblema de vínculo como antes; alternar entre satélites reconstrói dinamicamente o grupo espacial</li>
-</ul>]]></description>
-            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
-<ul>
-<li>Tra finestre già collegate non compare più il badge candidato «Crea gruppo» — né tra coppie diventate adiacenti per caso dopo l'applicazione di una preimpostazione, né tra coppie appartenenti a due gruppi distinti, né tra coppie già connesse tramite il meccanismo di satellite delle preimpostazioni con app assegnate.</li>
-<li>I badge dei gruppi collegati ora vengono mostrati solo per il gruppo che contiene la finestra in primo piano (o connesso a essa tramite satelliti). I badge di gruppi di sfondo non correlati che condividevano semplicemente l'app della finestra focalizzata sono spariti.</li>
-<li>Portare in primo piano una finestra raggruppata — con un clic, selezionandola nella sidebar di Tiley e premendo Invio, o tramite il click-to-activate di macOS — porta ora avanti l'intero gruppo in modo affidabile. Sono stati corretti diversi casi in cui una finestra sorella del gruppo restava dietro un'altra finestra (finestre di un'altra app intercalate tra membri del gruppo, l'app rialzava la finestra principale precedente al posto di quella selezionata, e l'animazione di ripristino dei decentramenti fuori schermo di Tiley stesso veniva scambiata per un trascinamento manuale).</li>
-</ul>
-<h3>Modificato</h3>
-<ul>
-<li>Applicando una preimpostazione di layout la cui coppia raggruppata coinvolge una finestra già membro di un gruppo esistente, tutto non viene più unito in un unico gruppo più grande. La finestra condivisa diventa un'«ancora finestra» e ciascuno dei suoi partner (gli altri membri del gruppo preesistente e il partner appena aggiunto) viene registrato come satellite, rispecchiando il modello già usato per gli slot di preimpostazione assegnati alle app. Ogni coppia mantiene il proprio layout memorizzato: cliccando su un satellite l'ancora viene portata in primo piano e vengono ripristinate le posizioni salvate di quella coppia; cliccando sull'ancora, il satellite attualmente più in primo piano diventa la coppia attiva. Esempio: con un gruppo A↔B esistente, applicare una preimpostazione che accoppia C↔A lascia A↔B intatto — cliccando B, A torna accanto a B nel layout originale A↔B; cliccando C, A si posiziona accanto a C nel layout C↔A della preimpostazione. La coppia attiva mostra il badge di collegamento come prima; il passaggio tra satelliti ricostruisce dinamicamente il gruppo spaziale</li>
-</ul>]]></description>
-            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
-<ul>
-<li>Plus aucun badge candidat « Créer un groupe » n'apparaît entre des fenêtres déjà liées — qu'il s'agisse de paires devenues adjacentes par hasard après l'application d'un préréglage, de paires appartenant à deux groupes existants distincts, ou de paires déjà connectées via le mécanisme de satellite des préréglages avec applications assignées.</li>
-<li>Les badges des groupes liés ne sont désormais affichés que pour le groupe contenant la fenêtre au premier plan (ou relié à elle via les satellites). Les badges des groupes d'arrière-plan sans rapport, qui partageaient simplement l'application de la fenêtre focalisée, ont disparu.</li>
-<li>Mettre une fenêtre groupée au premier plan — par clic, par sélection dans la barre latérale de Tiley puis Entrée, ou via le clic-pour-activer de macOS — amène désormais l'ensemble du groupe en avant de manière fiable. Plusieurs cas où une fenêtre sœur du groupe restait derrière une autre fenêtre sont corrigés (fenêtres d'une autre application coincées entre des membres du groupe, l'application réascendant la précédente fenêtre principale plutôt que la fenêtre sélectionnée, et l'animation de restauration des décalages hors écran de Tiley elle-même qui était confondue avec un glissement manuel).</li>
-</ul>
-<h3>Modifié</h3>
-<ul>
-<li>L'application d'une préréglage de mise en page dont la paire groupée cible une fenêtre déjà membre d'un groupe existant ne fusionne plus tout en un seul grand groupe. La fenêtre partagée devient une « ancre de fenêtre » et chacun de ses partenaires (les autres membres du groupe préexistant et le partenaire nouvellement ajouté) est enregistré comme satellite, reflétant le modèle déjà utilisé pour les emplacements de préréglage assignés à une application. Chaque paire conserve sa propre disposition mémorisée : cliquer sur un satellite ramène l'ancre au premier plan et restaure les positions sauvegardées de cette paire ; cliquer sur l'ancre fait passer en paire active le satellite actuellement le plus au premier plan. Exemple : avec un groupe A↔B existant, appliquer un préréglage qui appaire C↔A laisse A↔B intact — cliquer sur B ramène A à côté de B dans la disposition originale A↔B ; cliquer sur C place A à côté de C selon la disposition C↔A du préréglage. La paire active affiche le badge de liaison comme avant ; basculer entre satellites reconstruit dynamiquement le groupe spatial</li>
-</ul>]]></description>
-            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
-<ul>
-<li>Ya no aparece la insignia candidata «Crear grupo» entre ventanas que ya están enlazadas — ni entre pares que tras aplicar un preset quedan adyacentes por casualidad, ni entre pares que pertenecen a dos grupos distintos, ni entre pares ya conectados mediante el mecanismo de satélites de los presets con apps asignadas.</li>
-<li>Las insignias de grupos enlazados ahora se muestran solo para el grupo que contiene la ventana frontal (o que está conectado a ella mediante satélites). Las insignias de grupos de fondo no relacionados que solo compartían la app de la ventana enfocada han desaparecido.</li>
-<li>Llevar una ventana agrupada al frente — haciendo clic, seleccionándola en la barra lateral de Tiley y pulsando Enter, o mediante el click-to-activate de macOS — ahora trae al grupo entero de manera fiable. Se han corregido varios casos en los que una ventana hermana del grupo quedaba detrás de otra ventana (ventanas de otra app intercaladas entre miembros del grupo, la app reascendía la ventana principal anterior por encima de la seleccionada, y la animación de restauración del desplazamiento fuera de pantalla del propio Tiley se confundía con un arrastre manual).</li>
-</ul>
-<h3>Cambiado</h3>
-<ul>
-<li>Al aplicar una preselección de diseño cuyo par agrupado afecta a una ventana que ya forma parte de un grupo existente, ya no se fusiona todo en un único grupo más grande. La ventana compartida se convierte en un «anclaje de ventana» y cada uno de sus compañeros (los demás miembros del grupo preexistente y el compañero recién añadido) se registra como satélite, reflejando el modelo que ya se usa para las ranuras de preselección asignadas a apps. Cada pareja conserva su propio diseño recordado: al hacer clic en un satélite, el anclaje pasa al frente y se restauran las posiciones guardadas de esa pareja; al hacer clic en el anclaje, el satélite que esté más al frente se convierte en la pareja activa. Ejemplo: con un grupo A↔B existente, aplicar una preselección que empareje C↔A deja A↔B intacto — al hacer clic en B, A vuelve junto a B en el diseño original A↔B; al hacer clic en C, A se coloca junto a C en el diseño C↔A de la preselección. La pareja activa muestra la insignia de enlace como antes; al cambiar entre satélites, el grupo espacial se reconstruye dinámicamente</li>
-</ul>]]></description>
-            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
-<ul>
-<li>Zwischen bereits verknüpften Fenstern erscheint kein „Gruppe bilden"-Kandidaten-Badge mehr — weder zwischen Paaren, die nach einem Preset zufällig aneinanderstoßen, noch zwischen Paaren aus zwei unterschiedlichen bestehenden Gruppen, noch zwischen Paaren, die über den Satelliten-Mechanismus eines app-zugewiesenen Presets verbunden sind.</li>
-<li>Badges verknüpfter Gruppen erscheinen nur noch für die Gruppe, die das vorderste Fenster enthält (oder transitiv über Satelliten daran angeschlossen ist). Badges unbeteiligter Hintergrundgruppen, die nur zufällig die App des fokussierten Fensters teilen, werden nicht mehr eingeblendet.</li>
-<li>Das Anheben eines gruppierten Fensters — per Klick, per Auswahl in der Tiley-Sidebar und Enter oder über macOS' Click-to-activate — bringt die ganze Gruppe nun zuverlässig gemeinsam nach vorn. Mehrere Fälle, in denen ein Geschwisterfenster zuvor hinter einem anderen Fenster verborgen blieb, sind behoben (Fenster fremder Apps, die zwischen Gruppenmitgliedern eingeklemmt waren; das vorher als Hauptfenster gemerkte Fenster derselben App, das vor das ausgewählte Fenster gehoben wurde; Tileys eigene Wiederherstellung der ausgelagerten Fenster, die als manueller Drag missdeutet wurde).</li>
-</ul>
-<h3>Geändert</h3>
-<ul>
-<li>Beim Anwenden eines Layout-Presets, dessen gruppiertes Paar ein Fenster betrifft, das bereits Teil einer bestehenden Gruppe ist, werden nicht mehr alle Fenster in eine einzige größere Gruppe zusammengeführt. Das gemeinsame Fenster wird zu einem „Fenster-Anker" und jeder seiner Partner (die anderen Mitglieder der bestehenden Gruppe sowie der neu hinzugefügte Partner) wird als Satellit registriert — analog zum bereits für app-zugewiesene Preset-Slots verwendeten Modell. Jedes Paar behält sein eigenes gespeichertes Layout: Ein Klick auf einen Satelliten holt den Anker nach vorn und stellt die gespeicherten Positionen dieses Paars wieder her; ein Klick auf den Anker bringt denjenigen Satelliten in den Vordergrund, der derzeit am weitesten vorn ist. Beispiel: Bei einer bestehenden A↔B-Gruppe lässt das Anwenden eines Presets, das C↔A paart, A↔B intakt — ein Klick auf B bringt A im ursprünglichen A↔B-Layout neben B zurück, ein Klick auf C bringt A im Preset-Layout neben C. Das aktive Paar zeigt das verknüpfte Badge wie zuvor; das Wechseln zwischen Satelliten baut die räumliche Gruppe dynamisch um</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
-<ul>
-<li>已連結的視窗之間不再顯示「建立群組」候選徽章——包括套用預設後恰好相鄰的視窗對、分屬兩個既有群組的視窗對，以及透過應用程式指派預設的衛星機制連結的視窗對。</li>
-<li>連結群組徽章現在僅對包含最前景視窗（或透過衛星機制與之相連）的群組顯示。僅因與最前景應用程式相同就顯示無關背景群組徽章的問題已修正。</li>
-<li>將群組中的視窗提到前景（無論透過點擊、在 Tiley 側邊欄選擇後按 Enter，還是 macOS 的點擊啟用）現在都會可靠地把整個群組一起帶到前景。先前讓群組兄弟視窗殘留在其他視窗後方的若干情境已修正（其他應用程式的視窗夾在群組成員之間、應用程式先把先前的 main 視窗而非選中視窗重新提升、Tiley 自身的螢幕外迴避視窗還原動畫被誤判為手動拖曳等）。</li>
-</ul>
-<h3>變更</h3>
-<ul>
-<li>當套用包含分組配對的版面配置預設時，若目標視窗已屬於其他分組，所有視窗不再被合併為單一大型分組。共用的視窗會成為「視窗錨點」，其既有的分組成員與新預設配對的成員會分別註冊為獨立的衛星視窗。此模型與應用程式指派預設中已使用的方式相同。每對視窗各自記憶版面配置：點擊衛星視窗會將錨點帶到前景並還原該對的保存位置；點擊錨點則會將目前最靠前的衛星視窗設為活動對。例如：在現有 A↔B 分組之下套用配對 C↔A 的預設不會破壞 A↔B — 點擊 B 時 A 會回到原 A↔B 版面配置位置與 B 相鄰，點擊 C 時 A 會依預設的 C↔A 版面配置位置與 C 並排。活動對依然顯示連結徽章；切換衛星視窗時會動態重建空間分組</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
-<ul>
-<li>已经链接的窗口之间不再显示"创建分组"候选徽章——包括应用预设后碰巧相邻的窗口对、分别属于两个不同已有分组的窗口对，以及通过应用程序分配预设的卫星机制连接的窗口对。</li>
-<li>链接分组徽章现在仅对包含最前面窗口（或通过卫星机制与之相连）的分组显示。仅因为与最前面应用属于同一应用就显示无关后台分组的徽章的情况已修复。</li>
-<li>将分组中的窗口提到前台（无论通过点击、在 Tiley 侧边栏中选择并按 Enter，还是通过 macOS 的点击激活）现在都会可靠地把整个分组一起带上来。此前会让分组中的兄弟窗口残留在其他窗口后方的若干情况已修复（其他应用的窗口夹在分组成员之间、应用先把先前的 main 窗口而非选中窗口重新提升、Tiley 自身将屏幕外回避窗口动画恢复时被误识为手动拖动等）。</li>
-</ul>
-<h3>变更</h3>
-<ul>
-<li>当应用包含分组配对的布局预设时，如果目标窗口已经属于其他分组，所有窗口不再被合并到一个大分组中。共享窗口成为"窗口锚点"，其原有的分组成员和新预设配对的成员分别作为独立的卫星窗口注册。该模型与应用程序分配预设中已使用的模型相同。每对窗口都拥有各自记忆的布局：点击卫星窗口会将锚点带到前面并恢复该对的保存位置；点击锚点则会将当前最靠前的卫星窗口设为活动对。例如：当已有 A↔B 分组时，应用配对 C↔A 的预设不会破坏 A↔B — 点击 B 时 A 会回到原 A↔B 布局位置与 B 相邻，点击 C 时 A 会按预设的 C↔A 布局位置与 C 排列。活动对仍像以前一样显示链接徽章；切换卫星窗口时会动态重建空间分组</li>
-</ul>]]></description>
-            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
-<ul>
-<li>이미 연결된 창 사이에는 "그룹 만들기" 후보 배지가 표시되지 않습니다 — 프리셋 적용 후 우연히 인접한 쌍, 서로 다른 두 그룹에 속한 쌍, 앱 할당 프리셋의 위성 메커니즘으로 연결된 쌍 모두 해당됩니다.</li>
-<li>연결된 그룹의 배지는 최전면 창이 포함된(또는 위성 메커니즘으로 연결된) 그룹에 대해서만 표시됩니다. 단지 최전면 앱과 같은 앱이라는 이유로 무관한 배경 그룹의 배지가 함께 표시되는 일이 없어졌습니다.</li>
-<li>그룹화된 창을 전면으로 올릴 때(클릭, Tiley 사이드바에서 선택 후 Enter, macOS의 클릭-투-액티베이트 어느 경로든) 그룹 전체가 함께 안정적으로 올라옵니다. 이전에는 형제 창이 다른 창 뒤에 남는 경우가 있었습니다(다른 앱의 창이 그룹 멤버 사이에 끼어 있는 경우, 앱이 이전 main 창을 선택한 창보다 먼저 다시 승격시키는 경우, Tiley 자체의 화면 밖 회피 창 복원 애니메이션이 수동 드래그로 오인되는 경우 등).</li>
-</ul>
-<h3>변경</h3>
-<ul>
-<li>그룹이 설정된 레이아웃 프리셋을 대상 창이 이미 다른 그룹에 속해 있는 상태에서 적용해도 모든 창이 하나의 큰 그룹으로 병합되지 않습니다. 공유된 창이 "창 앵커"가 되고, 기존 파트너와 새로 추가된 프리셋 파트너가 각각 독립된 위성으로 등록됩니다. 이는 앱 할당이 있는 프리셋에서 이미 사용되는 모델과 동일합니다. 각 쌍은 자체 레이아웃을 기억하며, 위성을 클릭하면 앵커가 앞으로 나오고 해당 쌍의 저장된 위치가 복원되고, 앵커를 클릭하면 현재 가장 앞에 있는 위성이 활성 쌍이 됩니다. 예: 기존 A↔B 그룹이 있는 상태에서 C↔A를 페어로 하는 프리셋을 적용해도 A↔B는 유지되며, B를 클릭하면 A가 원래 A↔B 레이아웃의 위치에서 B 옆으로 돌아오고, C를 클릭하면 A가 프리셋의 C↔A 레이아웃 위치에서 C 옆에 정렬됩니다. 활성 쌍에는 이전처럼 링크 배지가 표시되며, 위성을 전환할 때마다 공간 그룹이 동적으로 재구성됩니다</li>
-</ul>]]></description>
-            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
-<ul>
-<li>すでにリンクされているウインドウ間に「グループ化」候補バッジが出ないようになりました — プリセット適用後にたまたま接しているペア、別々のグループに属する 2 つのペア、アプリ割り当て付きプリセットのサテライト機構で繋がっているペアのいずれも対象です。</li>
-<li>リンク済みグループのバッジは、最前面ウインドウが含まれる（または satellite 経由で繋がっている）グループのみ表示するようになりました。最前面アプリと PID を共有しているだけの無関係な背景グループのバッジは出なくなりました。</li>
-<li>グループ化されたウインドウを前面化したとき（クリック、Tiley サイドバーで選択して Enter、macOS のクリック・トゥ・アクティベートのいずれの経路でも）、グループ全体が一緒にきちんと前面に来るようになりました。これまで兄弟ウインドウが他のウインドウの後ろに残ってしまう複数のケース（別アプリのウインドウがメンバー間に挟まっているケース、アプリが以前 main だったウインドウを選択ウインドウより先に再昇格させるケース、Tiley 自身のオフスクリーン退避ウインドウの戻しアニメーションが手動ドラッグと誤認されるケース）を修正しました。</li>
-</ul>
-<h3>変更</h3>
-<ul>
-<li>グループ化が設定されたレイアウトプリセットを、対象ウインドウがすでに別のグループに属している状態で適用しても、すべてが 1 つの大きなグループにマージされなくなりました。共有ウインドウが「ウインドウアンカー」になり、その既存パートナーと新しいプリセットパートナーがそれぞれ独立したサテライトとして登録されます。これはアプリ割り当て付きプリセットで既に使われている仕組みと同じモデルです。各ペアは独自のレイアウト記憶を持ち、サテライトをクリックするとアンカーが前面化されてそのペアの保存位置が復元され、アンカーをクリックすると現在最も前面にあるサテライトがアクティブペアになります。例: 既存の A↔B グループがあるところに C↔A をペアにしたプリセットを適用しても A↔B は維持され、B をクリックすると A が元の A↔B レイアウトの位置で B の隣に戻り、C をクリックすると A がプリセット側の C↔A レイアウトの位置で C の隣に並びます。アクティブなペアにはこれまで通りリンクバッジが表示され、サテライトを切り替えると空間的なグループも動的に組み直されます</li>
-</ul>]]></description>
-            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
-<ul>
-<li>A "form group" candidate badge no longer appears between windows that are already linked — including pairs that happen to touch after a preset apply, pairs from two different existing groups, and pairs already connected through the app-assigned-preset satellite mechanism.</li>
-<li>Linked-group badges now show only for the group containing (or transitively linked to) the frontmost window. Focusing a window no longer surfaces badges for unrelated background groups that happen to share its app.</li>
-<li>Raising a grouped window — by clicking it, by selecting it in the Tiley sidebar and pressing Enter, or via macOS's click-to-activate — now reliably brings the whole group forward together. Several edge cases that previously left a group sibling buried behind another window are fixed (cross-app windows sandwiched between group members, the app's previously-main window being re-promoted ahead of the selection, and Tiley's own off-screen-displacement animation getting mistaken for a manual drag).</li>
-</ul>
-<h3>Changed</h3>
-<ul>
-<li>Applying a layout preset whose grouped pair targets a window that's already part of an existing group no longer merges everything into one larger group. The shared window becomes a window-anchor and each of its partners (the pre-existing group's other members and the newly-applied partner) is registered as a satellite, mirroring the model already used for app-assigned preset slots. Each pair has its own remembered layout: clicking a satellite raises the anchor and restores that pair's positions; clicking the anchor surfaces whichever satellite is currently most frontmost. Example: with an existing A↔B group, applying a preset that pairs C↔A leaves A↔B intact — clicking B brings A back next to B in the original layout, while clicking C brings A next to C in the preset's layout. The active pair shows the linked badge as before; switching between satellites swaps the spatial group dynamically</li>
-</ul>]]></description>
-            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
-<ul>
-<li>Não aparece mais o emblema candidato "Criar grupo" entre janelas já vinculadas — nem entre pares que ficam adjacentes por acaso após uma predefinição, nem entre pares pertencentes a dois grupos distintos, nem entre pares já conectados pelo mecanismo de satélites das predefinições com apps atribuídos.</li>
-<li>Os emblemas de grupos vinculados agora aparecem apenas para o grupo que contém a janela em primeiro plano (ou conectado a ela via satélites). Os emblemas de grupos de fundo não relacionados, que apenas compartilhavam o app da janela focalizada, sumiram.</li>
-<li>Trazer uma janela agrupada para a frente — clicando, selecionando-a na barra lateral do Tiley e pressionando Enter, ou via click-to-activate do macOS — agora traz o grupo inteiro junto de forma confiável. Foram corrigidos vários casos em que uma janela irmã do grupo permanecia atrás de outra janela (janelas de outro app intercaladas entre membros do grupo, o app reascendendo a janela principal anterior em vez da selecionada e a animação de restauração de deslocamento fora da tela do próprio Tiley sendo interpretada como arrasto manual).</li>
-</ul>
-<h3>Alterado</h3>
-<ul>
-<li>Ao aplicar uma predefinição de layout cujo par agrupado afeta uma janela que já faz parte de um grupo existente, tudo não é mais mesclado em um único grupo maior. A janela compartilhada se torna uma "âncora de janela" e cada um de seus parceiros (os outros membros do grupo preexistente e o parceiro recém-adicionado) é registrado como satélite, espelhando o modelo já usado para slots de predefinição atribuídos a aplicativos. Cada par mantém seu próprio layout lembrado: clicar em um satélite traz a âncora para frente e restaura as posições salvas desse par; clicar na âncora faz com que o satélite atualmente mais à frente se torne o par ativo. Exemplo: com um grupo A↔B existente, aplicar uma predefinição que pareia C↔A deixa A↔B intacto — clicar em B traz A de volta ao lado de B no layout A↔B original; clicar em C posiciona A ao lado de C no layout C↔A da predefinição. O par ativo exibe o emblema de vínculo como antes; alternar entre satélites reconstrói dinamicamente o grupo espacial</li>
-</ul>]]></description>
-            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
-<ul>
-<li>Tra finestre già collegate non compare più il badge candidato «Crea gruppo» — né tra coppie diventate adiacenti per caso dopo l'applicazione di una preimpostazione, né tra coppie appartenenti a due gruppi distinti, né tra coppie già connesse tramite il meccanismo di satellite delle preimpostazioni con app assegnate.</li>
-<li>I badge dei gruppi collegati ora vengono mostrati solo per il gruppo che contiene la finestra in primo piano (o connesso a essa tramite satelliti). I badge di gruppi di sfondo non correlati che condividevano semplicemente l'app della finestra focalizzata sono spariti.</li>
-<li>Portare in primo piano una finestra raggruppata — con un clic, selezionandola nella sidebar di Tiley e premendo Invio, o tramite il click-to-activate di macOS — porta ora avanti l'intero gruppo in modo affidabile. Sono stati corretti diversi casi in cui una finestra sorella del gruppo restava dietro un'altra finestra (finestre di un'altra app intercalate tra membri del gruppo, l'app rialzava la finestra principale precedente al posto di quella selezionata, e l'animazione di ripristino dei decentramenti fuori schermo di Tiley stesso veniva scambiata per un trascinamento manuale).</li>
-</ul>
-<h3>Modificato</h3>
-<ul>
-<li>Applicando una preimpostazione di layout la cui coppia raggruppata coinvolge una finestra già membro di un gruppo esistente, tutto non viene più unito in un unico gruppo più grande. La finestra condivisa diventa un'«ancora finestra» e ciascuno dei suoi partner (gli altri membri del gruppo preesistente e il partner appena aggiunto) viene registrato come satellite, rispecchiando il modello già usato per gli slot di preimpostazione assegnati alle app. Ogni coppia mantiene il proprio layout memorizzato: cliccando su un satellite l'ancora viene portata in primo piano e vengono ripristinate le posizioni salvate di quella coppia; cliccando sull'ancora, il satellite attualmente più in primo piano diventa la coppia attiva. Esempio: con un gruppo A↔B esistente, applicare una preimpostazione che accoppia C↔A lascia A↔B intatto — cliccando B, A torna accanto a B nel layout originale A↔B; cliccando C, A si posiziona accanto a C nel layout C↔A della preimpostazione. La coppia attiva mostra il badge di collegamento come prima; il passaggio tra satelliti ricostruisce dinamicamente il gruppo spaziale</li>
-</ul>]]></description>
-            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
-<ul>
-<li>Plus aucun badge candidat « Créer un groupe » n'apparaît entre des fenêtres déjà liées — qu'il s'agisse de paires devenues adjacentes par hasard après l'application d'un préréglage, de paires appartenant à deux groupes existants distincts, ou de paires déjà connectées via le mécanisme de satellite des préréglages avec applications assignées.</li>
-<li>Les badges des groupes liés ne sont désormais affichés que pour le groupe contenant la fenêtre au premier plan (ou relié à elle via les satellites). Les badges des groupes d'arrière-plan sans rapport, qui partageaient simplement l'application de la fenêtre focalisée, ont disparu.</li>
-<li>Mettre une fenêtre groupée au premier plan — par clic, par sélection dans la barre latérale de Tiley puis Entrée, ou via le clic-pour-activer de macOS — amène désormais l'ensemble du groupe en avant de manière fiable. Plusieurs cas où une fenêtre sœur du groupe restait derrière une autre fenêtre sont corrigés (fenêtres d'une autre application coincées entre des membres du groupe, l'application réascendant la précédente fenêtre principale plutôt que la fenêtre sélectionnée, et l'animation de restauration des décalages hors écran de Tiley elle-même qui était confondue avec un glissement manuel).</li>
-</ul>
-<h3>Modifié</h3>
-<ul>
-<li>L'application d'une préréglage de mise en page dont la paire groupée cible une fenêtre déjà membre d'un groupe existant ne fusionne plus tout en un seul grand groupe. La fenêtre partagée devient une « ancre de fenêtre » et chacun de ses partenaires (les autres membres du groupe préexistant et le partenaire nouvellement ajouté) est enregistré comme satellite, reflétant le modèle déjà utilisé pour les emplacements de préréglage assignés à une application. Chaque paire conserve sa propre disposition mémorisée : cliquer sur un satellite ramène l'ancre au premier plan et restaure les positions sauvegardées de cette paire ; cliquer sur l'ancre fait passer en paire active le satellite actuellement le plus au premier plan. Exemple : avec un groupe A↔B existant, appliquer un préréglage qui appaire C↔A laisse A↔B intact — cliquer sur B ramène A à côté de B dans la disposition originale A↔B ; cliquer sur C place A à côté de C selon la disposition C↔A du préréglage. La paire active affiche le badge de liaison comme avant ; basculer entre satellites reconstruit dynamiquement le groupe spatial</li>
-</ul>]]></description>
-            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
-<ul>
-<li>Ya no aparece la insignia candidata «Crear grupo» entre ventanas que ya están enlazadas — ni entre pares que tras aplicar un preset quedan adyacentes por casualidad, ni entre pares que pertenecen a dos grupos distintos, ni entre pares ya conectados mediante el mecanismo de satélites de los presets con apps asignadas.</li>
-<li>Las insignias de grupos enlazados ahora se muestran solo para el grupo que contiene la ventana frontal (o que está conectado a ella mediante satélites). Las insignias de grupos de fondo no relacionados que solo compartían la app de la ventana enfocada han desaparecido.</li>
-<li>Llevar una ventana agrupada al frente — haciendo clic, seleccionándola en la barra lateral de Tiley y pulsando Enter, o mediante el click-to-activate de macOS — ahora trae al grupo entero de manera fiable. Se han corregido varios casos en los que una ventana hermana del grupo quedaba detrás de otra ventana (ventanas de otra app intercaladas entre miembros del grupo, la app reascendía la ventana principal anterior por encima de la seleccionada, y la animación de restauración del desplazamiento fuera de pantalla del propio Tiley se confundía con un arrastre manual).</li>
-</ul>
-<h3>Cambiado</h3>
-<ul>
-<li>Al aplicar una preselección de diseño cuyo par agrupado afecta a una ventana que ya forma parte de un grupo existente, ya no se fusiona todo en un único grupo más grande. La ventana compartida se convierte en un «anclaje de ventana» y cada uno de sus compañeros (los demás miembros del grupo preexistente y el compañero recién añadido) se registra como satélite, reflejando el modelo que ya se usa para las ranuras de preselección asignadas a apps. Cada pareja conserva su propio diseño recordado: al hacer clic en un satélite, el anclaje pasa al frente y se restauran las posiciones guardadas de esa pareja; al hacer clic en el anclaje, el satélite que esté más al frente se convierte en la pareja activa. Ejemplo: con un grupo A↔B existente, aplicar una preselección que empareje C↔A deja A↔B intacto — al hacer clic en B, A vuelve junto a B en el diseño original A↔B; al hacer clic en C, A se coloca junto a C en el diseño C↔A de la preselección. La pareja activa muestra la insignia de enlace como antes; al cambiar entre satélites, el grupo espacial se reconstruye dinámicamente</li>
-</ul>]]></description>
-            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
-<ul>
-<li>Zwischen bereits verknüpften Fenstern erscheint kein „Gruppe bilden"-Kandidaten-Badge mehr — weder zwischen Paaren, die nach einem Preset zufällig aneinanderstoßen, noch zwischen Paaren aus zwei unterschiedlichen bestehenden Gruppen, noch zwischen Paaren, die über den Satelliten-Mechanismus eines app-zugewiesenen Presets verbunden sind.</li>
-<li>Badges verknüpfter Gruppen erscheinen nur noch für die Gruppe, die das vorderste Fenster enthält (oder transitiv über Satelliten daran angeschlossen ist). Badges unbeteiligter Hintergrundgruppen, die nur zufällig die App des fokussierten Fensters teilen, werden nicht mehr eingeblendet.</li>
-<li>Das Anheben eines gruppierten Fensters — per Klick, per Auswahl in der Tiley-Sidebar und Enter oder über macOS' Click-to-activate — bringt die ganze Gruppe nun zuverlässig gemeinsam nach vorn. Mehrere Fälle, in denen ein Geschwisterfenster zuvor hinter einem anderen Fenster verborgen blieb, sind behoben (Fenster fremder Apps, die zwischen Gruppenmitgliedern eingeklemmt waren; das vorher als Hauptfenster gemerkte Fenster derselben App, das vor das ausgewählte Fenster gehoben wurde; Tileys eigene Wiederherstellung der ausgelagerten Fenster, die als manueller Drag missdeutet wurde).</li>
-</ul>
-<h3>Geändert</h3>
-<ul>
-<li>Beim Anwenden eines Layout-Presets, dessen gruppiertes Paar ein Fenster betrifft, das bereits Teil einer bestehenden Gruppe ist, werden nicht mehr alle Fenster in eine einzige größere Gruppe zusammengeführt. Das gemeinsame Fenster wird zu einem „Fenster-Anker" und jeder seiner Partner (die anderen Mitglieder der bestehenden Gruppe sowie der neu hinzugefügte Partner) wird als Satellit registriert — analog zum bereits für app-zugewiesene Preset-Slots verwendeten Modell. Jedes Paar behält sein eigenes gespeichertes Layout: Ein Klick auf einen Satelliten holt den Anker nach vorn und stellt die gespeicherten Positionen dieses Paars wieder her; ein Klick auf den Anker bringt denjenigen Satelliten in den Vordergrund, der derzeit am weitesten vorn ist. Beispiel: Bei einer bestehenden A↔B-Gruppe lässt das Anwenden eines Presets, das C↔A paart, A↔B intakt — ein Klick auf B bringt A im ursprünglichen A↔B-Layout neben B zurück, ein Klick auf C bringt A im Preset-Layout neben C. Das aktive Paar zeigt das verknüpfte Badge wie zuvor; das Wechseln zwischen Satelliten baut die räumliche Gruppe dynamisch um</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
-<ul>
-<li>已連結的視窗之間不再顯示「建立群組」候選徽章——包括套用預設後恰好相鄰的視窗對、分屬兩個既有群組的視窗對，以及透過應用程式指派預設的衛星機制連結的視窗對。</li>
-<li>連結群組徽章現在僅對包含最前景視窗（或透過衛星機制與之相連）的群組顯示。僅因與最前景應用程式相同就顯示無關背景群組徽章的問題已修正。</li>
-<li>將群組中的視窗提到前景（無論透過點擊、在 Tiley 側邊欄選擇後按 Enter，還是 macOS 的點擊啟用）現在都會可靠地把整個群組一起帶到前景。先前讓群組兄弟視窗殘留在其他視窗後方的若干情境已修正（其他應用程式的視窗夾在群組成員之間、應用程式先把先前的 main 視窗而非選中視窗重新提升、Tiley 自身的螢幕外迴避視窗還原動畫被誤判為手動拖曳等）。</li>
-</ul>
-<h3>變更</h3>
-<ul>
-<li>當套用包含分組配對的版面配置預設時，若目標視窗已屬於其他分組，所有視窗不再被合併為單一大型分組。共用的視窗會成為「視窗錨點」，其既有的分組成員與新預設配對的成員會分別註冊為獨立的衛星視窗。此模型與應用程式指派預設中已使用的方式相同。每對視窗各自記憶版面配置：點擊衛星視窗會將錨點帶到前景並還原該對的保存位置；點擊錨點則會將目前最靠前的衛星視窗設為活動對。例如：在現有 A↔B 分組之下套用配對 C↔A 的預設不會破壞 A↔B — 點擊 B 時 A 會回到原 A↔B 版面配置位置與 B 相鄰，點擊 C 時 A 會依預設的 C↔A 版面配置位置與 C 並排。活動對依然顯示連結徽章；切換衛星視窗時會動態重建空間分組</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
-<ul>
-<li>已经链接的窗口之间不再显示"创建分组"候选徽章——包括应用预设后碰巧相邻的窗口对、分别属于两个不同已有分组的窗口对，以及通过应用程序分配预设的卫星机制连接的窗口对。</li>
-<li>链接分组徽章现在仅对包含最前面窗口（或通过卫星机制与之相连）的分组显示。仅因为与最前面应用属于同一应用就显示无关后台分组的徽章的情况已修复。</li>
-<li>将分组中的窗口提到前台（无论通过点击、在 Tiley 侧边栏中选择并按 Enter，还是通过 macOS 的点击激活）现在都会可靠地把整个分组一起带上来。此前会让分组中的兄弟窗口残留在其他窗口后方的若干情况已修复（其他应用的窗口夹在分组成员之间、应用先把先前的 main 窗口而非选中窗口重新提升、Tiley 自身将屏幕外回避窗口动画恢复时被误识为手动拖动等）。</li>
-</ul>
-<h3>变更</h3>
-<ul>
-<li>当应用包含分组配对的布局预设时，如果目标窗口已经属于其他分组，所有窗口不再被合并到一个大分组中。共享窗口成为"窗口锚点"，其原有的分组成员和新预设配对的成员分别作为独立的卫星窗口注册。该模型与应用程序分配预设中已使用的模型相同。每对窗口都拥有各自记忆的布局：点击卫星窗口会将锚点带到前面并恢复该对的保存位置；点击锚点则会将当前最靠前的卫星窗口设为活动对。例如：当已有 A↔B 分组时，应用配对 C↔A 的预设不会破坏 A↔B — 点击 B 时 A 会回到原 A↔B 布局位置与 B 相邻，点击 C 时 A 会按预设的 C↔A 布局位置与 C 排列。活动对仍像以前一样显示链接徽章；切换卫星窗口时会动态重建空间分组</li>
-</ul>]]></description>
-            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
-<ul>
-<li>이미 연결된 창 사이에는 "그룹 만들기" 후보 배지가 표시되지 않습니다 — 프리셋 적용 후 우연히 인접한 쌍, 서로 다른 두 그룹에 속한 쌍, 앱 할당 프리셋의 위성 메커니즘으로 연결된 쌍 모두 해당됩니다.</li>
-<li>연결된 그룹의 배지는 최전면 창이 포함된(또는 위성 메커니즘으로 연결된) 그룹에 대해서만 표시됩니다. 단지 최전면 앱과 같은 앱이라는 이유로 무관한 배경 그룹의 배지가 함께 표시되는 일이 없어졌습니다.</li>
-<li>그룹화된 창을 전면으로 올릴 때(클릭, Tiley 사이드바에서 선택 후 Enter, macOS의 클릭-투-액티베이트 어느 경로든) 그룹 전체가 함께 안정적으로 올라옵니다. 이전에는 형제 창이 다른 창 뒤에 남는 경우가 있었습니다(다른 앱의 창이 그룹 멤버 사이에 끼어 있는 경우, 앱이 이전 main 창을 선택한 창보다 먼저 다시 승격시키는 경우, Tiley 자체의 화면 밖 회피 창 복원 애니메이션이 수동 드래그로 오인되는 경우 등).</li>
-</ul>
-<h3>변경</h3>
-<ul>
-<li>그룹이 설정된 레이아웃 프리셋을 대상 창이 이미 다른 그룹에 속해 있는 상태에서 적용해도 모든 창이 하나의 큰 그룹으로 병합되지 않습니다. 공유된 창이 "창 앵커"가 되고, 기존 파트너와 새로 추가된 프리셋 파트너가 각각 독립된 위성으로 등록됩니다. 이는 앱 할당이 있는 프리셋에서 이미 사용되는 모델과 동일합니다. 각 쌍은 자체 레이아웃을 기억하며, 위성을 클릭하면 앵커가 앞으로 나오고 해당 쌍의 저장된 위치가 복원되고, 앵커를 클릭하면 현재 가장 앞에 있는 위성이 활성 쌍이 됩니다. 예: 기존 A↔B 그룹이 있는 상태에서 C↔A를 페어로 하는 프리셋을 적용해도 A↔B는 유지되며, B를 클릭하면 A가 원래 A↔B 레이아웃의 위치에서 B 옆으로 돌아오고, C를 클릭하면 A가 프리셋의 C↔A 레이아웃 위치에서 C 옆에 정렬됩니다. 활성 쌍에는 이전처럼 링크 배지가 표시되며, 위성을 전환할 때마다 공간 그룹이 동적으로 재구성됩니다</li>
-</ul>]]></description>
-            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
-<ul>
-<li>すでにリンクされているウインドウ間に「グループ化」候補バッジが出ないようになりました — プリセット適用後にたまたま接しているペア、別々のグループに属する 2 つのペア、アプリ割り当て付きプリセットのサテライト機構で繋がっているペアのいずれも対象です。</li>
-<li>リンク済みグループのバッジは、最前面ウインドウが含まれる（または satellite 経由で繋がっている）グループのみ表示するようになりました。最前面アプリと PID を共有しているだけの無関係な背景グループのバッジは出なくなりました。</li>
-<li>グループ化されたウインドウを前面化したとき（クリック、Tiley サイドバーで選択して Enter、macOS のクリック・トゥ・アクティベートのいずれの経路でも）、グループ全体が一緒にきちんと前面に来るようになりました。これまで兄弟ウインドウが他のウインドウの後ろに残ってしまう複数のケース（別アプリのウインドウがメンバー間に挟まっているケース、アプリが以前 main だったウインドウを選択ウインドウより先に再昇格させるケース、Tiley 自身のオフスクリーン退避ウインドウの戻しアニメーションが手動ドラッグと誤認されるケース）を修正しました。</li>
-</ul>
-<h3>変更</h3>
-<ul>
-<li>グループ化が設定されたレイアウトプリセットを、対象ウインドウがすでに別のグループに属している状態で適用しても、すべてが 1 つの大きなグループにマージされなくなりました。共有ウインドウが「ウインドウアンカー」になり、その既存パートナーと新しいプリセットパートナーがそれぞれ独立したサテライトとして登録されます。これはアプリ割り当て付きプリセットで既に使われている仕組みと同じモデルです。各ペアは独自のレイアウト記憶を持ち、サテライトをクリックするとアンカーが前面化されてそのペアの保存位置が復元され、アンカーをクリックすると現在最も前面にあるサテライトがアクティブペアになります。例: 既存の A↔B グループがあるところに C↔A をペアにしたプリセットを適用しても A↔B は維持され、B をクリックすると A が元の A↔B レイアウトの位置で B の隣に戻り、C をクリックすると A がプリセット側の C↔A レイアウトの位置で C の隣に並びます。アクティブなペアにはこれまで通りリンクバッジが表示され、サテライトを切り替えると空間的なグループも動的に組み直されます</li>
-</ul>]]></description>
-            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
-<ul>
-<li>A "form group" candidate badge no longer appears between windows that are already linked — including pairs that happen to touch after a preset apply, pairs from two different existing groups, and pairs already connected through the app-assigned-preset satellite mechanism.</li>
-<li>Linked-group badges now show only for the group containing (or transitively linked to) the frontmost window. Focusing a window no longer surfaces badges for unrelated background groups that happen to share its app.</li>
-<li>Raising a grouped window — by clicking it, by selecting it in the Tiley sidebar and pressing Enter, or via macOS's click-to-activate — now reliably brings the whole group forward together. Several edge cases that previously left a group sibling buried behind another window are fixed (cross-app windows sandwiched between group members, the app's previously-main window being re-promoted ahead of the selection, and Tiley's own off-screen-displacement animation getting mistaken for a manual drag).</li>
-</ul>
-<h3>Changed</h3>
-<ul>
-<li>Applying a layout preset whose grouped pair targets a window that's already part of an existing group no longer merges everything into one larger group. The shared window becomes a window-anchor and each of its partners (the pre-existing group's other members and the newly-applied partner) is registered as a satellite, mirroring the model already used for app-assigned preset slots. Each pair has its own remembered layout: clicking a satellite raises the anchor and restores that pair's positions; clicking the anchor surfaces whichever satellite is currently most frontmost. Example: with an existing A↔B group, applying a preset that pairs C↔A leaves A↔B intact — clicking B brings A back next to B in the original layout, while clicking C brings A next to C in the preset's layout. The active pair shows the linked badge as before; switching between satellites swaps the spatial group dynamically</li>
-</ul>]]></description>
-            <description xml:lang="pt-BR"><![CDATA[<h3>Corrigido</h3>
-<ul>
-<li>Não aparece mais o emblema candidato "Criar grupo" entre janelas já vinculadas — nem entre pares que ficam adjacentes por acaso após uma predefinição, nem entre pares pertencentes a dois grupos distintos, nem entre pares já conectados pelo mecanismo de satélites das predefinições com apps atribuídos.</li>
-<li>Os emblemas de grupos vinculados agora aparecem apenas para o grupo que contém a janela em primeiro plano (ou conectado a ela via satélites). Os emblemas de grupos de fundo não relacionados, que apenas compartilhavam o app da janela focalizada, sumiram.</li>
-<li>Trazer uma janela agrupada para a frente — clicando, selecionando-a na barra lateral do Tiley e pressionando Enter, ou via click-to-activate do macOS — agora traz o grupo inteiro junto de forma confiável. Foram corrigidos vários casos em que uma janela irmã do grupo permanecia atrás de outra janela (janelas de outro app intercaladas entre membros do grupo, o app reascendendo a janela principal anterior em vez da selecionada e a animação de restauração de deslocamento fora da tela do próprio Tiley sendo interpretada como arrasto manual).</li>
-</ul>
-<h3>Alterado</h3>
-<ul>
-<li>Ao aplicar uma predefinição de layout cujo par agrupado afeta uma janela que já faz parte de um grupo existente, tudo não é mais mesclado em um único grupo maior. A janela compartilhada se torna uma "âncora de janela" e cada um de seus parceiros (os outros membros do grupo preexistente e o parceiro recém-adicionado) é registrado como satélite, espelhando o modelo já usado para slots de predefinição atribuídos a aplicativos. Cada par mantém seu próprio layout lembrado: clicar em um satélite traz a âncora para frente e restaura as posições salvas desse par; clicar na âncora faz com que o satélite atualmente mais à frente se torne o par ativo. Exemplo: com um grupo A↔B existente, aplicar uma predefinição que pareia C↔A deixa A↔B intacto — clicar em B traz A de volta ao lado de B no layout A↔B original; clicar em C posiciona A ao lado de C no layout C↔A da predefinição. O par ativo exibe o emblema de vínculo como antes; alternar entre satélites reconstrói dinamicamente o grupo espacial</li>
-</ul>]]></description>
-            <description xml:lang="it"><![CDATA[<h3>Corretto</h3>
-<ul>
-<li>Tra finestre già collegate non compare più il badge candidato «Crea gruppo» — né tra coppie diventate adiacenti per caso dopo l'applicazione di una preimpostazione, né tra coppie appartenenti a due gruppi distinti, né tra coppie già connesse tramite il meccanismo di satellite delle preimpostazioni con app assegnate.</li>
-<li>I badge dei gruppi collegati ora vengono mostrati solo per il gruppo che contiene la finestra in primo piano (o connesso a essa tramite satelliti). I badge di gruppi di sfondo non correlati che condividevano semplicemente l'app della finestra focalizzata sono spariti.</li>
-<li>Portare in primo piano una finestra raggruppata — con un clic, selezionandola nella sidebar di Tiley e premendo Invio, o tramite il click-to-activate di macOS — porta ora avanti l'intero gruppo in modo affidabile. Sono stati corretti diversi casi in cui una finestra sorella del gruppo restava dietro un'altra finestra (finestre di un'altra app intercalate tra membri del gruppo, l'app rialzava la finestra principale precedente al posto di quella selezionata, e l'animazione di ripristino dei decentramenti fuori schermo di Tiley stesso veniva scambiata per un trascinamento manuale).</li>
-</ul>
-<h3>Modificato</h3>
-<ul>
-<li>Applicando una preimpostazione di layout la cui coppia raggruppata coinvolge una finestra già membro di un gruppo esistente, tutto non viene più unito in un unico gruppo più grande. La finestra condivisa diventa un'«ancora finestra» e ciascuno dei suoi partner (gli altri membri del gruppo preesistente e il partner appena aggiunto) viene registrato come satellite, rispecchiando il modello già usato per gli slot di preimpostazione assegnati alle app. Ogni coppia mantiene il proprio layout memorizzato: cliccando su un satellite l'ancora viene portata in primo piano e vengono ripristinate le posizioni salvate di quella coppia; cliccando sull'ancora, il satellite attualmente più in primo piano diventa la coppia attiva. Esempio: con un gruppo A↔B esistente, applicare una preimpostazione che accoppia C↔A lascia A↔B intatto — cliccando B, A torna accanto a B nel layout originale A↔B; cliccando C, A si posiziona accanto a C nel layout C↔A della preimpostazione. La coppia attiva mostra il badge di collegamento come prima; il passaggio tra satelliti ricostruisce dinamicamente il gruppo spaziale</li>
-</ul>]]></description>
-            <description xml:lang="fr"><![CDATA[<h3>Corrigé</h3>
-<ul>
-<li>Plus aucun badge candidat « Créer un groupe » n'apparaît entre des fenêtres déjà liées — qu'il s'agisse de paires devenues adjacentes par hasard après l'application d'un préréglage, de paires appartenant à deux groupes existants distincts, ou de paires déjà connectées via le mécanisme de satellite des préréglages avec applications assignées.</li>
-<li>Les badges des groupes liés ne sont désormais affichés que pour le groupe contenant la fenêtre au premier plan (ou relié à elle via les satellites). Les badges des groupes d'arrière-plan sans rapport, qui partageaient simplement l'application de la fenêtre focalisée, ont disparu.</li>
-<li>Mettre une fenêtre groupée au premier plan — par clic, par sélection dans la barre latérale de Tiley puis Entrée, ou via le clic-pour-activer de macOS — amène désormais l'ensemble du groupe en avant de manière fiable. Plusieurs cas où une fenêtre sœur du groupe restait derrière une autre fenêtre sont corrigés (fenêtres d'une autre application coincées entre des membres du groupe, l'application réascendant la précédente fenêtre principale plutôt que la fenêtre sélectionnée, et l'animation de restauration des décalages hors écran de Tiley elle-même qui était confondue avec un glissement manuel).</li>
-</ul>
-<h3>Modifié</h3>
-<ul>
-<li>L'application d'une préréglage de mise en page dont la paire groupée cible une fenêtre déjà membre d'un groupe existant ne fusionne plus tout en un seul grand groupe. La fenêtre partagée devient une « ancre de fenêtre » et chacun de ses partenaires (les autres membres du groupe préexistant et le partenaire nouvellement ajouté) est enregistré comme satellite, reflétant le modèle déjà utilisé pour les emplacements de préréglage assignés à une application. Chaque paire conserve sa propre disposition mémorisée : cliquer sur un satellite ramène l'ancre au premier plan et restaure les positions sauvegardées de cette paire ; cliquer sur l'ancre fait passer en paire active le satellite actuellement le plus au premier plan. Exemple : avec un groupe A↔B existant, appliquer un préréglage qui appaire C↔A laisse A↔B intact — cliquer sur B ramène A à côté de B dans la disposition originale A↔B ; cliquer sur C place A à côté de C selon la disposition C↔A du préréglage. La paire active affiche le badge de liaison comme avant ; basculer entre satellites reconstruit dynamiquement le groupe spatial</li>
-</ul>]]></description>
-            <description xml:lang="es"><![CDATA[<h3>Corregido</h3>
-<ul>
-<li>Ya no aparece la insignia candidata «Crear grupo» entre ventanas que ya están enlazadas — ni entre pares que tras aplicar un preset quedan adyacentes por casualidad, ni entre pares que pertenecen a dos grupos distintos, ni entre pares ya conectados mediante el mecanismo de satélites de los presets con apps asignadas.</li>
-<li>Las insignias de grupos enlazados ahora se muestran solo para el grupo que contiene la ventana frontal (o que está conectado a ella mediante satélites). Las insignias de grupos de fondo no relacionados que solo compartían la app de la ventana enfocada han desaparecido.</li>
-<li>Llevar una ventana agrupada al frente — haciendo clic, seleccionándola en la barra lateral de Tiley y pulsando Enter, o mediante el click-to-activate de macOS — ahora trae al grupo entero de manera fiable. Se han corregido varios casos en los que una ventana hermana del grupo quedaba detrás de otra ventana (ventanas de otra app intercaladas entre miembros del grupo, la app reascendía la ventana principal anterior por encima de la seleccionada, y la animación de restauración del desplazamiento fuera de pantalla del propio Tiley se confundía con un arrastre manual).</li>
-</ul>
-<h3>Cambiado</h3>
-<ul>
-<li>Al aplicar una preselección de diseño cuyo par agrupado afecta a una ventana que ya forma parte de un grupo existente, ya no se fusiona todo en un único grupo más grande. La ventana compartida se convierte en un «anclaje de ventana» y cada uno de sus compañeros (los demás miembros del grupo preexistente y el compañero recién añadido) se registra como satélite, reflejando el modelo que ya se usa para las ranuras de preselección asignadas a apps. Cada pareja conserva su propio diseño recordado: al hacer clic en un satélite, el anclaje pasa al frente y se restauran las posiciones guardadas de esa pareja; al hacer clic en el anclaje, el satélite que esté más al frente se convierte en la pareja activa. Ejemplo: con un grupo A↔B existente, aplicar una preselección que empareje C↔A deja A↔B intacto — al hacer clic en B, A vuelve junto a B en el diseño original A↔B; al hacer clic en C, A se coloca junto a C en el diseño C↔A de la preselección. La pareja activa muestra la insignia de enlace como antes; al cambiar entre satélites, el grupo espacial se reconstruye dinámicamente</li>
-</ul>]]></description>
-            <description xml:lang="de"><![CDATA[<h3>Behoben</h3>
-<ul>
-<li>Zwischen bereits verknüpften Fenstern erscheint kein „Gruppe bilden"-Kandidaten-Badge mehr — weder zwischen Paaren, die nach einem Preset zufällig aneinanderstoßen, noch zwischen Paaren aus zwei unterschiedlichen bestehenden Gruppen, noch zwischen Paaren, die über den Satelliten-Mechanismus eines app-zugewiesenen Presets verbunden sind.</li>
-<li>Badges verknüpfter Gruppen erscheinen nur noch für die Gruppe, die das vorderste Fenster enthält (oder transitiv über Satelliten daran angeschlossen ist). Badges unbeteiligter Hintergrundgruppen, die nur zufällig die App des fokussierten Fensters teilen, werden nicht mehr eingeblendet.</li>
-<li>Das Anheben eines gruppierten Fensters — per Klick, per Auswahl in der Tiley-Sidebar und Enter oder über macOS' Click-to-activate — bringt die ganze Gruppe nun zuverlässig gemeinsam nach vorn. Mehrere Fälle, in denen ein Geschwisterfenster zuvor hinter einem anderen Fenster verborgen blieb, sind behoben (Fenster fremder Apps, die zwischen Gruppenmitgliedern eingeklemmt waren; das vorher als Hauptfenster gemerkte Fenster derselben App, das vor das ausgewählte Fenster gehoben wurde; Tileys eigene Wiederherstellung der ausgelagerten Fenster, die als manueller Drag missdeutet wurde).</li>
-</ul>
-<h3>Geändert</h3>
-<ul>
-<li>Beim Anwenden eines Layout-Presets, dessen gruppiertes Paar ein Fenster betrifft, das bereits Teil einer bestehenden Gruppe ist, werden nicht mehr alle Fenster in eine einzige größere Gruppe zusammengeführt. Das gemeinsame Fenster wird zu einem „Fenster-Anker" und jeder seiner Partner (die anderen Mitglieder der bestehenden Gruppe sowie der neu hinzugefügte Partner) wird als Satellit registriert — analog zum bereits für app-zugewiesene Preset-Slots verwendeten Modell. Jedes Paar behält sein eigenes gespeichertes Layout: Ein Klick auf einen Satelliten holt den Anker nach vorn und stellt die gespeicherten Positionen dieses Paars wieder her; ein Klick auf den Anker bringt denjenigen Satelliten in den Vordergrund, der derzeit am weitesten vorn ist. Beispiel: Bei einer bestehenden A↔B-Gruppe lässt das Anwenden eines Presets, das C↔A paart, A↔B intakt — ein Klick auf B bringt A im ursprünglichen A↔B-Layout neben B zurück, ein Klick auf C bringt A im Preset-Layout neben C. Das aktive Paar zeigt das verknüpfte Badge wie zuvor; das Wechseln zwischen Satelliten baut die räumliche Gruppe dynamisch um</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hant"><![CDATA[<h3>修正</h3>
-<ul>
-<li>已連結的視窗之間不再顯示「建立群組」候選徽章——包括套用預設後恰好相鄰的視窗對、分屬兩個既有群組的視窗對，以及透過應用程式指派預設的衛星機制連結的視窗對。</li>
-<li>連結群組徽章現在僅對包含最前景視窗（或透過衛星機制與之相連）的群組顯示。僅因與最前景應用程式相同就顯示無關背景群組徽章的問題已修正。</li>
-<li>將群組中的視窗提到前景（無論透過點擊、在 Tiley 側邊欄選擇後按 Enter，還是 macOS 的點擊啟用）現在都會可靠地把整個群組一起帶到前景。先前讓群組兄弟視窗殘留在其他視窗後方的若干情境已修正（其他應用程式的視窗夾在群組成員之間、應用程式先把先前的 main 視窗而非選中視窗重新提升、Tiley 自身的螢幕外迴避視窗還原動畫被誤判為手動拖曳等）。</li>
-</ul>
-<h3>變更</h3>
-<ul>
-<li>當套用包含分組配對的版面配置預設時，若目標視窗已屬於其他分組，所有視窗不再被合併為單一大型分組。共用的視窗會成為「視窗錨點」，其既有的分組成員與新預設配對的成員會分別註冊為獨立的衛星視窗。此模型與應用程式指派預設中已使用的方式相同。每對視窗各自記憶版面配置：點擊衛星視窗會將錨點帶到前景並還原該對的保存位置；點擊錨點則會將目前最靠前的衛星視窗設為活動對。例如：在現有 A↔B 分組之下套用配對 C↔A 的預設不會破壞 A↔B — 點擊 B 時 A 會回到原 A↔B 版面配置位置與 B 相鄰，點擊 C 時 A 會依預設的 C↔A 版面配置位置與 C 並排。活動對依然顯示連結徽章；切換衛星視窗時會動態重建空間分組</li>
-</ul>]]></description>
-            <description xml:lang="zh-Hans"><![CDATA[<h3>修复</h3>
-<ul>
-<li>已经链接的窗口之间不再显示"创建分组"候选徽章——包括应用预设后碰巧相邻的窗口对、分别属于两个不同已有分组的窗口对，以及通过应用程序分配预设的卫星机制连接的窗口对。</li>
-<li>链接分组徽章现在仅对包含最前面窗口（或通过卫星机制与之相连）的分组显示。仅因为与最前面应用属于同一应用就显示无关后台分组的徽章的情况已修复。</li>
-<li>将分组中的窗口提到前台（无论通过点击、在 Tiley 侧边栏中选择并按 Enter，还是通过 macOS 的点击激活）现在都会可靠地把整个分组一起带上来。此前会让分组中的兄弟窗口残留在其他窗口后方的若干情况已修复（其他应用的窗口夹在分组成员之间、应用先把先前的 main 窗口而非选中窗口重新提升、Tiley 自身将屏幕外回避窗口动画恢复时被误识为手动拖动等）。</li>
-</ul>
-<h3>变更</h3>
-<ul>
-<li>当应用包含分组配对的布局预设时，如果目标窗口已经属于其他分组，所有窗口不再被合并到一个大分组中。共享窗口成为"窗口锚点"，其原有的分组成员和新预设配对的成员分别作为独立的卫星窗口注册。该模型与应用程序分配预设中已使用的模型相同。每对窗口都拥有各自记忆的布局：点击卫星窗口会将锚点带到前面并恢复该对的保存位置；点击锚点则会将当前最靠前的卫星窗口设为活动对。例如：当已有 A↔B 分组时，应用配对 C↔A 的预设不会破坏 A↔B — 点击 B 时 A 会回到原 A↔B 布局位置与 B 相邻，点击 C 时 A 会按预设的 C↔A 布局位置与 C 排列。活动对仍像以前一样显示链接徽章；切换卫星窗口时会动态重建空间分组</li>
-</ul>]]></description>
-            <description xml:lang="ko"><![CDATA[<h3>수정</h3>
-<ul>
-<li>이미 연결된 창 사이에는 "그룹 만들기" 후보 배지가 표시되지 않습니다 — 프리셋 적용 후 우연히 인접한 쌍, 서로 다른 두 그룹에 속한 쌍, 앱 할당 프리셋의 위성 메커니즘으로 연결된 쌍 모두 해당됩니다.</li>
-<li>연결된 그룹의 배지는 최전면 창이 포함된(또는 위성 메커니즘으로 연결된) 그룹에 대해서만 표시됩니다. 단지 최전면 앱과 같은 앱이라는 이유로 무관한 배경 그룹의 배지가 함께 표시되는 일이 없어졌습니다.</li>
-<li>그룹화된 창을 전면으로 올릴 때(클릭, Tiley 사이드바에서 선택 후 Enter, macOS의 클릭-투-액티베이트 어느 경로든) 그룹 전체가 함께 안정적으로 올라옵니다. 이전에는 형제 창이 다른 창 뒤에 남는 경우가 있었습니다(다른 앱의 창이 그룹 멤버 사이에 끼어 있는 경우, 앱이 이전 main 창을 선택한 창보다 먼저 다시 승격시키는 경우, Tiley 자체의 화면 밖 회피 창 복원 애니메이션이 수동 드래그로 오인되는 경우 등).</li>
-</ul>
-<h3>변경</h3>
-<ul>
-<li>그룹이 설정된 레이아웃 프리셋을 대상 창이 이미 다른 그룹에 속해 있는 상태에서 적용해도 모든 창이 하나의 큰 그룹으로 병합되지 않습니다. 공유된 창이 "창 앵커"가 되고, 기존 파트너와 새로 추가된 프리셋 파트너가 각각 독립된 위성으로 등록됩니다. 이는 앱 할당이 있는 프리셋에서 이미 사용되는 모델과 동일합니다. 각 쌍은 자체 레이아웃을 기억하며, 위성을 클릭하면 앵커가 앞으로 나오고 해당 쌍의 저장된 위치가 복원되고, 앵커를 클릭하면 현재 가장 앞에 있는 위성이 활성 쌍이 됩니다. 예: 기존 A↔B 그룹이 있는 상태에서 C↔A를 페어로 하는 프리셋을 적용해도 A↔B는 유지되며, B를 클릭하면 A가 원래 A↔B 레이아웃의 위치에서 B 옆으로 돌아오고, C를 클릭하면 A가 프리셋의 C↔A 레이아웃 위치에서 C 옆에 정렬됩니다. 활성 쌍에는 이전처럼 링크 배지가 표시되며, 위성을 전환할 때마다 공간 그룹이 동적으로 재구성됩니다</li>
-</ul>]]></description>
-            <description xml:lang="ja"><![CDATA[<h3>修正</h3>
-<ul>
-<li>すでにリンクされているウインドウ間に「グループ化」候補バッジが出ないようになりました — プリセット適用後にたまたま接しているペア、別々のグループに属する 2 つのペア、アプリ割り当て付きプリセットのサテライト機構で繋がっているペアのいずれも対象です。</li>
-<li>リンク済みグループのバッジは、最前面ウインドウが含まれる（または satellite 経由で繋がっている）グループのみ表示するようになりました。最前面アプリと PID を共有しているだけの無関係な背景グループのバッジは出なくなりました。</li>
-<li>グループ化されたウインドウを前面化したとき（クリック、Tiley サイドバーで選択して Enter、macOS のクリック・トゥ・アクティベートのいずれの経路でも）、グループ全体が一緒にきちんと前面に来るようになりました。これまで兄弟ウインドウが他のウインドウの後ろに残ってしまう複数のケース（別アプリのウインドウがメンバー間に挟まっているケース、アプリが以前 main だったウインドウを選択ウインドウより先に再昇格させるケース、Tiley 自身のオフスクリーン退避ウインドウの戻しアニメーションが手動ドラッグと誤認されるケース）を修正しました。</li>
-</ul>
-<h3>変更</h3>
-<ul>
-<li>グループ化が設定されたレイアウトプリセットを、対象ウインドウがすでに別のグループに属している状態で適用しても、すべてが 1 つの大きなグループにマージされなくなりました。共有ウインドウが「ウインドウアンカー」になり、その既存パートナーと新しいプリセットパートナーがそれぞれ独立したサテライトとして登録されます。これはアプリ割り当て付きプリセットで既に使われている仕組みと同じモデルです。各ペアは独自のレイアウト記憶を持ち、サテライトをクリックするとアンカーが前面化されてそのペアの保存位置が復元され、アンカーをクリックすると現在最も前面にあるサテライトがアクティブペアになります。例: 既存の A↔B グループがあるところに C↔A をペアにしたプリセットを適用しても A↔B は維持され、B をクリックすると A が元の A↔B レイアウトの位置で B の隣に戻り、C をクリックすると A がプリセット側の C↔A レイアウトの位置で C の隣に並びます。アクティブなペアにはこれまで通りリンクバッジが表示され、サテライトを切り替えると空間的なグループも動的に組み直されます</li>
-</ul>]]></description>
-            <description xml:lang="en"><![CDATA[<h3>Fixed</h3>
-<ul>
-<li>A "form group" candidate badge no longer appears between windows that are already linked — including pairs that happen to touch after a preset apply, pairs from two different existing groups, and pairs already connected through the app-assigned-preset satellite mechanism.</li>
-<li>Linked-group badges now show only for the group containing (or transitively linked to) the frontmost window. Focusing a window no longer surfaces badges for unrelated background groups that happen to share its app.</li>
-<li>Raising a grouped window — by clicking it, by selecting it in the Tiley sidebar and pressing Enter, or via macOS's click-to-activate — now reliably brings the whole group forward together. Several edge cases that previously left a group sibling buried behind another window are fixed (cross-app windows sandwiched between group members, the app's previously-main window being re-promoted ahead of the selection, and Tiley's own off-screen-displacement animation getting mistaken for a manual drag).</li>
-</ul>
-<h3>Changed</h3>
-<ul>
-<li>Applying a layout preset whose grouped pair targets a window that's already part of an existing group no longer merges everything into one larger group. The shared window becomes a window-anchor and each of its partners (the pre-existing group's other members and the newly-applied partner) is registered as a satellite, mirroring the model already used for app-assigned preset slots. Each pair has its own remembered layout: clicking a satellite raises the anchor and restores that pair's positions; clicking the anchor surfaces whichever satellite is currently most frontmost. Example: with an existing A↔B group, applying a preset that pairs C↔A leaves A↔B intact — clicking B brings A back next to B in the original layout, while clicking C brings A next to C in the preset's layout. The active pair shows the linked badge as before; switching between satellites swaps the spatial group dynamically</li>
-</ul>]]></description>
-            <pubDate>Sun, 26 Apr 2026 23:55:44 +0900</pubDate>
-            <sparkle:version>512</sparkle:version>
-            <sparkle:shortVersionString>5.1.2</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.6</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.4/Tiley-5.1.2.zip" length="6473133" type="application/octet-stream" sparkle:edSignature="O4QLskG/YrYxX69ce5USPGgBIh1nPVHFSNqrtag0BEV8aIfEF85UNApwJMh1DeAj9DwnkQpOfIeox13OqErBCQ=="/>
-            <sparkle:deltas>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.2/Tiley512-511.delta" sparkle:deltaFrom="511" length="401290" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="wZ51Fjwkd6JQFQPKtuiHmKHhEqAtPk8p5MYRklXCuk8QkFl2fvijtJ9x/pIAW2zo+QE8KQkXa6Q8qBAZ0i8gDg=="/>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.2/Tiley512-510.delta" sparkle:deltaFrom="510" length="643174" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="9IK0kpjuuWEE5gG8rNFzJvWuV3h5eXD0JB4tjr7XDmxVZ7pVywKb2hfd/AP75NARtbe35LtVZDCS1yJ3sD4sBw=="/>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.2/Tiley512-501.delta" sparkle:deltaFrom="501" length="1134630" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="XcGJj3zcy5Y7sbhmWSfIt1DK3/ijg6qOyPhgfaw/EtthQ94re9O9YlzxKfEmnhylLk02ZMxXzVTAEb4SHAxpDw=="/>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.2/Tiley512-500.delta" sparkle:deltaFrom="500" length="1136346" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="JZJcIcPt2TXFD/K2GGoeYCgNHg6ybOVWpYm7fVlxUNpbcsMUWXRJ3HFbzLug4C5znInpKujgBIP/HuApqXFABA=="/>
-                <enclosure url="https://github.com/yusuke/tiley/releases/download/v5.1.2/Tiley512-443.delta" sparkle:deltaFrom="443" length="1232002" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="s+amjEiGv5i4UG5c26Qt/syzIysnOHi50Z+YngG6AX+0V5XH7eI4sznULt9DR9ndcbzJkpnv6+F5lHcaADTLDg=="/>
             </sparkle:deltas>
         </item>
     </channel>
