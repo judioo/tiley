@@ -591,7 +591,6 @@ final class AppState: NSObject, NSMenuDelegate {
         isShowingLayoutGrid = false
         refreshAccessibilityState()
         installWorkspaceObserver()
-        installGroupObservation()
         applyStatusItemVisibility()
         applyDockIconVisibility(isInitialStartup: true)
         installHotKeyHandler()
@@ -686,6 +685,9 @@ final class AppState: NSObject, NSMenuDelegate {
     func requestAccessibilityAccess() {
         accessibilityGranted = accessibilityService.checkAccess(prompt: true)
         if accessibilityGranted {
+            if windowObservationService == nil {
+                installGroupObservation()
+            }
             dismissPermissionsOnly()
         }
         updateStatusMenu()

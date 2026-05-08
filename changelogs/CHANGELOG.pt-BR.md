@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Corrigido
+
+- No primeiro lançamento em um Mac novo, não aparece mais uma caixa de diálogo de permissão espúria de "Recepção de teclas" (Monitoramento de entrada). A caixa surgia porque o Tiley criava um `CGEventTap` para monitorar cliques do mouse antes de a Acessibilidade ser concedida; o tap agora é criado de forma adiada, no exato momento em que a Acessibilidade passa a ser concedida, fazendo com que o macOS trate a criação do tap como coberta pela aprovação de Acessibilidade e dispense completamente o aviso de Monitoramento de entrada.
+- Após conceder a Acessibilidade pela primeira vez e voltar para o Tiley, a lista de janelas da barra lateral e a grade de layout agora são preenchidas imediatamente, em vez de ficarem presas em "Nenhuma janela". Antes, o cache da lista de janelas era preenchido com um resultado vazio enquanto a Acessibilidade estava ausente e depois tratado como autoritativo após a permissão; agora a atualização do cache é ignorada sem Acessibilidade e, no caminho de retorno após a concessão, a grade de layout é ativada explicitamente e uma nova captura é disparada.
+
 ## [5.1.5] - 2026-05-08
 
 ### Corrigido

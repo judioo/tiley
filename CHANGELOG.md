@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- First-launch experience on a fresh machine no longer surfaces a spurious Input Monitoring permission dialog. The dialog was triggered by Tiley creating a `CGEventTap` for mouse-only click monitoring before Accessibility had been granted; the tap is now installed lazily, the moment Accessibility transitions to granted, so macOS treats the tap creation as covered by the existing Accessibility approval and skips the Input Monitoring prompt entirely.
+- After granting Accessibility for the first time and returning to Tiley, the sidebar window list and the layout grid now populate immediately instead of staying stuck on "No windows". The window-list cache was previously being filled with an empty result while Accessibility was missing and then trusted as authoritative once permission was granted; the cache refresh is now skipped without Accessibility, and the post-grant return path explicitly enables the layout grid and kicks off a fresh capture.
+
 ## [5.1.5] - 2026-05-08
 
 ### Fixed

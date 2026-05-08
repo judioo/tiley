@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Behoben
+
+- Beim ersten Start auf einem frischen Mac erscheint kein überflüssiger Berechtigungsdialog "Tasteneingaben empfangen" (Eingabeüberwachung) mehr. Der Dialog wurde dadurch ausgelöst, dass Tiley einen `CGEventTap` für die Mausklick-Überwachung anlegte, bevor die Bedienungshilfen-Berechtigung erteilt war. Der Tap wird jetzt erst in dem Moment erstellt, in dem die Bedienungshilfen-Freigabe erfolgt; macOS behandelt die Tap-Erstellung dann als von der bestehenden Bedienungshilfen-Zustimmung gedeckt und überspringt die Eingabeüberwachungs-Abfrage komplett.
+- Nach dem erstmaligen Erteilen der Bedienungshilfen und der Rückkehr zu Tiley füllen sich die Fensterliste in der Seitenleiste und das Layout-Raster jetzt sofort, statt im Zustand "Keine Fenster" zu verharren. Zuvor wurde der Fensterlisten-Cache bereits ohne Bedienungshilfen mit einem leeren Ergebnis befüllt und nach der Freigabe als verbindlich behandelt; der Cache-Refresh wird nun ohne Bedienungshilfen übersprungen, und der Rückkehrpfad nach der Freigabe aktiviert das Layout-Raster explizit und stößt eine frische Erfassung an.
+
 ## [5.1.5] - 2026-05-08
 
 ### Behoben

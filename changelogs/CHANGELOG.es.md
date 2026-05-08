@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Corregido
+
+- En la primera ejecución sobre un Mac nuevo ya no aparece un diálogo de permiso espurio de "Recepción de pulsaciones de teclas" (Monitoreo de entradas). El diálogo se debía a que Tiley creaba un `CGEventTap` para vigilar los clics del ratón antes de que se concediera el permiso de Accesibilidad; ahora el tap se crea de forma diferida en el mismo instante en que Accesibilidad pasa a estar concedido, de modo que macOS considera la creación del tap cubierta por la aprobación de Accesibilidad y omite por completo la solicitud de Monitoreo de entradas.
+- Tras conceder Accesibilidad por primera vez y regresar a Tiley, la lista de ventanas de la barra lateral y la cuadrícula de diseño ahora se rellenan de inmediato en lugar de quedarse atascadas en "Sin ventanas". La caché de la lista de ventanas se llenaba con un resultado vacío mientras Accesibilidad faltaba y luego se trataba como autorizada al obtener el permiso; ahora la actualización de la caché se omite sin Accesibilidad y, en el camino de regreso tras la concesión, se activa explícitamente la cuadrícula de diseño y se dispara una captura nueva.
+
 ## [5.1.5] - 2026-05-08
 
 ### Corregido

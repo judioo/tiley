@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Corretto
+
+- Al primo avvio su un Mac nuovo non compare più una finestra di richiesta di autorizzazione spuria "Ricezione della pressione dei tasti" (Monitoraggio degli input). La finestra veniva mostrata perché Tiley creava un `CGEventTap` per il monitoraggio dei clic del mouse prima che l'Accessibilità fosse concessa; il tap viene ora creato in modo differito, nel momento esatto in cui l'Accessibilità passa allo stato concesso, così macOS considera la creazione del tap coperta dall'approvazione dell'Accessibilità e salta del tutto la richiesta di Monitoraggio degli input.
+- Dopo aver concesso l'Accessibilità per la prima volta ed essere tornati a Tiley, l'elenco delle finestre nella barra laterale e la griglia di layout ora si popolano immediatamente invece di restare bloccati su "Nessuna finestra". In precedenza la cache dell'elenco delle finestre veniva riempita con un risultato vuoto mentre l'Accessibilità mancava e poi trattata come affidabile una volta ottenuto il permesso; ora l'aggiornamento della cache viene saltato senza Accessibilità e, nel percorso di ritorno dopo la concessione, la griglia di layout viene attivata esplicitamente e si avvia una nuova cattura.
+
 ## [5.1.5] - 2026-05-08
 
 ### Corretto

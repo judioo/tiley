@@ -192,6 +192,11 @@ extension AppState {
         // handles the live list and we don't want to interfere.
         guard !isShowingLayoutGrid else { return }
         guard let wm = windowManager else { return }
+        // Without accessibility, captureAllWindows returns ([], [], []). Caching
+        // that would set `hasWindowListCache = true` with empty data, and after
+        // the user grants accessibility `initialLayoutTarget()` would trust the
+        // cache and return nil — leaving the sidebar empty ("ウインドウなし").
+        guard accessibilityGranted else { return }
         windowListCacheTask?.cancel()
         windowListCacheTask = Task.detached { [weak self] in
             // Small debounce so rapid events (e.g. several apps activating in
@@ -230,14 +235,39 @@ extension AppState {
         dismissPermissionsOnly()
         activeLayoutTarget = initialLayoutTarget()
         if let activeLayoutTarget {
-            isShowingLayoutGrid = true
             launchMessage = String(
                 format: NSLocalizedString("Select a layout region for %@.", comment: "Prompt to select region for app"),
                 activeLayoutTarget.appName
             )
+        } else if let lastTargetPID,
+                  let appName = NSRunningApplication(processIdentifier: lastTargetPID)?.localizedName {
+            launchMessage = String(
+                format: NSLocalizedString("Select a layout region for %@.", comment: "Prompt to select region for app"),
+                appName
+            )
         } else {
             launchMessage = NSLocalizedString("Activate the window you want to arrange, then choose Show Layout Grid.", comment: "Prompt to activate target window")
         }
+        // Setting isShowingLayoutGrid = true here mirrors start()'s behavior
+        // and is required so refreshAvailableWindows()'s async callback
+        // applies the result (it bails out when isShowingLayoutGrid is false).
+        isShowingLayoutGrid = true
         openMainWindow()
+        // Mirror the start() Phase-2 sidebar bootstrap: populate from cache if
+        // available, otherwise show the spinner; then kick off a fresh capture.
+        // Without this the sidebar stays "ウインドウなし" after the user grants
+        // accessibility and returns to Tiley, since start()'s window-list path
+        // was skipped while accessibility was missing.
+        if hasWindowListCache {
+            realignCacheWithLiveZOrder()
+            availableWindowTargets = cachedWindowTargets
+            spaceList = cachedSpaceList
+            activeSpaceIDs = cachedActiveSpaceIDs
+            windowTargetListVersion += 1
+            isLoadingWindowList = false
+        } else {
+            isLoadingWindowList = true
+        }
+        refreshAvailableWindows(snapToFreshTop: true)
     }
 }

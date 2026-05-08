@@ -200,7 +200,23 @@ extension AppState {
     // MARK: - Accessibility
 
     func refreshAccessibilityState() {
+        let wasGranted = accessibilityGranted
         accessibilityGranted = accessibilityService.checkAccess(prompt: false)
+        // Install group observation lazily once accessibility is granted.
+        // Doing this earlier creates a CGEventTap before the user has
+        // approved Accessibility, which causes macOS to show a "key event
+        // reception" (Input Monitoring) prompt on first launch even though
+        // Tiley only taps mouse events.
+        if accessibilityGranted, windowObservationService == nil {
+            installGroupObservation()
+        }
+        // On the false→true transition, kick off a cache refresh so the
+        // sidebar has real data ready by the time the user returns to Tiley.
+        // (While accessibility was missing, scheduleWindowListCacheRefresh
+        // was a no-op so the cache is empty.)
+        if accessibilityGranted, !wasGranted {
+            scheduleWindowListCacheRefresh()
+        }
     }
 
     // MARK: - Target App Reactivation

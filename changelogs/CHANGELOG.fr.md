@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Corrigé
+
+- Au premier lancement sur un Mac neuf, plus aucune boîte de dialogue d'autorisation parasite "Réception des frappes" (Surveillance de l'entrée) ne s'affiche. Cette boîte apparaissait parce que Tiley créait un `CGEventTap` pour surveiller les clics de souris avant l'octroi de l'Accessibilité ; le tap est désormais créé de manière différée, au moment précis où l'Accessibilité passe à accordée, ce qui amène macOS à considérer la création du tap comme couverte par l'autorisation d'Accessibilité et à omettre entièrement l'invite de Surveillance de l'entrée.
+- Après avoir accordé l'Accessibilité pour la première fois et être revenu sur Tiley, la liste des fenêtres de la barre latérale et la grille de disposition se remplissent désormais immédiatement au lieu de rester bloquées sur "Aucune fenêtre". Le cache de la liste des fenêtres était auparavant rempli avec un résultat vide tant que l'Accessibilité manquait, puis traité comme faisant autorité une fois l'autorisation accordée ; le rafraîchissement du cache est désormais ignoré sans Accessibilité, et le chemin de retour après l'octroi active explicitement la grille de disposition et déclenche une nouvelle capture.
+
 ## [5.1.5] - 2026-05-08
 
 ### Corrigé
