@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.6] - 2026-05-08
+
 ### Behoben
 
 - Beim ersten Start auf einem frischen Mac erscheint kein überflüssiger Berechtigungsdialog "Tasteneingaben empfangen" (Eingabeüberwachung) mehr. Der Dialog wurde dadurch ausgelöst, dass Tiley einen `CGEventTap` für die Mausklick-Überwachung anlegte, bevor die Bedienungshilfen-Berechtigung erteilt war. Der Tap wird jetzt erst in dem Moment erstellt, in dem die Bedienungshilfen-Freigabe erfolgt; macOS behandelt die Tap-Erstellung dann als von der bestehenden Bedienungshilfen-Zustimmung gedeckt und überspringt die Eingabeüberwachungs-Abfrage komplett.

@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.6] - 2026-05-08
+
 ### Corrigé
 
 - Au premier lancement sur un Mac neuf, plus aucune boîte de dialogue d'autorisation parasite "Réception des frappes" (Surveillance de l'entrée) ne s'affiche. Cette boîte apparaissait parce que Tiley créait un `CGEventTap` pour surveiller les clics de souris avant l'octroi de l'Accessibilité ; le tap est désormais créé de manière différée, au moment précis où l'Accessibilité passe à accordée, ce qui amène macOS à considérer la création du tap comme couverte par l'autorisation d'Accessibilité et à omettre entièrement l'invite de Surveillance de l'entrée.

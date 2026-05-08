@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [5.1.6] - 2026-05-08
+
 ### Fixed
 
 - First-launch experience on a fresh machine no longer surfaces a spurious Input Monitoring permission dialog. The dialog was triggered by Tiley creating a `CGEventTap` for mouse-only click monitoring before Accessibility had been granted; the tap is now installed lazily, the moment Accessibility transitions to granted, so macOS treats the tap creation as covered by the existing Accessibility approval and skips the Input Monitoring prompt entirely.
@@ -839,7 +841,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Localization: English, Japanese, Korean, Simplified Chinese, Traditional Chinese
 
 
-[Unreleased]: https://github.com/yusuke/tiley/compare/v5.1.5...HEAD
+[Unreleased]: https://github.com/yusuke/tiley/compare/v5.1.6...HEAD
+[5.1.6]: https://github.com/yusuke/tiley/releases/tag/v5.1.6
 [5.1.5]: https://github.com/yusuke/tiley/releases/tag/v5.1.5
 [5.1.4]: https://github.com/yusuke/tiley/releases/tag/v5.1.4
 [5.1.3]: https://github.com/yusuke/tiley/releases/tag/v5.1.3

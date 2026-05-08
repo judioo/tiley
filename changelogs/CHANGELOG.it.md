@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.6] - 2026-05-08
+
 ### Corretto
 
 - Al primo avvio su un Mac nuovo non compare più una finestra di richiesta di autorizzazione spuria "Ricezione della pressione dei tasti" (Monitoraggio degli input). La finestra veniva mostrata perché Tiley creava un `CGEventTap` per il monitoraggio dei clic del mouse prima che l'Accessibilità fosse concessa; il tap viene ora creato in modo differito, nel momento esatto in cui l'Accessibilità passa allo stato concesso, così macOS considera la creazione del tap coperta dall'approvazione dell'Accessibilità e salta del tutto la richiesta di Monitoraggio degli input.

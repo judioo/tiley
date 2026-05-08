@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.6] - 2026-05-08
+
 ### Corregido
 
 - En la primera ejecución sobre un Mac nuevo ya no aparece un diálogo de permiso espurio de "Recepción de pulsaciones de teclas" (Monitoreo de entradas). El diálogo se debía a que Tiley creaba un `CGEventTap` para vigilar los clics del ratón antes de que se concediera el permiso de Accesibilidad; ahora el tap se crea de forma diferida en el mismo instante en que Accesibilidad pasa a estar concedido, de modo que macOS considera la creación del tap cubierta por la aprobación de Accesibilidad y omite por completo la solicitud de Monitoreo de entradas.
