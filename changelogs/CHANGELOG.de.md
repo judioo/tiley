@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.8] - 2026-05-09
+
 ### Behoben
 
 - Bei gruppierten Fenstern mit deckungsgleicher Ober- und Unterkante bleibt die Höhe nun auch beim Vergrößern bündig, nicht mehr nur beim Verkleinern. Der Frame-Setter des Folgefensters setzte zuerst die Größe und dann die Position; ein Vergrößern, das das Fenster oben über die Menüleiste bzw. den Bildschirmrand drücken würde, wurde von der App stillschweigend gedeckelt — die Unterkante folgte dem Drag, aber die Oberkante driftete nach unten. Der Setter bewegt das Folgefenster jetzt zunächst an seine geplante Endposition und setzt erst dann die neue Größe; ein abschließender Positions-Fixup auf Basis der von der App tatsächlich akzeptierten Größe hält die Kontaktkante auch dann stabil, wenn Min-/Max-Beschränkungen greifen. Beim Loslassen der Drag-Geste rastet ein zusätzlicher Snap-Schritt die laut Cache eigentlich bündigen Ober-/Unter- bzw. Links-/Rechtskanten ein und korrigiert so jede verbliebene Pixel-Abweichung gegenüber der Quelle.

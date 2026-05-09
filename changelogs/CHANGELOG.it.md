@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.8] - 2026-05-09
+
 ### Corretto
 
 - Nelle finestre raggruppate con i bordi superiore e inferiore allineati, le altezze ora restano allineate anche quando si aumentano e non solo quando si riducono. Il setter di frame della finestra follower applicava prima la dimensione e poi la posizione; un ingrandimento che avrebbe spinto il bordo superiore oltre la barra dei menu o il bordo dello schermo veniva silenziosamente limitato dall'app — la base seguiva il trascinamento, ma il bordo superiore scivolava verso il basso. Il setter ora preposiziona il follower nella sua collocazione finale prevista prima di applicare la nuova dimensione; un fix finale di posizione basato sulla dimensione effettivamente accettata dall'app mantiene fissato il bordo di contatto anche quando entrano in gioco i vincoli min/max. Al rilascio del trascinamento, un passaggio di "snap" finale riallinea i bordi superiore/inferiore (o sinistro/destro) che la cache considerava allineati con la sorgente, eliminando gli scostamenti residui di pochi pixel.

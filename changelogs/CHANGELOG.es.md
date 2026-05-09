@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.8] - 2026-05-09
+
 ### Corregido
 
 - En las ventanas agrupadas con bordes superior e inferior alineados, las alturas ahora se mantienen alineadas también al crecer, no solo al reducir. El asignador de frame de la ventana seguidora aplicaba antes el tamaño y luego la posición, por lo que un crecimiento que empujaba el borde superior por encima de la barra de menús o del borde de pantalla provocaba que la app capara silenciosamente el tamaño: la base seguía al arrastre, pero el borde superior se desplazaba hacia abajo. Ahora el asignador preposiciona la seguidora en su sitio final previsto antes de aplicar el nuevo tamaño; un ajuste final de posición basado en el tamaño que la app realmente aceptó conserva el borde de contacto aun cuando entren en juego los límites mínimo/máximo. Al soltar el arrastre, un paso de "snap" final fuerza a los bordes superior/inferior (o izquierdo/derecho) que la caché marcaba como alineados a coincidir exactamente con la fuente, eliminando los desfases residuales de unos pocos píxeles.

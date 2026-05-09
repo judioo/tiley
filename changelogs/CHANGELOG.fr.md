@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.8] - 2026-05-09
+
 ### Corrigé
 
 - Dans les fenêtres groupées dont les bords haut et bas sont alignés, les hauteurs restent désormais alignées lorsqu'on agrandit la hauteur, et plus uniquement lorsqu'on la réduit. Le « setter » de cadre de la fenêtre suiveuse appliquait d'abord la taille puis la position ; un agrandissement qui aurait fait dépasser le bord supérieur derrière la barre des menus ou le bord d'écran était silencieusement plafonné par l'app — le bas suivait le drag, mais le haut dérivait vers le bas. Le setter pré-positionne maintenant la suiveuse à son emplacement final prévu avant d'appliquer la nouvelle taille ; une correction finale de position basée sur la taille réellement acceptée par l'app maintient le bord de contact stable, même quand des contraintes min/max entrent en jeu. Au relâchement du drag, une passe de « snap » finale recale les bords haut/bas (ou gauche/droite) que le cache considérait comme alignés sur ceux de la source, supprimant ainsi les décalages résiduels de quelques pixels.
