@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Corrigido
+
+- Em janelas agrupadas com bordas superior e inferior alinhadas, as alturas agora se mantêm alinhadas também ao crescer, e não apenas ao encolher. O setter de frame da janela seguidora aplicava primeiro o tamanho e depois a posição; um crescimento que empurraria a borda superior para além da barra de menus ou do limite da tela era silenciosamente limitado pelo app — a base seguia o arrasto, mas a borda superior escorregava para baixo. Agora o setter pré-posiciona a seguidora no seu destino final pretendido antes de aplicar o novo tamanho; um ajuste final de posição baseado no tamanho que o app de fato aceitou mantém a borda de contato fixa mesmo quando restrições mín./máx. entram em ação. Ao soltar o arrasto, um passo final de "snap" alinha as bordas superior/inferior (ou esquerda/direita) que o cache considerava alinhadas exatamente às da fonte, eliminando defasagens residuais de poucos pixels.
+
 ## [5.1.7] - 2026-05-08
 
 ### Removido

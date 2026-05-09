@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Grouped windows with aligned tops and bottoms now stay aligned when growing the height, not only when shrinking it. The follower's frame setter set size before position, so a grow that would push the window's top past the menu bar / screen edge was silently capped by the app — the bottom matched the source's drag but the top drifted down. The setter now pre-positions the follower to its intended final spot before applying the new size, so the resize lands at full height; a final position fixup based on the size the app actually accepted still preserves the contact edge if min/max constraints kick in. On drag release, a perpendicular-edge snap pass also forces any leftover few-pixel mismatch on the previously-aligned top/bottom edges back into alignment.
+
 ## [5.1.7] - 2026-05-08
 
 ### Removed

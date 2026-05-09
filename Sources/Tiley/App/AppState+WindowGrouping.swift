@@ -1910,6 +1910,83 @@ extension AppState {
                 }
                 didFix = true
             }
+
+            // === Perpendicular-edge alignment (final snap on release) ===
+            // Per-tick app-side size constraints can leave the follower's
+            // perpendicular edges (top/bottom for horizontal adjacencies,
+            // left/right for vertical) a few pixels off from where the cache
+            // says they should align with the source. Re-read live frames
+            // and, for any edge the cache marks as "shared", resize the
+            // follower so that edge snaps to the source's live edge.
+            //
+            // Done as a small verify-and-retry loop because some apps
+            // asynchronously settle their frame a few ms after a setFrame
+            // returns; a single-shot snap can leave a few pixels of residue
+            // that only become visible after the AX echo lands.
+            let alignTolerance = max(WindowAdjacencyDetector.defaultEdgeEpsilon, gap + 4.0)
+            let sourceCached = group.lastKnownFrames[lastSourceID]
+                ?? liveFrame(of: lastSourceID) ?? .zero
+            let followerCached = group.lastKnownFrames[otherID]
+                ?? liveFrame(of: otherID) ?? .zero
+
+            let sharesMinY: Bool, sharesMaxY: Bool, sharesMinX: Bool, sharesMaxX: Bool
+            switch sourceEdge {
+            case .right, .left:
+                sharesMinY = abs(sourceCached.minY - followerCached.minY) <= alignTolerance
+                sharesMaxY = abs(sourceCached.maxY - followerCached.maxY) <= alignTolerance
+                sharesMinX = false; sharesMaxX = false
+            case .top, .bottom:
+                sharesMinY = false; sharesMaxY = false
+                sharesMinX = abs(sourceCached.minX - followerCached.minX) <= alignTolerance
+                sharesMaxX = abs(sourceCached.maxX - followerCached.maxX) <= alignTolerance
+            }
+
+            if sharesMinY || sharesMaxY || sharesMinX || sharesMaxX {
+                guard let target = availableWindowTargets.first(where: { $0.cgWindowID == otherID }),
+                      let window = target.windowElement else { continue }
+                for snapRetry in 0..<5 {
+                    guard let lvSrc = liveFrame(of: lastSourceID),
+                          let lvFol = liveFrame(of: otherID) else { break }
+
+                    let targetMinY = sharesMinY ? lvSrc.minY : lvFol.minY
+                    let targetMaxY = sharesMaxY ? lvSrc.maxY : lvFol.maxY
+                    let targetMinX = sharesMinX ? lvSrc.minX : lvFol.minX
+                    let targetMaxX = sharesMaxX ? lvSrc.maxX : lvFol.maxX
+
+                    var corrected = lvFol
+                    var alignChanged = false
+                    if sharesMinY || sharesMaxY {
+                        if abs(targetMinY - lvFol.minY) > 0.5 || abs(targetMaxY - lvFol.maxY) > 0.5 {
+                            corrected.origin.y = targetMinY
+                            corrected.size.height = max(50, targetMaxY - targetMinY)
+                            alignChanged = true
+                        }
+                    }
+                    if sharesMinX || sharesMaxX {
+                        if abs(targetMinX - lvFol.minX) > 0.5 || abs(targetMaxX - lvFol.maxX) > 0.5 {
+                            corrected.origin.x = targetMinX
+                            corrected.size.width = max(50, targetMaxX - targetMinX)
+                            alignChanged = true
+                        }
+                    }
+
+                    if !alignChanged {
+                        debugLog("WindowGrouping: perpendicular align stable after retry=\(snapRetry)")
+                        break
+                    }
+
+                    debugLog("WindowGrouping: perpendicular align (\(sourceEdge.rawValue)) retry=\(snapRetry) follower=\(otherID) live=\(lvFol) corrected=\(corrected)")
+                    isApplyingGroupTransform = true
+                    accessibilityService.setFrameLightweight(corrected, on: target.screenFrame, for: window)
+                    recentlySetFrames[otherID] = (corrected, CFAbsoluteTimeGetCurrent())
+                    group.lastKnownFrames[otherID] = corrected
+                    didFix = true
+
+                    // Brief pause so the AX echo of our set has time to
+                    // propagate into the live frame on the next read.
+                    if snapRetry < 4 { usleep(15_000) }
+                }
+            }
         }
         windowGroups[gid] = group
 
@@ -2111,10 +2188,12 @@ extension AppState {
             let desiredFrame = CGRect(x: newMinX, y: newMinY, width: applyWidth, height: applyHeight)
 
             // Use the "preserve non-contact edge" setter:
-            // set size first → read the size the app actually accepted → compute
-            // position so the non-contact edge stays fixed at that size.
-            // This keeps the follower's fixed edge from drifting even when the
-            // app enforces a min size.
+            // pre-position → set size → read actual size → re-position based on
+            // actual size so the non-contact edge stays fixed.
+            // The pre-position gives a grow operation room above/below so the
+            // app doesn't silently cap the size at the menu bar / screen edge.
+            // The final re-position keeps the contact edge fixed even when the
+            // app enforces a min/max size.
             let preservedEdgeValue: CGFloat
             switch sourceEdge {
             case .right:  preservedEdgeValue = otherOld.maxX

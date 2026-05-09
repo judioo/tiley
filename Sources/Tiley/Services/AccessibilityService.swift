@@ -402,10 +402,20 @@ final class AccessibilityService {
     /// Sets the window's frame while keeping a specified edge pinned.
     /// Used by the group resize linkage to strictly preserve the follower's
     /// non-contact edge (e.g. follower.maxX when sourceEdge == .right).
-    /// Flow: set size first → read the size the app actually accepted → derive
-    /// the position that leaves `preservedEdgeValue` fixed at that size → set
-    /// position. This means the preserved edge does not drift even when the
-    /// app enforces a minimum size.
+    ///
+    /// Flow: pre-position to the intended final spot (assuming the desired
+    /// size is honored) → set size → read the size the app actually accepted
+    /// → re-derive the position that leaves `preservedEdgeValue` fixed at
+    /// that size → set position.
+    ///
+    /// The pre-position step is what makes growing work symmetrically with
+    /// shrinking. If we set size first at the OLD position, a grow that
+    /// would extend the window past the menu bar / screen edge (or past any
+    /// app-side "fit-on-screen" constraint) gets silently capped, which
+    /// then makes the perpendicular edge drift. Pre-positioning gives the
+    /// grow operation room to land at full size; the final position fixup
+    /// still preserves the contact edge if the app does cap the size.
+    ///
     /// Return value: the size the app actually applied. The caller can use it
     /// to determine whether the strict-size request was honored.
     @discardableResult
@@ -416,41 +426,46 @@ final class AccessibilityService {
         on screenFrame: CGRect,
         for window: AXUIElement
     ) -> CGSize {
-        // 1. Set the size first.
+        let primaryMaxY = NSScreen.screens.first?.frame.maxY ?? screenFrame.maxY
+
+        func appKitOrigin(for size: CGSize) -> CGPoint {
+            switch edge {
+            case .right:  return CGPoint(x: preservedEdgeValue - size.width, y: frame.minY)
+            case .left:   return CGPoint(x: preservedEdgeValue, y: frame.minY)
+            case .top:    return CGPoint(x: frame.minX, y: preservedEdgeValue - size.height)
+            case .bottom: return CGPoint(x: frame.minX, y: preservedEdgeValue)
+            }
+        }
+        func setAXPosition(_ appKit: CGPoint, height: CGFloat) {
+            var axOrigin = CGPoint(x: appKit.x, y: primaryMaxY - (appKit.y + height))
+            if let pv = AXValueCreate(.cgPoint, &axOrigin) {
+                AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, pv)
+            }
+        }
+
+        // 1. Pre-position to the intended final spot (assuming size will be
+        //    honored). For grow operations this clears room above/below so
+        //    step 2 is not silently capped by the menu bar or screen edge.
+        setAXPosition(appKitOrigin(for: frame.size), height: frame.height)
+
+        // 2. Set size.
         var size = frame.size
         if let sizeValue = AXValueCreate(.cgSize, &size) {
             AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
         }
-        // 2. Read back the size the app actually accepted.
+
+        // 3. Read back the size the app actually accepted.
         var sizeRef: CFTypeRef?
         AXUIElementCopyAttributeValue(window, kAXSizeAttribute as CFString, &sizeRef)
         var actualSize = frame.size  // fallback
         if let sv = sizeRef, CFGetTypeID(sv) == AXValueGetTypeID() {
             AXValueGetValue(sv as! AXValue, .cgSize, &actualSize)
         }
-        // 3. Compute and set the position.
-        let primaryMaxY = NSScreen.screens.first?.frame.maxY ?? screenFrame.maxY
-        var appKitOrigin: CGPoint
-        switch edge {
-        case .right:
-            // preservedEdgeValue is the maxX we want to keep fixed → origin.x = maxX - actualWidth.
-            appKitOrigin = CGPoint(x: preservedEdgeValue - actualSize.width, y: frame.minY)
-        case .left:
-            // preservedEdgeValue is the minX we want to keep fixed.
-            appKitOrigin = CGPoint(x: preservedEdgeValue, y: frame.minY)
-        case .top:
-            // preservedEdgeValue is the maxY we want to keep fixed.
-            // AppKit: minY = maxY - actualHeight.
-            appKitOrigin = CGPoint(x: frame.minX, y: preservedEdgeValue - actualSize.height)
-        case .bottom:
-            // preservedEdgeValue is the minY we want to keep fixed.
-            appKitOrigin = CGPoint(x: frame.minX, y: preservedEdgeValue)
-        }
-        // AppKit minY → AX y conversion.
-        var axOrigin = CGPoint(x: appKitOrigin.x, y: primaryMaxY - (appKitOrigin.y + actualSize.height))
-        if let pv = AXValueCreate(.cgPoint, &axOrigin) {
-            AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, pv)
-        }
+
+        // 4. Re-position based on actualSize to keep the contact edge fixed
+        //    even if the app enforced a min/max size in step 2.
+        setAXPosition(appKitOrigin(for: actualSize), height: actualSize.height)
+
         return actualSize
     }
 
