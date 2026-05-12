@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- A stale Tiley icon could appear in the Dock at launch (without the running-indicator dot) even when "Show Dock icon" was off. The cause was a hidden SwiftUI anchor `Window` scene that briefly registered a 0×32-pt window with macOS during startup — long enough for a Dock entry to be added before our `.accessory` activation policy took effect. The anchor scene has been removed; activation policy is now driven entirely by `applicationWillFinishLaunching` and the existing `applyDockIconVisibility` logic.
+
 ## [5.1.8] - 2026-05-09
 
 ### Fixed

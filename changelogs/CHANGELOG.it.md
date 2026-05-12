@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Corretto
+
+- Corretto un problema per cui un'icona Tiley appariva nel Dock all'avvio (senza il puntino dell'app in esecuzione) anche con "Mostra icona Dock" disattivato. La causa era una scena `Window` ancora di SwiftUI che, durante l'avvio, registrava brevemente una finestra di 0×32 pt presso macOS — abbastanza a lungo da aggiungere una voce al Dock prima che la nostra politica `.accessory` avesse effetto. La scena ancora è stata rimossa; la politica di attivazione è ora gestita interamente da `applicationWillFinishLaunching` e dalla logica esistente di `applyDockIconVisibility`.
+
 ## [5.1.8] - 2026-05-09
 
 ### Corretto

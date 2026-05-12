@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Behoben
+
+- Behoben: Beim Start von Tiley erschien gelegentlich ein Tiley-Symbol im Dock (ohne den laufenden Prozess-Punkt), obwohl „Dock-Symbol anzeigen" deaktiviert war. Ursache war eine versteckte SwiftUI-Anker-`Window`-Szene, die während des Starts kurzzeitig ein 0×32 pt großes Fenster bei macOS registrierte — lange genug, um vor dem Wechsel auf `.accessory` einen Dock-Eintrag entstehen zu lassen. Die Anker-Szene wurde entfernt; die Aktivierungsrichtlinie wird jetzt ausschließlich von `applicationWillFinishLaunching` und der bestehenden `applyDockIconVisibility`-Logik verwaltet.
+
 ## [5.1.8] - 2026-05-09
 
 ### Behoben

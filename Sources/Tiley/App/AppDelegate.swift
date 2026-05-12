@@ -23,8 +23,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillFinishLaunching(_ notification: Notification) {
-        // Set activation policy early, before SwiftUI shows the anchor window.
-        // This prevents the brief flash of a .regular app (Dock icon + menu bar)
+        // Set the activation policy as early as possible so the app never
+        // appears in the Dock during startup when "Show Dock icon" is off.
+        // Otherwise macOS may register a stale Dock entry for the app
         // before start() switches to .accessory.
         //
         // Skip when the app is not in /Applications (and not a dev build),
