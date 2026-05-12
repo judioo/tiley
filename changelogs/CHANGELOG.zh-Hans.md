@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.9] - 2026-05-12
+
 ### 修复
 
 - 修复了即使关闭"显示 Dock 图标"，启动 Tiley 时 Dock 中仍会出现 Tiley 图标（且没有运行指示点）的问题。原因是 SwiftUI 的锚点 `Window` 场景在启动期间会向 macOS 注册一个 0×32pt 的隐藏窗口，时间足够长以致于在我们的 `.accessory` 激活策略生效之前，Dock 中已经被添加了一个条目。锚点场景已被移除；激活策略现在完全由 `applicationWillFinishLaunching` 与现有的 `applyDockIconVisibility` 逻辑管理。

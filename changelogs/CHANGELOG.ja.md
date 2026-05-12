@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.1.9] - 2026-05-12
+
 ### 修正
 
 - 「Dock アイコンを表示」が OFF でも、Tiley を起動すると Dock に Tiley のアイコンが（起動中を示すドットなしで）表示されてしまう不具合を修正しました。原因は SwiftUI のアンカー `Window` シーンで、起動中にごく短時間だけ 0×32pt の隠しウインドウが macOS に登録されてしまい、`.accessory` への切り替えが完了するより先に Dock 側へエントリが追加されてしまうケースがあったためです。アンカーシーン自体を削除し、アクティベーションポリシーは `applicationWillFinishLaunching` と既存の `applyDockIconVisibility` のみで管理するようにしました。
