@@ -83,6 +83,14 @@ final class AppState: NSObject, NSMenuDelegate {
 
     var desktopImageVersion: Int = 0
 
+    /// Cached `NSImage` per wallpaper URL. Without this, SwiftUI body
+    /// recomputations in `MainWindowView` / `LayoutGridWorkspaceView` would
+    /// each call `NSImage(contentsOf:)` on a multi-megapixel HEIC, spiking
+    /// peak memory by 100MB+. Invalidated on `desktopImageVersion` change.
+    @ObservationIgnored private var wallpaperImageCache: [URL: NSImage] = [:]
+    /// `desktopImageVersion` snapshot at last cache population; mismatch triggers a wipe.
+    @ObservationIgnored private var wallpaperImageCacheVersion: Int = -1
+
     /// Whether the macOS menu bar currently uses dark (vibrant dark) appearance.
     /// Updated whenever the wallpaper changes via desktopImageVersion.
     var menuBarIsDark: Bool {
@@ -1748,6 +1756,18 @@ final class AppState: NSObject, NSMenuDelegate {
         openSettings()
     }
 
+    /// Returns the cached wallpaper `NSImage` for `url`, decoding it on first
+    /// access and reusing it until `desktopImageVersion` advances.
+    func wallpaperImage(for url: URL) -> NSImage? {
+        if wallpaperImageCacheVersion != desktopImageVersion {
+            wallpaperImageCache.removeAll(keepingCapacity: true)
+            wallpaperImageCacheVersion = desktopImageVersion
+        }
+        if let cached = wallpaperImageCache[url] { return cached }
+        guard let image = NSImage(contentsOf: url) else { return nil }
+        wallpaperImageCache[url] = image
+        return image
+    }
 }
 
 
