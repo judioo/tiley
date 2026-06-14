@@ -1768,6 +1768,10 @@ final class AppState: NSObject, NSMenuDelegate {
         wallpaperImageCache[url] = image
         return image
     }
+
+    func invalidateWallpaperCache() {
+        wallpaperImageCache.removeAll(keepingCapacity: true)
+    }
 }
 
 
