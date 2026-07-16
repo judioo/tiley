@@ -982,7 +982,7 @@ struct MainWindowView: View {
         // Load wallpaper image once for both the background layer and menu bar color.
         let wallpaperImage: NSImage? = {
             guard let info = desktopPictureInfo else { return nil }
-            return NSImage(contentsOf: info.url)
+            return appState.wallpaperImage(for: info.url)
         }()
         // Determine menu bar text color: OS detection for the active screen,
         // image luminance fallback for other screens.

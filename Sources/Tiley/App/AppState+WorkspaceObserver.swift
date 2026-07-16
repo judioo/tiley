@@ -168,6 +168,8 @@ extension AppState {
         // Re-register display hotkeys so newly connected displays become active
         // and disconnected display hotkeys are cleaned up.
         registerDisplayHotKeys()
+        // Drop wallpaper entries cached for screens that may have disconnected.
+        invalidateWallpaperCache()
         guard isShowingLayoutGrid, !isEditingSettings else { return }
         openAllScreenWindows()
     }
