@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Behoben
+
+- Behoben: Nach dem Herunterladen eines Updates konnte Sparkles Dialog „Installieren und neu starten" hinter dem Einstellungsfenster verschwinden. Die Wiederherstellung des Einstellungsfensters lief im Sparkle-Callback `didFinishUpdateCycleFor`, doch dieser feuert bereits, wenn der Appcast-Prüfzyklus endet — also direkt nachdem der/die Nutzer:in im ersten Dialog auf „Update installieren" geklickt hat, lange bevor der Download fertig ist und der Installations-/Neustart-Dialog erscheint. Das Einstellungsfenster wurde so vor diese noch aktiven Dialoge gezogen. Die Wiederherstellung wartet nun auf `standardUserDriverWillFinishUpdateSession`, sobald Sparkle benutzerseitige UI gezeigt hat; `didFinishUpdateCycleFor` stellt das Einstellungsfenster nur noch bei wirklich stillen Hintergrundprüfungen ohne Sparkle-Dialog wieder her.
+- Behoben: Wurde direkt nach dem Öffnen von Tiley ein Layout angewendet, konnten die Fenster noch in der Reihenfolge vor der Aktualisierung ausgewählt werden. Die Fensterliste der Seitenleiste wird zunächst aus dem Cache befüllt und erst ersetzt, wenn die maßgebliche Erfassung im Hintergrund eintrifft — ein in dieser Lücke ausgelöstes Preset-Kürzel oder ein Klick in der Layout-Vorschau wählte seine Ziele daher aus der veralteten Reihenfolge. Die Layout-Anwendung wartet jetzt auf die aktualisierte Fensterliste und läuft dann gegen diese; Tileys eigene Fenster werden sofort ausgeblendet, damit sich die Bedienung weiterhin flott anfühlt.
+
 ## [5.1.9] - 2026-05-12
 
 ### Behoben

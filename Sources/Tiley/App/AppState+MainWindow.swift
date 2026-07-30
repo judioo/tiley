@@ -26,6 +26,12 @@ extension AppState {
             return
         }
 
+        // The sidebar is about to be populated from the cache; mark the list
+        // as non-authoritative until the deferred refresh lands so a shortcut
+        // or preset click fired in the meantime waits for it.
+        pendingWindowListRefreshActions.removeAll()
+        isWindowListRefreshInFlight = true
+
         if showNearIcon {
             let mousePos = NSEvent.mouseLocation
             if let screen = NSScreen.screens.first(where: { $0.frame.contains(mousePos) }) {
@@ -251,6 +257,10 @@ extension AppState {
         // If any Tiley window is still visible, don't reset state.
         let anyVisible = mainWindowControllers.values.contains { $0.isVisible }
         if anyVisible { return }
+        // A layout application is parked on the pending window-list refresh
+        // (its windows were hidden up front) — keep the target and selection
+        // state intact until it runs.
+        guard pendingWindowListRefreshActions.isEmpty else { return }
         removeModifierReleaseMonitor()
         hidePreviewOverlay()
         isShowingLayoutGrid = false

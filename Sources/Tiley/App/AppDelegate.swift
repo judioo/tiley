@@ -8,6 +8,7 @@ import TelemetryDeck
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let appState: AppState
     var wasSettingsVisibleBeforeUpdate = false
+    var sparkleShowedUserUIThisSession = false
 
     lazy var updaterController: SPUStandardUpdaterController = SPUStandardUpdaterController(
         startingUpdater: !Bundle.main.bundlePath.contains("/.build/"),
@@ -454,6 +455,7 @@ extension AppDelegate: SPUUpdaterDelegate {
         // (e.g. grid-preview hover can bring the settings window to front
         // and block the "Install and Restart" button).
         MainActor.assumeIsolated {
+            sparkleShowedUserUIThisSession = false
             if appState.isEditingSettings {
                 wasSettingsVisibleBeforeUpdate = true
                 appState.hidePreviewOverlay()
@@ -470,8 +472,16 @@ extension AppDelegate: SPUUpdaterDelegate {
     }
 
     nonisolated func updater(_ updater: SPUUpdater, didFinishUpdateCycleFor updateCheck: SPUUpdateCheck, error: (any Error)?) {
-        // Restore the settings window if it was visible before the update check.
+        // The "update cycle" (check + decision) finishes before the user-driver
+        // session does — for user-initiated checks that find an update, this
+        // fires right after the user clicks "Install Update", well before the
+        // download progress and "Install and Relaunch" dialogs appear.  Restoring
+        // settings here would bring the settings window back in front of those
+        // dialogs, so only restore for genuinely silent background checks where
+        // Sparkle showed no user-facing UI.  All other paths are restored via
+        // `standardUserDriverWillFinishUpdateSession` instead.
         Task { @MainActor in
+            guard !sparkleShowedUserUIThisSession else { return }
             if wasSettingsVisibleBeforeUpdate {
                 wasSettingsVisibleBeforeUpdate = false
                 appState.beginSettingsEditing()
@@ -493,6 +503,12 @@ extension AppDelegate: SPUStandardUserDriverDelegate {
     nonisolated func standardUserDriverWillHandleShowingUpdate(_ handleShowingUpdate: Bool, forUpdate update: SUAppcastItem, state: SPUUserUpdateState) {
         MainActor.assumeIsolated {
             if handleShowingUpdate {
+                // Sparkle is about to show a user-facing dialog.  Mark the
+                // session so `didFinishUpdateCycleFor` leaves the settings
+                // window hidden — restoration must wait for
+                // `standardUserDriverWillFinishUpdateSession`, after the
+                // download progress and install dialogs have closed.
+                sparkleShowedUserUIThisSession = true
                 // Also hide the grid overlay windows so they don't appear
                 // behind the Sparkle dialog.
                 appState.hideMainWindow()

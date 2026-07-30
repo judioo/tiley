@@ -374,6 +374,16 @@ final class AppState: NSObject, NSMenuDelegate {
     @ObservationIgnored var sidebarWindowOrder: [Int] = []
     /// True while the deferred `refreshAvailableWindows` is pending.
     var isLoadingWindowList = false
+    /// True while an authoritative `refreshAvailableWindows` capture is still
+    /// running in the background.  Layout application is deferred until it
+    /// lands so the resize never targets windows picked from the stale
+    /// (cached) order.  See `deferUntilWindowListReady`.
+    @ObservationIgnored var isWindowListRefreshInFlight = false
+    /// Layout applications parked until the in-flight refresh lands.
+    @ObservationIgnored var pendingWindowListRefreshActions: [() -> Void] = []
+    /// Bumped whenever the in-flight refresh is resolved, so a timed-out
+    /// waiter from an earlier open cannot fire against a later one.
+    @ObservationIgnored var windowListRefreshGeneration = 0
     /// Incremented to signal the UI to toggle the window list sidebar.
     var windowTargetMenuRequestVersion: Int = 0
     /// Incremented to signal Cmd+F when search field is NOT focused: show sidebar and focus search.
@@ -926,6 +936,12 @@ final class AppState: NSObject, NSMenuDelegate {
         // AX / CG APIs or do any heavy work.  The RunLoop must yield
         // immediately after so Core Animation commits the alpha change.
 
+        // The sidebar is about to be populated from the cache; mark the list
+        // as non-authoritative until the deferred refresh lands so a shortcut
+        // or preset click fired in the meantime waits for it.
+        pendingWindowListRefreshActions.removeAll()
+        isWindowListRefreshInFlight = true
+
         // Use the cached target if available (pure in-memory PID lookup).
         // If no cache, keep the previous activeLayoutTarget — the pre-rendered
         // window already shows the last-known state.  Phase 2 will resolve
@@ -1101,8 +1117,18 @@ final class AppState: NSObject, NSMenuDelegate {
             // Deferred refresh to pick up changes since the cache was built.
             if isDismissingExpose {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                    guard let self, self.isShowingLayoutGrid else {
-                        self?.isSwitchingActivationPolicy = false
+                    guard let self else { return }
+                    guard self.isShowingLayoutGrid else {
+                        self.isSwitchingActivationPolicy = false
+                        // A layout application is parked on this refresh
+                        // (Tiley's UI was hidden up front) — still capture so
+                        // it runs against the authoritative list.
+                        if !self.pendingWindowListRefreshActions.isEmpty {
+                            self.refreshAvailableWindows()
+                        } else {
+                            self.isWindowListRefreshInFlight = false
+                            self.windowListRefreshGeneration += 1
+                        }
                         return
                     }
                     NSApp.activate(ignoringOtherApps: true)
@@ -1135,7 +1161,12 @@ final class AppState: NSObject, NSMenuDelegate {
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in
-                    guard let self, self.isShowingLayoutGrid else { return }
+                    guard let self else { return }
+                    guard self.isShowingLayoutGrid || !self.pendingWindowListRefreshActions.isEmpty else {
+                        self.isWindowListRefreshInFlight = false
+                        self.windowListRefreshGeneration += 1
+                        return
+                    }
                     // snapToFreshTop: on the first post-open refresh, trust
                     // the authoritative z-order from CGWindowList over any
                     // stale target Phase 1 picked via async APIs.
@@ -1160,6 +1191,9 @@ final class AppState: NSObject, NSMenuDelegate {
     }
 
     func commitLayoutSelection(_ selection: GridSelection) {
+        // Wait for the authoritative window list before picking targets.
+        if deferUntilWindowListReady({ [weak self] in self?.commitLayoutSelection(selection) }) { return }
+
         if activeLayoutTarget == nil, lastTargetPID != nil {
             // AX target was not available at launch; resolve it now.
             activeLayoutTarget = resolveWindowTarget()
@@ -1484,6 +1518,11 @@ final class AppState: NSObject, NSMenuDelegate {
 
     func cancelLayoutGrid() {
         removeModifierReleaseMonitor()
+        // Drop any layout application parked on the pending window-list
+        // refresh — the user canceled out.
+        pendingWindowListRefreshActions.removeAll()
+        isWindowListRefreshInFlight = false
+        windowListRefreshGeneration += 1
         // Don't clear bubbleArrowEdge here — let it stay visible during the
         // fade-out animation.  handleMainWindowHidden() clears it after the
         // fade completes.
@@ -1575,6 +1614,11 @@ final class AppState: NSObject, NSMenuDelegate {
 
     /// Commits a layout selection on a specific screen (used by multi-screen grid/preset interactions).
     func commitLayoutSelectionOnScreen(_ selection: GridSelection, secondarySelections: [GridSelection] = [], visibleFrame: CGRect, screenFrame: CGRect, groupedPairs: [PresetGroupPair] = []) {
+        // Wait for the authoritative window list before picking targets.
+        if deferUntilWindowListReady({ [weak self] in
+            self?.commitLayoutSelectionOnScreen(selection, secondarySelections: secondarySelections, visibleFrame: visibleFrame, screenFrame: screenFrame, groupedPairs: groupedPairs)
+        }) { return }
+
         if activeLayoutTarget == nil, lastTargetPID != nil {
             activeLayoutTarget = resolveWindowTarget()
         }
@@ -1653,6 +1697,10 @@ final class AppState: NSObject, NSMenuDelegate {
             requestAccessibilityAccess()
             return
         }
+        // Wait for the authoritative window list before picking targets.
+        if deferUntilWindowListReady({ [weak self] in
+            self?.applyLayoutPresetOnScreen(id: id, visibleFrame: visibleFrame, screenFrame: screenFrame)
+        }) { return }
         var target: WindowTarget
         if let existing = activeLayoutTarget {
             target = existing

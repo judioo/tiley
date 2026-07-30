@@ -87,6 +87,8 @@ extension AppState {
             requestAccessibilityAccess()
             return
         }
+        // Wait for the authoritative window list before picking targets.
+        if deferUntilWindowListReady({ [weak self] in self?.applyLayoutPreset(id: id) }) { return }
         let target: WindowTarget
         if let existing = activeLayoutTarget {
             target = existing

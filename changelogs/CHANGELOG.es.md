@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Corregido
+
+- Corregido: tras descargar una actualización, el diálogo "Instalar y reiniciar" de Sparkle podía quedar oculto detrás de la ventana de ajustes. El código que restauraba la ventana de ajustes se ejecutaba en el callback `didFinishUpdateCycleFor` de Sparkle, pero ese callback se dispara cuando termina el ciclo de comprobación del appcast — justo después de que el usuario pulsa "Instalar actualización" en el primer diálogo, mucho antes de que termine la descarga y aparezca el diálogo de instalación/reinicio. La ventana de ajustes volvía a colocarse delante de esos diálogos aún activos. Ahora la restauración espera a `standardUserDriverWillFinishUpdateSession` siempre que Sparkle haya mostrado UI al usuario; `didFinishUpdateCycleFor` solo restaura la ventana de ajustes en comprobaciones realmente silenciosas en segundo plano, sin ningún diálogo de Sparkle.
+- Corregido: aplicar un diseño justo después de abrir Tiley podía seleccionar las ventanas en el orden anterior a la actualización. La lista de ventanas de la barra lateral se rellena primero desde la caché y solo se sustituye cuando llega la captura autoritativa en segundo plano, así que un atajo de preajuste o un clic en la vista previa del diseño lanzado en ese intervalo elegía los objetivos con el orden obsoleto. Ahora la aplicación del diseño espera a la lista de ventanas actualizada y se ejecuta con ella; las ventanas propias de Tiley se ocultan de inmediato para que la interacción siga sintiéndose ágil.
+
 ## [5.1.9] - 2026-05-12
 
 ### Corregido

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Sparkle's "Install and Relaunch" dialog could appear behind the Settings window after a downloaded update. The settings-window restore code ran on Sparkle's `didFinishUpdateCycleFor` callback, but that callback fires when the appcast-check cycle finishes — right after the user clicks "Install Update" in the first dialog, well before the download finishes and the install/relaunch dialog appears. The settings window was being brought back in front of those still-active dialogs. Restoration now waits for `standardUserDriverWillFinishUpdateSession` whenever Sparkle has shown user-facing UI; `didFinishUpdateCycleFor` only restores the settings window for truly silent background checks where no Sparkle dialog was shown.
+- Applying a layout right after Tiley opened could target the windows in their pre-refresh order. The sidebar list is first populated from the cached window list and only replaced when the authoritative background capture lands, so a preset shortcut or layout-preview click fired during that gap picked its targets from the stale order. Layout application is now parked until the refreshed window list arrives and then runs against it; Tiley's own windows are hidden immediately so the interaction still feels instant.
+
 ## [5.1.9] - 2026-05-12
 
 ### Fixed

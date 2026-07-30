@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Corrigé
+
+- Correction : après le téléchargement d'une mise à jour, la boîte de dialogue « Installer et relancer » de Sparkle pouvait passer derrière la fenêtre des réglages. Le code qui restaurait la fenêtre des réglages s'exécutait dans le callback `didFinishUpdateCycleFor` de Sparkle, mais ce callback se déclenche dès la fin du cycle de vérification de l'appcast — juste après que l'utilisateur a cliqué sur « Installer la mise à jour » dans la première boîte de dialogue, bien avant que le téléchargement ne se termine et que la boîte de dialogue d'installation/relance n'apparaisse. La fenêtre des réglages revenait donc au premier plan, devant ces boîtes encore actives. La restauration attend désormais `standardUserDriverWillFinishUpdateSession` dès lors que Sparkle a affiché une interface destinée à l'utilisateur ; `didFinishUpdateCycleFor` ne restaure la fenêtre des réglages que pour des vérifications d'arrière-plan vraiment silencieuses, sans aucune boîte de dialogue Sparkle.
+- Correction : appliquer une disposition juste après l'ouverture de Tiley pouvait sélectionner les fenêtres dans l'ordre antérieur à l'actualisation. La liste des fenêtres de la barre latérale est d'abord remplie depuis le cache et n'est remplacée qu'à l'arrivée de la capture de référence effectuée en arrière-plan ; un raccourci de préréglage ou un clic dans l'aperçu de disposition déclenché pendant cet intervalle choisissait donc ses cibles dans l'ordre périmé. L'application de la disposition attend désormais la liste de fenêtres actualisée et s'exécute sur celle-ci ; les fenêtres de Tiley sont masquées immédiatement pour que l'interaction reste vive.
+
 ## [5.1.9] - 2026-05-12
 
 ### Corrigé

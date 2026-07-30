@@ -464,13 +464,63 @@ extension AppState {
     /// user has had a chance to cycle or manually select a window.
     func refreshAvailableWindows(snapToFreshTop: Bool = false) {
         guard let wm = windowManager else { return }
+        isWindowListRefreshInFlight = true
         Task.detached { [weak self] in
             let captured = wm.captureAllWindows(includeOtherSpaces: true)
             await MainActor.run { [weak self] in
-                guard let self, self.isShowingLayoutGrid else { return }
+                guard let self else { return }
+                // Even when the grid was dismissed meanwhile, the refreshed
+                // list must be applied if a layout application is waiting on
+                // it (Tiley's own windows are hidden up front for a snappy
+                // feel, which clears `isShowingLayoutGrid`).
+                guard self.isShowingLayoutGrid || !self.pendingWindowListRefreshActions.isEmpty else {
+                    self.isWindowListRefreshInFlight = false
+                    self.windowListRefreshGeneration += 1
+                    return
+                }
                 self.applyRefreshedWindowList(captured, snapToFreshTop: snapToFreshTop)
             }
         }
+    }
+
+    /// Parks `action` until the in-flight window-list refresh lands, returning
+    /// true when it was deferred.  Tiley's own UI is hidden immediately so the
+    /// interaction still feels instant; only the resize waits for the fresh
+    /// list.
+    func deferUntilWindowListReady(_ action: @escaping () -> Void) -> Bool {
+        guard isWindowListRefreshInFlight else { return false }
+        debugLog("layout application deferred until window list refresh lands")
+        // Hide the grid/preview right away — the resize itself runs once the
+        // authoritative window list arrives.  The windows are dismissed
+        // *silently*: `hide()`'s fade-out completion runs
+        // `handleMainWindowHidden`, which clears the active target and the
+        // selection — state the parked application still needs.
+        removeModifierReleaseMonitor()
+        hidePreviewOverlay()
+        for controller in mainWindowControllers.values {
+            controller.dismissSilently()
+        }
+        orderOutAllMainWindows()
+        pendingWindowListRefreshActions.append(action)
+        // Safety net: never strand the user's action if the capture never
+        // reports back (e.g. an AX call wedged in the background task).
+        let generation = windowListRefreshGeneration
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            guard let self, self.isWindowListRefreshInFlight,
+                  self.windowListRefreshGeneration == generation else { return }
+            debugLog("window list refresh timed out — running pending layout actions")
+            self.isWindowListRefreshInFlight = false
+            self.windowListRefreshGeneration += 1
+            self.flushPendingWindowListRefreshActions()
+        }
+        return true
+    }
+
+    func flushPendingWindowListRefreshActions() {
+        guard !pendingWindowListRefreshActions.isEmpty else { return }
+        let actions = pendingWindowListRefreshActions
+        pendingWindowListRefreshActions.removeAll()
+        for action in actions { action() }
     }
 
     /// Synchronous variant used when the result must be applied immediately
@@ -485,6 +535,8 @@ extension AppState {
         _ captured: (targets: [WindowTarget], spaceList: [SpaceInfo], activeSpaceIDs: Set<UInt64>),
         snapToFreshTop: Bool
     ) {
+        isWindowListRefreshInFlight = false
+        windowListRefreshGeneration += 1
         availableWindowTargets = captured.targets
         spaceList = captured.spaceList
         activeSpaceIDs = captured.activeSpaceIDs
@@ -566,6 +618,25 @@ extension AppState {
                     selectionOrder.insert(activeTargetIndex, at: 0)
                 }
             }
+        }
+
+        // A layout application is waiting on this refresh: adopt the new
+        // target without the interactive side effects (preview overlay,
+        // occlusion displacement) — the UI is already hidden and the windows
+        // are about to be placed — then run the parked action.
+        if !pendingWindowListRefreshActions.isEmpty {
+            if !availableWindowTargets.isEmpty {
+                let newTarget = availableWindowTargets[activeTargetIndex]
+                activeLayoutTarget = newTarget
+                lastTargetPID = newTarget.processIdentifier
+                clearResizabilityCache()
+            }
+            // The sidebar cannot re-render while it is hidden, so its cached
+            // order still describes the previous list; drop it and let the
+            // callers fall back to the freshly captured order.
+            sidebarWindowOrder = []
+            flushPendingWindowListRefreshActions()
+            return
         }
 
         // Update the active target and overlay (e.g. miniature window) to
