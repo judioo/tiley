@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.2.1] - 2026-07-31
+
 ### Corrigé
 
 - Correction : les images de fond mises en cache sont maintenant réduites à la résolution d'aperçu de l'overlay au lieu d'être conservées à la pleine résolution de la photo du bureau. Cela réduit nettement la mémoire résidente et le pic de mémoire lors de l'ouverture de Tiley avec de grands fonds d'écran personnalisés, sans modifier le placement du fond d'écran ni la détection de la couleur de la barre des menus.

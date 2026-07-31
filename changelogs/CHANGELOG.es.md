@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.2.1] - 2026-07-31
+
 ### Corregido
 
 - Corregido: las imágenes de fondo en caché ahora se reducen a la resolución de vista previa del overlay en lugar de mantenerse a resolución completa de foto de escritorio. Esto reduce notablemente la memoria residente y el pico de memoria al abrir Tiley con fondos personalizados grandes, sin cambiar la colocación del fondo ni la detección del color de la barra de menús.

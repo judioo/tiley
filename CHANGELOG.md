@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [5.2.1] - 2026-07-31
+
 ### Fixed
 
 - Cached wallpaper images are now downsampled to the overlay preview resolution instead of being held at full desktop-photo resolution. This significantly reduces resident and peak memory use when opening Tiley with large custom wallpaper images, without changing wallpaper placement or menu-bar color detection.
@@ -873,7 +875,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Localization: English, Japanese, Korean, Simplified Chinese, Traditional Chinese
 
 
-[Unreleased]: https://github.com/yusuke/tiley/compare/v5.2.0...HEAD
+[Unreleased]: https://github.com/yusuke/tiley/compare/v5.2.1...HEAD
+[5.2.1]: https://github.com/yusuke/tiley/releases/tag/v5.2.1
 [5.2.0]: https://github.com/yusuke/tiley/releases/tag/v5.2.0
 [5.1.9]: https://github.com/yusuke/tiley/releases/tag/v5.1.9
 [5.1.8]: https://github.com/yusuke/tiley/releases/tag/v5.1.8

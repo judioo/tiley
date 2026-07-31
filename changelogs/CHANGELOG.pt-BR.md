@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.2.1] - 2026-07-31
+
 ### Corrigido
 
 - Corrigido: as imagens de papel de parede em cache agora são reduzidas para a resolução de pré-visualização do overlay, em vez de permanecerem na resolução completa da foto da área de trabalho. Isso reduz de forma significativa a memória residente e o pico de memória ao abrir o Tiley com papéis de parede personalizados grandes, sem alterar o posicionamento do papel de parede nem a detecção de cor da barra de menus.

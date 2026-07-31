@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.2.1] - 2026-07-31
+
 ### Behoben
 
 - Behoben: Zwischengespeicherte Hintergrundbilder werden jetzt auf die Vorschauauflösung des Overlays heruntergerechnet, statt in voller Desktop-Foto-Auflösung im Speicher zu bleiben. Dadurch sinken belegter und maximaler Speicher beim Öffnen von Tiley mit großen benutzerdefinierten Hintergrundbildern deutlich, ohne die Platzierung des Hintergrundbilds oder die Erkennung der Menüleistenfarbe zu verändern.

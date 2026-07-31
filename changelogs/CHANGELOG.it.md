@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.2.1] - 2026-07-31
+
 ### Corretto
 
 - Corretto: le immagini di sfondo in cache ora vengono ridotte alla risoluzione di anteprima dell'overlay invece di restare alla piena risoluzione della foto del desktop. Questo riduce in modo significativo la memoria residente e il picco di memoria quando si apre Tiley con sfondi personalizzati di grandi dimensioni, senza cambiare il posizionamento dello sfondo né il rilevamento del colore della barra dei menu.
