@@ -8,7 +8,10 @@
       "layers" : [
         {
           "blend-mode" : "normal",
-          "glass" : true,
+          "fill" : {
+            "solid" : "extended-gray:1.00000,1.00000"
+          },
+          "glass" : false,
           "image-name" : "icon-white.svg",
           "name" : "icon-white",
           "opacity" : 0.6
@@ -28,7 +31,7 @@
         {
           "blend-mode" : "normal",
           "fill" : "automatic",
-          "glass" : true,
+          "glass" : false,
           "hidden" : false,
           "image-name" : "icon-blue.svg",
           "name" : "icon-blue",
