@@ -733,21 +733,27 @@ final class AppState: NSObject, NSMenuDelegate {
         cachedWindowTargets = frontWindows + otherWindows
     }
 
-    /// Realigns `cachedWindowTargets` against the authoritative CG z-order
-    /// returned by `AccessibilityService.currentZOrderedWindowIDs()` (a fast
-    /// CG-only query, typically 1–5 ms).  Unlike `reorderCacheForFrontmost`
-    /// (which only promotes a given PID's windows), this method orders
-    /// **every** cached window to match the current WindowServer z-order
-    /// per-window — so it also correctly tracks intra-app window raises
-    /// (which don't fire `didActivateApplicationNotification`).
+    /// Realigns `cachedWindowTargets` against the authoritative live CG state
+    /// returned by `AccessibilityService.currentZOrderedWindowSnapshots()` (a
+    /// fast CG-only query, typically 1–5 ms): reorders every cached window to
+    /// match the current WindowServer z-order **and** refreshes each cached
+    /// window's frame to its live bounds.  This makes both the sidebar order
+    /// and the mini-desktop window positions correct on the very first
+    /// rendered frame, without waiting for the asynchronous
+    /// `refreshAvailableWindows` capture to land.
+    ///
+    /// Unlike `reorderCacheForFrontmost` (which only promotes a given PID's
+    /// windows), the per-window ordering also correctly tracks intra-app
+    /// window raises (which don't fire `didActivateApplicationNotification`).
     ///
     /// Windows not present in the live on-screen list (minimized, other
     /// spaces, etc.) retain their previous relative order at the tail,
-    /// grouped behind on-screen windows via a stable sort.
+    /// grouped behind on-screen windows via a stable sort, and keep their
+    /// cached frames.
     func realignCacheWithLiveZOrder() {
         guard hasWindowListCache, !cachedWindowTargets.isEmpty else { return }
-        let liveWindowIDs = AccessibilityService.currentZOrderedWindowIDs()
-        guard !liveWindowIDs.isEmpty else { return }
+        let liveWindows = AccessibilityService.currentZOrderedWindowSnapshots()
+        guard !liveWindows.isEmpty else { return }
 
         // Primary key: per-window rank (front-to-back).  Fallback key for
         // off-screen entries: per-PID rank derived from the first occurrence
@@ -756,17 +762,18 @@ final class AppState: NSObject, NSMenuDelegate {
         // but ahead of unrelated apps.
         var rankByWID: [CGWindowID: Int] = [:]
         var rankByPID: [pid_t: Int] = [:]
-        // We don't have PID here from the WID list, so fall back to
-        // re-querying `currentZOrderedPIDs` for the PID fallback map.
-        let livePIDs = AccessibilityService.currentZOrderedPIDs()
-        for (i, wid) in liveWindowIDs.enumerated() { rankByWID[wid] = i }
-        for (i, pid) in livePIDs.enumerated() { rankByPID[pid] = i }
+        var boundsByWID: [CGWindowID: CGRect] = [:]
+        for (i, window) in liveWindows.enumerated() {
+            rankByWID[window.windowID] = i
+            boundsByWID[window.windowID] = window.bounds
+            if rankByPID[window.pid] == nil { rankByPID[window.pid] = rankByPID.count }
+        }
 
         // Decorate-sort-undecorate for a stable sort keyed on
         // (windowRank ?? (pidRank * large), originalIndex).  PID-only rank
         // is scaled so every on-screen window outranks any off-screen
         // window whose app isn't on-screen.
-        let offscreenBase = liveWindowIDs.count
+        let offscreenBase = liveWindows.count
         let decorated = cachedWindowTargets.enumerated().map { (originalIndex, target) in
             let rank: Int
             if target.cgWindowID != 0, let r = rankByWID[target.cgWindowID] {
@@ -784,7 +791,56 @@ final class AppState: NSObject, NSMenuDelegate {
             if lhs.rank != rhs.rank { return lhs.rank < rhs.rank }
             return lhs.originalIndex < rhs.originalIndex
         }
-        cachedWindowTargets = sorted.map(\.target)
+
+        // Refresh each cached window's frame from the same CG snapshot.
+        // Cached frames were captured when the cache was built and go stale
+        // as soon as the user moves or resizes a window while Tiley's UI is
+        // closed; rendering them as-is makes the mini-desktop preview show
+        // windows at outdated positions until the async capture lands.
+        let primaryScreenMaxY = NSScreen.screens.first?.frame.maxY
+        cachedWindowTargets = sorted.map { entry in
+            let target = entry.target
+            guard let primaryScreenMaxY,
+                  target.cgWindowID != 0,
+                  let cgBounds = boundsByWID[target.cgWindowID] else { return target }
+            // kCGWindowBounds is top-left-origin (CG/AX space); cached frames
+            // are Cocoa bottom-left-origin.
+            let liveFrame = CGRect(
+                x: cgBounds.origin.x,
+                y: primaryScreenMaxY - cgBounds.origin.y - cgBounds.height,
+                width: cgBounds.width,
+                height: cgBounds.height
+            )
+            if liveFrame == target.frame { return target }
+            // The window may have moved to another screen since the cache
+            // was built — re-resolve the hosting screen by largest overlap.
+            var screenFrame = target.screenFrame
+            var visibleFrame = target.visibleFrame
+            var bestIntersectionArea: CGFloat = 0
+            for screen in NSScreen.screens {
+                let intersection = liveFrame.intersection(screen.frame)
+                let area = intersection.isNull ? 0 : intersection.width * intersection.height
+                if area > bestIntersectionArea {
+                    bestIntersectionArea = area
+                    screenFrame = screen.frame
+                    visibleFrame = screen.visibleFrame
+                }
+            }
+            return WindowTarget(
+                appElement: target.appElement,
+                windowElement: target.windowElement,
+                processIdentifier: target.processIdentifier,
+                appName: target.appName,
+                windowTitle: target.windowTitle,
+                frame: liveFrame,
+                visibleFrame: visibleFrame,
+                screenFrame: screenFrame,
+                isHidden: target.isHidden,
+                spaceID: target.spaceID,
+                isOnOtherSpace: target.isOnOtherSpace,
+                cgWindowID: target.cgWindowID
+            )
+        }
     }
 
     /// Sets the main (grid/sidebar) windows to floating level.

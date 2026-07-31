@@ -140,48 +140,40 @@ final class AccessibilityService {
         return pid
     }
 
-    /// Returns PIDs of layer-0 on-screen windows in their current CG z-order
-    /// (front-to-back), excluding Tiley's own PID.  This is a cheap CG-only
-    /// query (typically 1–5 ms) that reflects the authoritative z-order
-    /// maintained by WindowServer, with no Accessibility-layer round-trips.
-    /// Use this to cheaply realign a stale cached window list against the
-    /// current frontmost ordering before showing the UI.
-    static func currentZOrderedPIDs() -> [pid_t] {
-        let selfPID = getpid()
-        guard let list = CGWindowListCopyWindowInfo(
-            [.optionOnScreenOnly, .excludeDesktopElements],
-            kCGNullWindowID
-        ) as? [[CFString: Any]] else { return [] }
-        var seen = Set<pid_t>()
-        var ordered: [pid_t] = []
-        for info in list {
-            guard let layer = info[kCGWindowLayer] as? Int, layer == 0 else { continue }
-            guard let pid = info[kCGWindowOwnerPID] as? pid_t, pid != selfPID else { continue }
-            if seen.insert(pid).inserted {
-                ordered.append(pid)
-            }
-        }
-        return ordered
+    /// A lightweight per-window snapshot from CGWindowList: the CG window
+    /// ID, owning PID, and current bounds.  `bounds` is in the CG/AX
+    /// coordinate space (origin at the top-left of the primary screen).
+    struct LiveWindowSnapshot {
+        let windowID: CGWindowID
+        let pid: pid_t
+        let bounds: CGRect
     }
 
-    /// Returns CGWindowIDs of layer-0 on-screen windows in their current CG
-    /// z-order (front-to-back), excluding Tiley's own windows.  Unlike
-    /// `currentZOrderedPIDs`, this preserves intra-app z-order — necessary
-    /// when the user raises a non-top window within the same application
-    /// (no `didActivateApplicationNotification` fires, but CG z-order does
-    /// change).
-    static func currentZOrderedWindowIDs() -> [CGWindowID] {
+    /// Returns layer-0 on-screen windows in their current CG z-order
+    /// (front-to-back), excluding Tiley's own windows, together with each
+    /// window's owning PID and current bounds.  This is a cheap CG-only
+    /// query (typically 1–5 ms) that reflects the authoritative state
+    /// maintained by WindowServer, with no Accessibility-layer round-trips.
+    /// The list preserves intra-app z-order — necessary when the user
+    /// raises a non-top window within the same application (no
+    /// `didActivateApplicationNotification` fires, but CG z-order does
+    /// change).  Use this to cheaply realign a stale cached window list —
+    /// both ordering and window frames — before showing the UI.
+    static func currentZOrderedWindowSnapshots() -> [LiveWindowSnapshot] {
         let selfPID = getpid()
         guard let list = CGWindowListCopyWindowInfo(
             [.optionOnScreenOnly, .excludeDesktopElements],
             kCGNullWindowID
         ) as? [[CFString: Any]] else { return [] }
-        var ordered: [CGWindowID] = []
+        var ordered: [LiveWindowSnapshot] = []
         for info in list {
             guard let layer = info[kCGWindowLayer] as? Int, layer == 0 else { continue }
             guard let pid = info[kCGWindowOwnerPID] as? pid_t, pid != selfPID else { continue }
             guard let wid = info[kCGWindowNumber] as? CGWindowID else { continue }
-            ordered.append(wid)
+            guard let boundsRef = info[kCGWindowBounds],
+                  let bounds = CGRect(dictionaryRepresentation: boundsRef as! CFDictionary),
+                  bounds.width > 0, bounds.height > 0 else { continue }
+            ordered.append(LiveWindowSnapshot(windowID: wid, pid: pid, bounds: bounds))
         }
         return ordered
     }
