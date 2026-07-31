@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.2.0] - 2026-07-31
+
 ### Behoben
 
 - Behoben: Das App-Symbol von Tiley sah dem Symbol des am weitesten verbreiteten Desktop-Betriebssystems zu ähnlich.

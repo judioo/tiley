@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.2.0] - 2026-07-31
+
 ### Corrigé
 
 - Correction : l'icône de l'application Tiley ressemblait trop à celle du système d'exploitation de bureau le plus répandu.

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [5.2.0] - 2026-07-31
+
 ### Fixed
 
 - Adjusted Tiley's app icon to better distinguish it from the icon used by the most widely used desktop operating system.
@@ -867,7 +869,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Localization: English, Japanese, Korean, Simplified Chinese, Traditional Chinese
 
 
-[Unreleased]: https://github.com/yusuke/tiley/compare/v5.1.9...HEAD
+[Unreleased]: https://github.com/yusuke/tiley/compare/v5.2.0...HEAD
+[5.2.0]: https://github.com/yusuke/tiley/releases/tag/v5.2.0
 [5.1.9]: https://github.com/yusuke/tiley/releases/tag/v5.1.9
 [5.1.8]: https://github.com/yusuke/tiley/releases/tag/v5.1.8
 [5.1.7]: https://github.com/yusuke/tiley/releases/tag/v5.1.7

@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.2.0] - 2026-07-31
+
 ### Corregido
 
 - Corregido: el icono de la app de Tiley se parecía demasiado al icono del sistema operativo de escritorio con mayor cuota de uso.

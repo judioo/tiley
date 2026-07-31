@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [5.2.0] - 2026-07-31
+
 ### Corretto
 
 - Corretto: l'icona dell'app di Tiley risultava troppo simile a quella del sistema operativo desktop più diffuso.
