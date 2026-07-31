@@ -83,10 +83,12 @@ final class AppState: NSObject, NSMenuDelegate {
 
     var desktopImageVersion: Int = 0
 
-    /// Cached `NSImage` per wallpaper URL. Without this, SwiftUI body
-    /// recomputations in `MainWindowView` / `LayoutGridWorkspaceView` would
-    /// each call `NSImage(contentsOf:)` on a multi-megapixel HEIC, spiking
-    /// peak memory by 100MB+. Invalidated on `desktopImageVersion` change.
+    /// Cached downsampled `NSImage` per wallpaper URL. Without this, SwiftUI
+    /// body recomputations in `MainWindowView` / `LayoutGridWorkspaceView`
+    /// would each re-decode the wallpaper. Each entry is downsampled to
+    /// `wallpaperCacheMaxPixelSize` — the overlay only shows a miniature
+    /// preview — so it costs a few MB instead of tens for a multi-megapixel
+    /// HEIC. Invalidated on `desktopImageVersion` change.
     @ObservationIgnored private var wallpaperImageCache: [URL: NSImage] = [:]
     /// `desktopImageVersion` snapshot at last cache population; mismatch triggers a wipe.
     @ObservationIgnored private var wallpaperImageCacheVersion: Int = -1
@@ -1860,21 +1862,52 @@ final class AppState: NSObject, NSMenuDelegate {
         openSettings()
     }
 
-    /// Returns the cached wallpaper `NSImage` for `url`, decoding it on first
-    /// access and reusing it until `desktopImageVersion` advances.
+    /// Returns the cached wallpaper `NSImage` for `url`, decoding a downsampled
+    /// version on first access and reusing it until `desktopImageVersion` advances.
     func wallpaperImage(for url: URL) -> NSImage? {
         if wallpaperImageCacheVersion != desktopImageVersion {
             wallpaperImageCache.removeAll(keepingCapacity: true)
             wallpaperImageCacheVersion = desktopImageVersion
         }
         if let cached = wallpaperImageCache[url] { return cached }
-        guard let image = NSImage(contentsOf: url) else { return nil }
+        guard let image = Self.downsampledWallpaperImage(url: url, maxPixelSize: Self.wallpaperCacheMaxPixelSize) else { return nil }
         wallpaperImageCache[url] = image
         return image
     }
 
     func invalidateWallpaperCache() {
         wallpaperImageCache.removeAll(keepingCapacity: true)
+    }
+
+    /// Max pixel dimension (long edge) for cached wallpaper images. The overlay
+    /// only ever renders the wallpaper as a half-opacity miniature preview, so a
+    /// full-resolution decode is wasteful. A 6K HEIC decodes to 60MB+ resident
+    /// and spikes peak memory by 150MB+ on first overlay open. Downsampling to
+    /// this size keeps the preview crisp while cutting each cached image to a
+    /// few MB.
+    private static let wallpaperCacheMaxPixelSize = 1600
+
+    /// Decodes `url` directly at a reduced resolution via ImageIO, avoiding a
+    /// full-resolution decode. Aspect ratio is preserved. Geometry that needs
+    /// true pixel dimensions reads them separately from image metadata
+    /// (`DesktopPictureInfo.originalImageSize`), so downsampling does not affect
+    /// tile/center/fit placement. Menu-bar luminance sampling stays accurate
+    /// because it samples the top strip proportionally.
+    private static func downsampledWallpaperImage(url: URL, maxPixelSize: Int) -> NSImage? {
+        let sourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+        guard let source = CGImageSourceCreateWithURL(url as CFURL, sourceOptions) else {
+            return nil
+        }
+        let thumbnailOptions: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxPixelSize,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceShouldCacheImmediately: true,
+        ]
+        guard let cgImage = CGImageSourceCreateThumbnailAtIndex(source, 0, thumbnailOptions as CFDictionary) else {
+            return nil
+        }
+        return NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
     }
 }
 
