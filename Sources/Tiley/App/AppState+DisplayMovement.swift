@@ -92,25 +92,34 @@ extension AppState {
         moveWindowProportionally(target: target, from: currentScreen, to: destinationScreen)
     }
 
-    /// Remembers the grid selection Tiley applied to a window so a later
-    /// display move can re-apply the same slot on the destination screen.
-    func rememberAppliedSelection(_ selection: GridSelection, for target: WindowTarget) {
-        guard target.cgWindowID != 0 else { return }
-        lastAppliedGridSelections[target.cgWindowID] = selection
+    /// A grid selection together with the grid dimensions it was applied on.
+    /// Presets carry their creation-time grid, which can differ from the
+    /// current grid settings.
+    struct AppliedGridSlot {
+        var selection: GridSelection
+        var rows: Int
+        var columns: Int
     }
 
-    /// Returns the recorded grid selection for a window, but only while the
+    /// Remembers the grid slot Tiley applied to a window so a later
+    /// display move can re-apply the same slot on the destination screen.
+    func rememberAppliedSelection(_ selection: GridSelection, gridRows: Int, gridColumns: Int, for target: WindowTarget) {
+        guard target.cgWindowID != 0 else { return }
+        lastAppliedGridSelections[target.cgWindowID] = AppliedGridSlot(selection: selection, rows: gridRows, columns: gridColumns)
+    }
+
+    /// Returns the recorded grid slot for a window, but only while the
     /// window still occupies that slot on the source screen. A stale record
-    /// (the user moved or resized the window since, or the grid settings
-    /// changed) is dropped so the caller falls back to proportional movement.
-    func gridSelectionForDisplayMove(of target: WindowTarget, on srcScreen: NSScreen) -> GridSelection? {
+    /// (the user moved or resized the window since) is dropped so the
+    /// caller falls back to proportional movement.
+    func gridSelectionForDisplayMove(of target: WindowTarget, on srcScreen: NSScreen) -> AppliedGridSlot? {
         guard target.cgWindowID != 0,
-              let selection = lastAppliedGridSelections[target.cgWindowID] else { return nil }
+              let slot = lastAppliedGridSelections[target.cgWindowID] else { return nil }
         let expected = GridCalculator.frame(
-            for: selection,
+            for: slot.selection,
             in: srcScreen.visibleFrame,
-            rows: rows,
-            columns: columns,
+            rows: slot.rows,
+            columns: slot.columns,
             gap: gap
         )
         // Generous tolerance: apps with minimum-size constraints land near,
@@ -123,19 +132,19 @@ extension AppState {
             lastAppliedGridSelections.removeValue(forKey: target.cgWindowID)
             return nil
         }
-        return selection
+        return slot
     }
 
     func moveWindowProportionally(target: WindowTarget, from srcScreen: NSScreen, to dstScreen: NSScreen) {
         // When Tiley placed this window into a grid slot, re-apply that slot
         // on the destination screen's grid. Proportional pixel scaling breaks
         // down between displays with different resolutions or aspect ratios.
-        if let selection = gridSelectionForDisplayMove(of: target, on: srcScreen) {
+        if let slot = gridSelectionForDisplayMove(of: target, on: srcScreen) {
             let frame = GridCalculator.frame(
-                for: selection,
+                for: slot.selection,
                 in: dstScreen.visibleFrame,
-                rows: rows,
-                columns: columns,
+                rows: slot.rows,
+                columns: slot.columns,
                 gap: gap
             )
             do {

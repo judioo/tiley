@@ -2478,10 +2478,10 @@ struct MainWindowView: View {
             // types, so a hover elsewhere in the window no longer re-renders
             // rows × columns cells for every preset row.
             PresetGridPreviewView(
-                rows: appState.rows,
-                columns: appState.columns,
-                selection: preset.scaledSelection(toRows: appState.rows, columns: appState.columns),
-                secondarySelections: preset.scaledSecondarySelections(toRows: appState.rows, columns: appState.columns),
+                rows: preset.baseRows,
+                columns: preset.baseColumns,
+                selection: preset.selection,
+                secondarySelections: preset.secondarySelections,
                 rectangleApps: preset.normalizedRectangleApps,
                 groupedPairs: preset.groupedPairs,
                 size: presetGridSize,
