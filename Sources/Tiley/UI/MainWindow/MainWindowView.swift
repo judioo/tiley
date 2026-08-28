@@ -2832,10 +2832,10 @@ struct MainWindowView: View {
         let presetGridSize = Self.presetGridThumbnailSize(for: screenContext)
         HStack(spacing: 12) {
             PresetGridPreviewView(
-                rows: appState.rows,
-                columns: appState.columns,
-                selection: preset.scaledSelection(toRows: appState.rows, columns: appState.columns),
-                secondarySelections: preset.scaledSecondarySelections(toRows: appState.rows, columns: appState.columns),
+                rows: preset.baseRows,
+                columns: preset.baseColumns,
+                selection: preset.selection,
+                secondarySelections: preset.secondarySelections,
                 rectangleApps: preset.normalizedRectangleApps,
                 groupedPairs: preset.groupedPairs
             )
