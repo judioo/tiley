@@ -1,5 +1,4 @@
 import AppKit
-import TelemetryDeck
 import UniformTypeIdentifiers
 
 // MARK: - Preset App Assignment
@@ -378,14 +377,6 @@ extension AppState {
         let primarySelection = allSelections.first ?? LayoutPreset.emptySelection
         let primaryName = primaryEntry?.target.appName ?? anchorTarget.appName
         recordSelectionAndHide(selection: primarySelection, appName: primaryName, wasConstrained: false)
-        let norm = primarySelection.normalized
-        TelemetryDeck.signal("layoutApplied", parameters: [
-            "columns": "\(norm.endColumn - norm.startColumn + 1)",
-            "rows": "\(norm.endRow - norm.startRow + 1)",
-            "multiSelection": "\(selectedWindowIndices.count)",
-            "selectionCount": "\(allSelections.count)",
-            "hasAppAssignments": "true",
-        ])
 
         // 7. Build windowIDBySelectionIndex for autoLinkPresetGroups + satellite registration.
         var windowIDBySelectionIndex: [Int: CGWindowID] = [:]
@@ -455,8 +446,6 @@ extension AppState {
             // events continue to fire.
             ensureAllSatellitesObserved()
         }
-
-        TelemetryDeck.signal("presetApplied", parameters: ["presetName": presetName])
     }
 
     /// Raise helper for `applyPresetWithAppAssignments`. Groups entries by PID

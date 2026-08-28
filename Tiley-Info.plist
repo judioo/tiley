@@ -25,9 +25,9 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 Yusuke Yamamoto All rights reserved.</string>
 	<key>SUFeedURL</key>
-	<string>https://yusuke.github.io/tiley/appcast.xml</string>
+	<string>https://judioo.github.io/tiley/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>8FlRTV3l0nTK2ET9xm7dDY08ysv4TbFw3k3nl2jr0GE=</string>
+	<string>Tzuz1evIwRwbkbUxitmlvqdoOWxbOwd/Y7xyH0MYVVY=</string>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 </dict>

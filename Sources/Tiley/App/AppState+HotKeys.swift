@@ -265,7 +265,7 @@ extension AppState {
 
     // MARK: - Debug/Release hotkey coordination
 
-    static let debugBundleID = "one.cafebabe.tiley.debug"
+    static let debugBundleID = "com.judioo.tiley.debug"
 
     /// Returns true when a debug build of Tiley is running alongside this release build.
     var isDebugVersionRunning: Bool {

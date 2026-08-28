@@ -4,7 +4,6 @@ import Observation
 import ServiceManagement
 import Sparkle
 import SwiftUI
-import TelemetryDeck
 
 /// Which edge of the window the speech-bubble arrow should point from.
 enum BubbleArrowEdge: Int {
@@ -881,11 +880,6 @@ final class AppState: NSObject, NSMenuDelegate {
         enableDebugLog = settings.enableDebugLog
         debugSimulateUpdate = settings.debugSimulateUpdate
         sanitizePresetGlobalShortcutEligibility()
-        TelemetryDeck.signal("settingsChanged", parameters: [
-            "columns": "\(settings.columns)",
-            "rows": "\(settings.rows)",
-            "gap": "\(settings.gap)",
-        ])
         // Only register the main toggle hotkey; keep preset global hotkeys
         // unregistered while the layout grid is visible so local shortcuts work.
         unregisterPresetHotKeys()
@@ -1243,7 +1237,6 @@ final class AppState: NSObject, NSMenuDelegate {
                 }
             }
 
-            TelemetryDeck.signal("gridOverlayOpened")
             perfLog("toggleOverlay phase 2 done")
         }
     }
@@ -1395,13 +1388,6 @@ final class AppState: NSObject, NSMenuDelegate {
         }
 
         recordSelectionAndHide(selection: selection, appName: primaryWindowTarget?.appName ?? primaryTarget.appName, wasConstrained: false)
-        let norm = selection.normalized
-        TelemetryDeck.signal("layoutApplied", parameters: [
-            "columns": "\(norm.endColumn - norm.startColumn + 1)",
-            "rows": "\(norm.endRow - norm.startRow + 1)",
-            "multiSelection": "\(selectedWindowIndices.count)",
-            "selectionCount": "\(allSelections.count)",
-        ])
         let movedWindowIDs = orderedIndices.map { availableWindowTargets[$0].cgWindowID }
         refreshGroupCandidatesAfterPresetApply(targetWindowIDs: movedWindowIDs)
 
@@ -1544,14 +1530,6 @@ final class AppState: NSObject, NSMenuDelegate {
 
         let primarySelection = selections[0]
         recordSelectionAndHide(selection: primarySelection, appName: primaryWindowTarget?.appName ?? primaryTarget.appName, wasConstrained: false)
-        let norm = primarySelection.normalized
-        TelemetryDeck.signal("layoutApplied", parameters: [
-            "columns": "\(norm.endColumn - norm.startColumn + 1)",
-            "rows": "\(norm.endRow - norm.startRow + 1)",
-            "multiSelection": "\(selectedWindowIndices.count)",
-            "selectionCount": "\(selections.count)",
-            "zOrderBased": "true",
-        ])
         let movedWindowIDs = orderedIndices.map { availableWindowTargets[$0].cgWindowID }
         refreshGroupCandidatesAfterPresetApply(targetWindowIDs: movedWindowIDs)
 
@@ -1655,11 +1633,6 @@ final class AppState: NSObject, NSMenuDelegate {
             }
             windowManager?.raiseWindow(target: target)
             recordSelectionAndHide(selection: selection, appName: target.appName, wasConstrained: constrained)
-            let norm = selection.normalized
-            TelemetryDeck.signal("layoutApplied", parameters: [
-                "columns": "\(norm.endColumn - norm.startColumn + 1)",
-                "rows": "\(norm.endRow - norm.startRow + 1)",
-            ])
             if target.cgWindowID != 0 {
                 refreshGroupCandidatesAfterPresetApply(targetWindowIDs: [target.cgWindowID])
             }

@@ -1,5 +1,4 @@
 import AppKit
-import TelemetryDeck
 
 extension AppState {
 
@@ -133,7 +132,6 @@ extension AppState {
         } else {
             apply(selection: allSelections.first ?? preset.scaledSelection(toRows: rows, columns: columns), to: target)
         }
-        TelemetryDeck.signal("presetApplied", parameters: ["presetName": preset.name])
     }
 
     /// Applies a layout preset on the screen where the mouse cursor is located.
