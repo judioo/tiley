@@ -201,10 +201,19 @@ struct SettingsView: View {
             TahoeSettingsSection(title: NSLocalizedString("Layouts", comment: "Settings section")) {
                 VStack(spacing: 0) {
                     TahoeSettingsRow(label: NSLocalizedString("Repeat shortcut cycles displays", comment: "Pressing a preset shortcut again moves the window to the next display"), systemImage: "rectangle.2.swap", iconAlignment: .center) {
-                        Toggle("", isOn: $draftSettings.presetShortcutCyclesDisplays)
-                            .toggleStyle(.switch)
-                            .controlSize(.mini)
-                            .labelsHidden()
+                        // Applies immediately (like the Startup toggles):
+                        // the draft-only path is lost when the window closes
+                        // without Apply.
+                        Toggle("", isOn: Binding(
+                            get: { draftSettings.presetShortcutCyclesDisplays },
+                            set: { newValue in
+                                appState.presetShortcutCyclesDisplays = newValue
+                                draftSettings.presetShortcutCyclesDisplays = newValue
+                            }
+                        ))
+                        .toggleStyle(.switch)
+                        .controlSize(.mini)
+                        .labelsHidden()
                     }
                     .padding(.vertical, 4)
 
