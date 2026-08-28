@@ -195,6 +195,13 @@ final class AppState: NSObject, NSMenuDelegate {
     @ObservationIgnored var hotKeyHandler: EventHandlerRef?
     @ObservationIgnored var hotKeysYieldedToDebug = false
     @ObservationIgnored var lastTargetPID: pid_t?
+    /// Grid selection Tiley last applied to each window, so display movement
+    /// can re-apply the same slot on the destination screen's grid instead of
+    /// scaling raw pixel frames between differently sized displays.
+    @ObservationIgnored var lastAppliedGridSelections: [CGWindowID: GridSelection] = [:]
+    /// Repeat-press display cycling for global preset shortcuts.
+    @ObservationIgnored var lastGlobalPresetID: UUID?
+    @ObservationIgnored var lastGlobalPresetPressAt: Date?
     @ObservationIgnored var workspaceObserverTask: Task<Void, Never>?
     @ObservationIgnored var appActivationTask: Task<Void, Never>?
     @ObservationIgnored var appDeactivationTask: Task<Void, Never>?
@@ -1349,6 +1356,7 @@ final class AppState: NSObject, NSMenuDelegate {
                 } else {
                     _ = try windowManager?.move(target: target, to: frame, onScreenFrame: currentScreenFrame)
                 }
+                rememberAppliedSelection(sel, for: target)
                 placements.append((selectionIndex: selectionIndex, target: target, targetFrame: frame))
             } catch {
                 NSLog("[Tiley] applyToMultipleWindows error for index \(idx): %@", error.localizedDescription)
@@ -1503,6 +1511,7 @@ final class AppState: NSObject, NSMenuDelegate {
                 } else {
                     _ = try windowManager?.move(target: target, to: frame, onScreenFrame: currentScreenFrame)
                 }
+                rememberAppliedSelection(sel, for: target)
                 placements.append((selectionIndex: position, target: target, targetFrame: frame))
             } catch {
                 NSLog("[Tiley] applyPresetToZOrderedWindows error for index \(idx): %@", error.localizedDescription)
@@ -1632,6 +1641,7 @@ final class AppState: NSObject, NSMenuDelegate {
                 constrained = try windowManager?.move(target: target, to: frame) ?? false
             }
             windowManager?.raiseWindow(target: target)
+            rememberAppliedSelection(selection, for: target)
             recordSelectionAndHide(selection: selection, appName: target.appName, wasConstrained: constrained)
             if target.cgWindowID != 0 {
                 refreshGroupCandidatesAfterPresetApply(targetWindowIDs: [target.cgWindowID])
@@ -1711,6 +1721,7 @@ final class AppState: NSObject, NSMenuDelegate {
                 constrained = try windowManager?.move(target: target, to: frame, onScreenFrame: currentScreenFrame) ?? false
             }
             windowManager?.raiseWindow(target: target)
+            rememberAppliedSelection(selection, for: target)
             recordSelectionAndHide(selection: selection, appName: target.appName, wasConstrained: constrained)
             if target.cgWindowID != 0 {
                 refreshGroupCandidatesAfterPresetApply(targetWindowIDs: [target.cgWindowID])
