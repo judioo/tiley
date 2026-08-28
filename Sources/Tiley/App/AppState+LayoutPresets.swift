@@ -162,7 +162,7 @@ extension AppState {
         lastGlobalPresetPressAt = now
 
         let screens = NSScreen.screens.sorted { $0.displayID < $1.displayID }
-        if isRepeatPress, screens.count > 1,
+        if isRepeatPress, presetShortcutCyclesDisplays, screens.count > 1,
            let target = windowManager?.captureFocusedWindow() {
             let currentScreen = screens.max(by: { a, b in
                 a.frame.intersection(target.frame).area < b.frame.intersection(target.frame).area
