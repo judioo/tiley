@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Pressing a layout preset's global shortcut again within 3 seconds now moves the window to the next display and applies the same preset there, cycling through displays and wrapping back to the first. A "Repeat shortcut cycles displays" toggle in Settings › Layouts (on by default) restores the old repeat-in-place behavior when turned off.
+
+### Fixed
+
+- The grid overlay now always opens on the desktop (Space) currently in view. The window is kept on screen at zero opacity for instant re-show, and its `.moveToActiveSpace` behavior only takes effect when a window is ordered in — so after the first open, the overlay stuck to the Space it first appeared on. It now joins all Spaces, matching Tiley's other overlay windows.
+- Layout presets now apply on the grid they were created with instead of being rescaled onto the current grid settings. A preset saved on a 9×9 grid kept its cell coordinates but was projected onto whatever rows/columns were configured later, shifting and resizing the placement whenever the fractions didn't divide evenly. The preset's stored base grid is now authoritative across every apply path (single window, multi-window, z-order fill, app-assigned slots, and group auto-linking), so saved layouts place identically regardless of later grid changes.
+- The preset list thumbnails, the edit workspace, hover highlights, and the on-screen ghost previews now all render a preset on its own base grid rather than a scaled approximation on the current grid, so what is shown matches what an apply will do. Dense grids (e.g. 9×9) no longer overflow the thumbnail's rounded background: the mini grid's inter-cell gap shrinks per axis when needed instead of pushing cells past the frame.
+- Moving a window to another display (picker menu, next/previous/primary, or a direct display shortcut) now re-applies the window's grid slot on the destination screen's grid instead of scaling its raw pixel frame proportionally. Proportional scaling distorted placements between displays with different resolutions or aspect ratios; a window Tiley placed in a grid region now lands in the same region on the new display. Windows the user has manually moved or resized since placement keep the old proportional behavior.
+
 ## [5.2.1] - 2026-07-31
 
 ### Fixed

@@ -129,7 +129,7 @@ extension AppState {
                 }
             } else if let presetID = appState.presetHotKeyIDs[hotKeyID.id] {
                 Task { @MainActor in
-                    appState.applyLayoutPreset(id: presetID)
+                    appState.handleGlobalPresetShortcut(id: presetID)
                 }
             } else if let action = appState.displayHotKeyActions[hotKeyID.id] {
                 Task { @MainActor in
