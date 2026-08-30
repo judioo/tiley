@@ -75,7 +75,9 @@ extension AppState {
             return
         }
 
-        let allSelections = preset.allScaledSelections(toRows: rows, columns: columns)
+        // Preview on the preset's own grid so the ghost matches what an
+        // apply will actually do.
+        let allSelections = preset.allSelections
         guard !allSelections.isEmpty else {
             hidePreviewOverlay()
             return
@@ -83,7 +85,7 @@ extension AppState {
 
         // If only one selection, fall back to normal preview.
         if allSelections.count <= 1 {
-            updateLayoutPreview(allSelections.first, screenContext: screenContext)
+            updateLayoutPreview(allSelections.first, screenContext: screenContext, gridRows: preset.baseRows, gridColumns: preset.baseColumns)
             return
         }
 
@@ -220,8 +222,8 @@ extension AppState {
 
         layoutPreviewController?.showMultipleSelections(
             items,
-            rows: rows,
-            columns: columns,
+            rows: preset.baseRows,
+            columns: preset.baseColumns,
             gap: gap,
             behind: parentWindow,
             showIndexLabels: showIndexLabels

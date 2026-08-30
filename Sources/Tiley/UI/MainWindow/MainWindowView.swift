@@ -3290,11 +3290,14 @@ struct MainWindowView: View {
         return appState.layoutPresets.first(where: { $0.id == editingID })
     }
 
-    /// Grid dimensions shown in the workspace. While editing a preset the
-    /// workspace displays the preset's own grid, so its selections render
-    /// exactly as saved; otherwise the current grid settings.
-    private var workspaceGridRows: Int { editingPreset?.baseRows ?? appState.rows }
-    private var workspaceGridColumns: Int { editingPreset?.baseColumns ?? appState.columns }
+    /// Grid dimensions shown in the workspace. While a preset is being
+    /// edited, hovered, or selected, the workspace displays that preset's
+    /// own grid, so its selections render exactly as saved; otherwise the
+    /// current grid settings. Starting a fresh drag clears the hover and
+    /// selection, which snaps the workspace back to the settings grid.
+    private var workspaceGridPreset: LayoutPreset? { editingPreset ?? highlightPreset }
+    private var workspaceGridRows: Int { workspaceGridPreset?.baseRows ?? appState.rows }
+    private var workspaceGridColumns: Int { workspaceGridPreset?.baseColumns ?? appState.columns }
 
     /// Committed selections for the grid workspace when editing a preset.
     /// Unscaled: the workspace shows the preset's base grid in edit mode.
@@ -3407,11 +3410,10 @@ struct MainWindowView: View {
             // Single selection but preset has multiple layouts → show multi-preview with z-order windows
             appState.updateLayoutPreviewForPreset(preset, screenContext: screenContext, showIndexLabels: true)
         } else {
-            let selection = preset.scaledSelection(toRows: appState.rows, columns: appState.columns)
             if let ctx = screenContext {
-                appState.updateLayoutPreview(selection, screenContext: ctx)
+                appState.updateLayoutPreview(preset.selection, screenContext: ctx, gridRows: preset.baseRows, gridColumns: preset.baseColumns)
             } else {
-                appState.updateLayoutPreview(selection)
+                appState.updateLayoutPreview(preset.selection, gridRows: preset.baseRows, gridColumns: preset.baseColumns)
             }
         }
     }
