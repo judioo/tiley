@@ -12,7 +12,7 @@
 #   scripts/gh_release.sh --dmg      # uploads DMG
 #
 # Environment variables (optional):
-#   REPO            - GitHub repository (default: yusuke/tiley)
+#   REPO            - GitHub repository (default: judioo/tiley)
 #   DRAFT           - Create as draft release: true/false (default: false)
 #   PRERELEASE      - Mark as prerelease: true/false (default: false)
 #   RELEASE_NOTES   - Path to release notes file (default: auto-generated from git log)
@@ -31,7 +31,7 @@ for arg in "$@"; do
 done
 
 # Settings
-REPO="${REPO:-yusuke/tiley}"
+REPO="${REPO:-judioo/tiley}"
 EXPORT_PATH="${EXPORT_PATH:-build/export}"
 APP_NAME="${APP_NAME:-Tiley.app}"
 APPCAST_DIR="${APPCAST_DIR:-build/sparkle}"

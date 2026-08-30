@@ -9,7 +9,7 @@
 #
 # Environment variables (optional):
 #   DOWNLOAD_URL_PREFIX  - Base URL for update downloads
-#                          (default: https://github.com/yusuke/tiley/releases/download)
+#                          (default: https://github.com/judioo/tiley/releases/download)
 #   APPCAST_DIR          - Directory where appcast.xml and archives are managed
 #                          (default: build/sparkle)
 
@@ -48,7 +48,7 @@ else
 fi
 
 # Sparkle appcast settings
-DOWNLOAD_URL_PREFIX="${DOWNLOAD_URL_PREFIX:-https://github.com/yusuke/tiley/releases/download}"
+DOWNLOAD_URL_PREFIX="${DOWNLOAD_URL_PREFIX:-https://github.com/judioo/tiley/releases/download}"
 APPCAST_DIR="${APPCAST_DIR:-build/sparkle}"
 
 # Verify prerequisites
@@ -112,16 +112,16 @@ for CHANGELOG in "${CHANGELOG_FILES[@]}"; do
     if [[ "$CHANGELOG_BASENAME" == "CHANGELOG.md" ]]; then
       if grep -q '^\[Unreleased\]:' "$CHANGELOG"; then
         # Update existing Unreleased link to compare from new version
-        sed -i '' "s|^\[Unreleased\]:.*|[Unreleased]: https://github.com/yusuke/tiley/compare/v${APP_VERSION}...HEAD|" "$CHANGELOG"
+        sed -i '' "s|^\[Unreleased\]:.*|[Unreleased]: https://github.com/judioo/tiley/compare/v${APP_VERSION}...HEAD|" "$CHANGELOG"
         # Add version link if not present
         if ! grep -q "^\\[${APP_VERSION}\\]:" "$CHANGELOG"; then
           sed -i '' "/^\[Unreleased\]:/a\\
-[${APP_VERSION}]: https://github.com/yusuke/tiley/releases/tag/v${APP_VERSION}
+[${APP_VERSION}]: https://github.com/judioo/tiley/releases/tag/v${APP_VERSION}
 " "$CHANGELOG"
         fi
       else
         # No link references yet, append them
-        printf '\n[Unreleased]: https://github.com/yusuke/tiley/compare/v%s...HEAD\n[%s]: https://github.com/yusuke/tiley/releases/tag/v%s\n' \
+        printf '\n[Unreleased]: https://github.com/judioo/tiley/compare/v%s...HEAD\n[%s]: https://github.com/judioo/tiley/releases/tag/v%s\n' \
           "$APP_VERSION" "$APP_VERSION" "$APP_VERSION" >> "$CHANGELOG"
       fi
     fi
