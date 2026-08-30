@@ -10,7 +10,10 @@ PROJECT="Tiley.xcodeproj"
 SCHEME="Tiley"
 CONFIGURATION="Release"
 ARCHIVE_PATH="${ARCHIVE_PATH:-build/Tiley.xcarchive}"
-APP_NAME="${APP_NAME:-Tiley.app}"
+# Display name shown in the Finder, menu bar, and Login Items. Override to
+# tell installs apart (e.g. APP_DISPLAY_NAME="Tiley Dev"). Default: Tiley.
+APP_DISPLAY_NAME="${APP_DISPLAY_NAME:-Tiley}"
+APP_NAME="${APP_NAME:-$APP_DISPLAY_NAME.app}"
 INSTALL_DIR="/Applications"
 INSTALLED_APP_PATH="$INSTALL_DIR/$APP_NAME"
 
@@ -41,22 +44,26 @@ fi
 echo "Cleaning previous archive: $ARCHIVE_PATH"
 rm -rf "$ARCHIVE_PATH"
 
-echo "Building archive"
+echo "Building archive (display name: $APP_DISPLAY_NAME)"
 xcodebuild \
   -project "$PROJECT" \
   -scheme "$SCHEME" \
   -configuration "$CONFIGURATION" \
   -archivePath "$ARCHIVE_PATH" \
+  "INFOPLIST_KEY_CFBundleDisplayName=$APP_DISPLAY_NAME" \
   archive
 
-ARCHIVED_APP_PATH="$ARCHIVE_PATH/Products/Applications/$APP_NAME"
+# The archive always produces Tiley.app (PRODUCT_NAME is unchanged so the
+# executable, bundle id, and debug-coordination logic stay stable); only the
+# installed bundle is renamed to the chosen display name.
+ARCHIVED_APP_PATH="$ARCHIVE_PATH/Products/Applications/Tiley.app"
 if [[ ! -d "$ARCHIVED_APP_PATH" ]]; then
   echo "Archived app not found at: $ARCHIVED_APP_PATH"
   exit 1
 fi
 
-echo "Copying app to $INSTALL_DIR"
-cp -R "$ARCHIVED_APP_PATH" "$INSTALL_DIR/"
+echo "Copying app to $INSTALLED_APP_PATH"
+cp -R "$ARCHIVED_APP_PATH" "$INSTALLED_APP_PATH"
 
 echo "Launching $APP_NAME"
 open "$INSTALLED_APP_PATH"
