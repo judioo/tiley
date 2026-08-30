@@ -50,7 +50,6 @@ xcodebuild \
   -scheme "$SCHEME" \
   -configuration "$CONFIGURATION" \
   -archivePath "$ARCHIVE_PATH" \
-  "INFOPLIST_KEY_CFBundleDisplayName=$APP_DISPLAY_NAME" \
   archive
 
 # The archive always produces Tiley.app (PRODUCT_NAME is unchanged so the
@@ -64,6 +63,19 @@ fi
 
 echo "Copying app to $INSTALLED_APP_PATH"
 cp -R "$ARCHIVED_APP_PATH" "$INSTALLED_APP_PATH"
+
+# A non-default display name is stamped into the installed copy's Info.plist
+# (the project uses a fixed Info.plist, so build settings can't inject it)
+# and the bundle is re-signed to reseal the modified plist.
+if [[ "$APP_DISPLAY_NAME" != "Tiley" ]]; then
+  CODESIGN_IDENTITY="${CODESIGN_IDENTITY:-Apple Development}"
+  PLIST="$INSTALLED_APP_PATH/Contents/Info.plist"
+  /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName $APP_DISPLAY_NAME" "$PLIST" 2>/dev/null \
+    || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string $APP_DISPLAY_NAME" "$PLIST"
+  /usr/libexec/PlistBuddy -c "Set :CFBundleName $APP_DISPLAY_NAME" "$PLIST"
+  echo "Re-signing with: $CODESIGN_IDENTITY"
+  codesign --force --sign "$CODESIGN_IDENTITY" "$INSTALLED_APP_PATH"
+fi
 
 echo "Launching $APP_NAME"
 open "$INSTALLED_APP_PATH"
