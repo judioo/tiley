@@ -1083,8 +1083,8 @@ struct MainWindowView: View {
                     }
 
                     LayoutGridWorkspaceView(
-                        rows: appState.rows,
-                        columns: appState.columns,
+                        rows: workspaceGridRows,
+                        columns: workspaceGridColumns,
                         gap: appState.gap,
                         highlightSelection: editingPresetHighlightSelection,
                         highlightSelections: editingPresetHighlightSelections,
@@ -1149,9 +1149,9 @@ struct MainWindowView: View {
                             activeLayoutSelection = selection
                             let nextColorIndex = editingPresetID != nil ? editingPresetCommittedSelections.count : 0
                             if let ctx = screenContext {
-                                appState.updateLayoutPreview(selection, screenContext: ctx, colorIndex: nextColorIndex)
+                                appState.updateLayoutPreview(selection, screenContext: ctx, colorIndex: nextColorIndex, gridRows: workspaceGridRows, gridColumns: workspaceGridColumns)
                             } else {
-                                appState.updateLayoutPreview(selection, colorIndex: nextColorIndex)
+                                appState.updateLayoutPreview(selection, colorIndex: nextColorIndex, gridRows: workspaceGridRows, gridColumns: workspaceGridColumns)
                             }
                         },
                         onHoverChange: { selection in
@@ -1186,9 +1186,9 @@ struct MainWindowView: View {
                                 nextColorIndex = editingPresetID != nil ? editingPresetCommittedSelections.count : 0
                             }
                             if let ctx = screenContext {
-                                appState.updateLayoutPreview(selection, screenContext: ctx, colorIndex: nextColorIndex, overrideFillNSColor: overrideFill)
+                                appState.updateLayoutPreview(selection, screenContext: ctx, colorIndex: nextColorIndex, overrideFillNSColor: overrideFill, gridRows: workspaceGridRows, gridColumns: workspaceGridColumns)
                             } else {
-                                appState.updateLayoutPreview(selection, colorIndex: nextColorIndex, overrideFillNSColor: overrideFill)
+                                appState.updateLayoutPreview(selection, colorIndex: nextColorIndex, overrideFillNSColor: overrideFill, gridRows: workspaceGridRows, gridColumns: workspaceGridColumns)
                             }
                         },
                         onSelectionCommit: { selection in
@@ -1201,8 +1201,11 @@ struct MainWindowView: View {
                                     } else {
                                         preset.secondarySelections.append(selection)
                                     }
-                                    preset.baseRows = appState.rows
-                                    preset.baseColumns = appState.columns
+                                    // The workspace displays the preset's own
+                                    // grid in edit mode, so the committed
+                                    // selection is already in base-grid
+                                    // coordinates — don't rebase to the
+                                    // current grid settings.
                                 }
                                 appState.updateLayoutPreview(nil)
                             } else if let ctx = screenContext {
@@ -3281,13 +3284,22 @@ struct MainWindowView: View {
         )
     }
 
+    /// The preset currently being edited, if any.
+    private var editingPreset: LayoutPreset? {
+        guard let editingID = editingPresetID else { return nil }
+        return appState.layoutPresets.first(where: { $0.id == editingID })
+    }
+
+    /// Grid dimensions shown in the workspace. While editing a preset the
+    /// workspace displays the preset's own grid, so its selections render
+    /// exactly as saved; otherwise the current grid settings.
+    private var workspaceGridRows: Int { editingPreset?.baseRows ?? appState.rows }
+    private var workspaceGridColumns: Int { editingPreset?.baseColumns ?? appState.columns }
+
     /// Committed selections for the grid workspace when editing a preset.
+    /// Unscaled: the workspace shows the preset's base grid in edit mode.
     private var editingPresetCommittedSelections: [GridSelection] {
-        guard let editingID = editingPresetID,
-              let preset = appState.layoutPresets.first(where: { $0.id == editingID }) else {
-            return []
-        }
-        return preset.allScaledSelections(toRows: appState.rows, columns: appState.columns)
+        editingPreset?.allSelections ?? []
     }
 
     /// App assignments parallel to `editingPresetCommittedSelections`. `nil`
@@ -3343,14 +3355,14 @@ struct MainWindowView: View {
         guard let preset = highlightPreset else { return nil }
         // Use single highlight only for presets without secondary selections.
         guard preset.secondarySelections.isEmpty else { return nil }
-        return preset.scaledSelection(toRows: appState.rows, columns: appState.columns)
+        return preset.scaledSelection(toRows: workspaceGridRows, columns: workspaceGridColumns)
     }
 
     /// All scaled selections for a hovered/selected multi-selection preset.
     private var editingPresetHighlightSelections: [GridSelection] {
         guard let preset = highlightPreset else { return [] }
         guard !preset.secondarySelections.isEmpty else { return [] }
-        return preset.allScaledSelections(toRows: appState.rows, columns: appState.columns)
+        return preset.allScaledSelections(toRows: workspaceGridRows, columns: workspaceGridColumns)
     }
 
     /// Grouped pairs for the preset currently being hovered/previewed. Keyed

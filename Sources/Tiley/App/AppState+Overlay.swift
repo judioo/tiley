@@ -1,7 +1,7 @@
 import AppKit
 
 extension AppState {
-    func updateLayoutPreview(_ selection: GridSelection?, screenContext: ScreenContext? = nil, colorIndex: Int = 0, overrideFillNSColor: NSColor? = nil) {
+    func updateLayoutPreview(_ selection: GridSelection?, screenContext: ScreenContext? = nil, colorIndex: Int = 0, overrideFillNSColor: NSColor? = nil, gridRows: Int? = nil, gridColumns: Int? = nil) {
         guard isShowingLayoutGrid else {
             hidePreviewOverlay()
             return
@@ -54,8 +54,8 @@ extension AppState {
 
         layoutPreviewController?.showSelection(
             selection,
-            rows: rows,
-            columns: columns,
+            rows: gridRows ?? rows,
+            columns: gridColumns ?? columns,
             gap: gap,
             behind: parentWindow,
             resizability: resizability,
