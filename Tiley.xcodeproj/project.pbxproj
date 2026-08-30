@@ -24,7 +24,6 @@
 		7015262B2F6EF349001E8095 /* AccessibilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701526252F6EF349001E8095 /* AccessibilityService.swift */; };
 		7015262F2F6EF356001E8095 /* GridModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7015262C2F6EF356001E8095 /* GridModels.swift */; };
 		701526302F6EF356001E8095 /* HotKeyShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7015262D2F6EF356001E8095 /* HotKeyShortcut.swift */; };
-		701526332F704490001E8095 /* TelemetryClient in Frameworks */ = {isa = PBXBuildFile; productRef = 701526322F704490001E8095 /* TelemetryClient */; };
 		703BB10A2F742EE700CB3140 /* DisplayShortcutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703BB1092F742EE700CB3140 /* DisplayShortcutSettings.swift */; };
 		7079031C2F9606C80069F372 /* AppState+WindowGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7079031B2F9606C80069F372 /* AppState+WindowGrouping.swift */; };
 		7079031F2F9606F00069F372 /* GroupLinkBadgeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7079031D2F9606F00069F372 /* GroupLinkBadgeController.swift */; };
@@ -172,7 +171,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				70B56A532F64336C005173A5 /* Sparkle in Frameworks */,
-				701526332F704490001E8095 /* TelemetryClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,7 +451,6 @@
 			mainGroup = A00000000000000000000013;
 			packageReferences = (
 				70B56A512F64336C005173A5 /* XCRemoteSwiftPackageReference "Sparkle" */,
-				701526312F704490001E8095 /* XCRemoteSwiftPackageReference "SwiftSDK" */,
 			);
 			productRefGroup = A00000000000000000000014 /* Products */;
 			projectDirPath = "";
@@ -594,7 +591,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = LSLHWH5MK3;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
@@ -621,7 +618,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = LSLHWH5MK3;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
@@ -750,7 +747,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 521;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = LSLHWH5MK3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Tiley-Info.plist";
@@ -780,12 +777,12 @@
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 521;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
+				DEVELOPMENT_TEAM = LSLHWH5MK3;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = LSLHWH5MK3;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Tiley-Info.plist";
@@ -839,14 +836,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		701526312F704490001E8095 /* XCRemoteSwiftPackageReference "SwiftSDK" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/TelemetryDeck/SwiftSDK";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.12.0;
-			};
-		};
 		70B56A512F64336C005173A5 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle.git";
@@ -858,11 +847,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		701526322F704490001E8095 /* TelemetryClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 701526312F704490001E8095 /* XCRemoteSwiftPackageReference "SwiftSDK" */;
-			productName = TelemetryClient;
-		};
 		70B56A522F64336C005173A5 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 70B56A512F64336C005173A5 /* XCRemoteSwiftPackageReference "Sparkle" */;
