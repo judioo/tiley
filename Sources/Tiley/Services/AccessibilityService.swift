@@ -820,6 +820,24 @@ final class AccessibilityService {
         }
     }
 
+    /// True when `actual` looks like the request was clamped to a screen's
+    /// visible area rather than an app-side minimum: some axis is pinned at
+    /// a screen's visible dimension that the request exceeds. Distinguishes
+    /// "AppKit still constrains against the old screen" (worth waiting out)
+    /// from "the app refuses to be this small" (hopeless to retry).
+    private func isClampedToSomeScreen(actual: CGSize, requested: CGSize) -> Bool {
+        for screen in NSScreen.screens {
+            let visible = screen.visibleFrame
+            if abs(actual.height - visible.height) <= 2, requested.height > visible.height + 2 {
+                return true
+            }
+            if abs(actual.width - visible.width) <= 2, requested.width > visible.width + 2 {
+                return true
+            }
+        }
+        return false
+    }
+
     /// For non-primary screens: first try to resize directly on the
     /// target screen.  If that fails and the target size fits on the
     /// primary screen, bounce the window there to resize (AX size
@@ -871,18 +889,25 @@ final class AccessibilityService {
         //    app can use the full screen dimensions for constraints.
         AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
 
-        // 2b. If the size doesn't match the target (e.g. the app still
-        //     uses the old screen's constraints after a cross-screen
-        //     move), wait briefly and retry up to 2 times. Settle-aware:
-        //     Chrome animates cross-display moves over a few hundred ms,
-        //     and re-setting size mid-animation redirects the animation.
-        for _ in 0..<2 {
+        // 2b. If the size doesn't match the target, retry. Two budgets:
+        //     when the rejected axis is pinned at another screen's visible
+        //     dimension, the window's screen membership hasn't caught up
+        //     with the move yet (the space transition lags the position
+        //     landing by several hundred ms, and AppKit clamps against the
+        //     OLD screen until it flips) — be patient, the clamp lifts.
+        //     Anything else is an app-side minimum that no retry will
+        //     change, so bail after the quick attempts.
+        var sizeAttempts = 0
+        while true {
             let (_, afterSize) = readSettlingIfMismatched(
                 window, expectedOrigin: nil, expectedSize: size)
             let sizeMismatch = abs(afterSize.width - size.width) > 2
                             || abs(afterSize.height - size.height) > 2
             guard sizeMismatch else { break }
-            usleep(50_000) // 50 ms
+            let budget = isClampedToSomeScreen(actual: afterSize, requested: size) ? 8 : 2
+            sizeAttempts += 1
+            guard sizeAttempts < budget else { break }
+            usleep(150_000) // 150 ms — screen reassignment needs real time
             AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
         }
 
