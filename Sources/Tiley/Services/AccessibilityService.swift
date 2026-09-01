@@ -748,6 +748,11 @@ final class AccessibilityService {
             throw WindowAccessError.positionSetFailed
         }
 
+        // 1b. Let an animated move (Chrome) land before sizing, so the app
+        //     doesn't clamp the size against the window's old position.
+        //     Synchronous apps match on the first read and pay nothing.
+        _ = readSettlingIfMismatched(window, expectedOrigin: origin, expectedSize: nil)
+
         // 2. Set target size.
         let sizeResult = AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
         guard sizeResult == .success else {
@@ -853,6 +858,15 @@ final class AccessibilityService {
         //    correct screen before resizing.
         AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, position)
 
+        // 1b. Wait for the move to land before sizing. Chrome animates
+        //     cross-display moves and clamps a size request against the
+        //     screen the window is still on, so a size set issued mid-move
+        //     gets capped to the old screen's remaining room (e.g.
+        //     1344x1084 when leaving the built-in display from x=384) and
+        //     the cap sticks. Synchronous apps match on the first read and
+        //     pay nothing.
+        _ = readSettlingIfMismatched(window, expectedOrigin: origin, expectedSize: nil)
+
         // 2. Set size — the window is now on the target screen so the
         //    app can use the full screen dimensions for constraints.
         AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
@@ -900,11 +914,17 @@ final class AccessibilityService {
         usleep(50_000)
 
         // 4. Final size correction — some apps re-constrain size after
-        //    moving to a different screen.
-        let (_, finalSize) = readSettlingIfMismatched(
-            window, expectedOrigin: nil, expectedSize: size)
-        if abs(finalSize.width - size.width) > 2 || abs(finalSize.height - size.height) > 2 {
+        //    moving to a different screen. Verified: a single
+        //    fire-and-forget re-set could itself be clamped or land
+        //    mid-animation and nothing would notice.
+        for _ in 0..<2 {
+            let (_, finalSize) = readSettlingIfMismatched(
+                window, expectedOrigin: nil, expectedSize: size)
+            let sizeOK = abs(finalSize.width - size.width) <= 2
+                      && abs(finalSize.height - size.height) <= 2
+            guard !sizeOK else { break }
             AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
+            usleep(50_000)
         }
 
         // 5. Verify position stuck — some apps (e.g. Electron/Notion)
