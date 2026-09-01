@@ -591,19 +591,45 @@ final class AccessibilityService {
     /// in-flight animation and left the window at an intermediate frame.
     /// Callers should read once first and only settle-wait on a mismatch,
     /// so apps that apply frames synchronously pay no extra latency.
+    /// A single pair of samples 60 ms apart is NOT enough to declare
+    /// stability: an ease-out animation's tail moves under 1px per sample
+    /// while still tens of pixels short of the target, and treating that
+    /// as settled let corrective writes land mid-flight and cancel the
+    /// remaining animation (Chrome froze at intermediate frames). Settled
+    /// now means either the frame reached the expected target, or it held
+    /// still for three consecutive samples (~180 ms) — longer than any
+    /// animation pauses mid-flight.
     private func settledPositionAndSize(of window: AXUIElement,
-                                        timeout: TimeInterval = 0.45) -> (pos: CGPoint, size: CGSize) {
+                                        targetOrigin: CGPoint? = nil,
+                                        targetSize: CGSize? = nil,
+                                        timeout: TimeInterval = 1.2) -> (pos: CGPoint, size: CGSize) {
+        func reachedTarget(_ sample: (pos: CGPoint, size: CGSize)) -> Bool {
+            guard targetOrigin != nil || targetSize != nil else { return false }
+            if let o = targetOrigin,
+               abs(sample.pos.x - o.x) > 2 || abs(sample.pos.y - o.y) > 2 {
+                return false
+            }
+            if let s = targetSize,
+               abs(sample.size.width - s.width) > 2 || abs(sample.size.height - s.height) > 2 {
+                return false
+            }
+            return true
+        }
+
         var last = readPositionAndSize(of: window)
+        var stableSamples = 0
         let deadline = Date().addingTimeInterval(timeout)
         while Date() < deadline {
+            if reachedTarget(last) { return last }
             usleep(60_000) // 60 ms between samples
             let now = readPositionAndSize(of: window)
             let stable = abs(now.pos.x - last.pos.x) <= 1
                       && abs(now.pos.y - last.pos.y) <= 1
                       && abs(now.size.width - last.size.width) <= 1
                       && abs(now.size.height - last.size.height) <= 1
-            if stable { return now }
+            stableSamples = stable ? stableSamples + 1 : 0
             last = now
+            if stableSamples >= 3 { return now }
         }
         return last
     }
@@ -624,7 +650,9 @@ final class AccessibilityService {
             mismatch = mismatch || abs(first.size.width - s.width) > tolerance || abs(first.size.height - s.height) > tolerance
         }
         guard mismatch else { return first }
-        return settledPositionAndSize(of: window)
+        return settledPositionAndSize(of: window,
+                                      targetOrigin: expectedOrigin,
+                                      targetSize: expectedSize)
     }
 
     /// Converts an AppKit frame to AX origin + size.
@@ -644,9 +672,10 @@ final class AccessibilityService {
     ///      screen edge (critical for maximise).
     ///   2. Set size — the window is now at the correct origin so it has room
     ///      to expand.  Some apps may revert the position here.
-    ///   3. Nudge position 1px off-target — defeats AX de-duplication.
-    ///   4. Set final position — always accepted because it differs from the
-    ///      nudge.
+    ///   3. Settle, then verify: only if the settled position is off-target,
+    ///      nudge 1px (defeats AX de-duplication) and re-set. Writes are
+    ///      never issued while an animated apply is still in flight — a
+    ///      position write mid-animation cancels the remainder (Chrome).
     ///
     /// On non-primary screens (especially mixed-DPI setups), AX size changes
     /// may silently fail.  In that case we "bounce" the window: move it to
@@ -752,22 +781,13 @@ final class AccessibilityService {
         //    app's own adjustment and lose.
         usleep(50_000) // 50 ms
 
-        // 4. Nudge position 1px off-target so the AX subsystem won't
-        //    de-duplicate the real set in step 5.
-        var nudged = origin
-        nudged.y += 1
-        if let nudgeVal = AXValueCreate(.cgPoint, &nudged) {
-            AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, nudgeVal)
-        }
-
-        // 5. Set final position — always treated as a change because it
-        //    differs from the nudged value.
-        AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, position)
-
-        // 6. Verify position stuck — some apps asynchronously revert
+        // 4. Verify position stuck — some apps asynchronously revert
         //    position after a size change even on the primary screen.
-        //    Settle-aware: don't re-set position while an animated move
-        //    (Chrome) is still in flight — the re-set would redirect it.
+        //    Correct-only-on-mismatch: an unconditional nudge + re-set here
+        //    used to land mid-animation (Chrome) and cancel the remaining
+        //    move, freezing the window at an intermediate frame. The settle
+        //    read waits out any animation first; a window that landed on
+        //    target gets no writes at all.
         for attempt in 0..<3 {
             let (afterPos, _) = readSettlingIfMismatched(
                 window, expectedOrigin: origin, expectedSize: nil, tolerance: 4)
@@ -783,7 +803,7 @@ final class AccessibilityService {
             AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, position)
         }
 
-        // 7. Final size assertion. The primary-screen path never re-checked
+        // 5. Final size assertion. The primary-screen path never re-checked
         //    size after the position fixes; apps that re-assert their own
         //    bounds late (Chrome) could leave the size drifted with nothing
         //    correcting it. One settled re-set, then let the caller's
@@ -879,15 +899,7 @@ final class AccessibilityService {
         //    response to the size change.
         usleep(50_000)
 
-        // 4. Nudge + final position to defeat AX de-duplication.
-        var nudged = origin
-        nudged.y += 1
-        if let nudgeVal = AXValueCreate(.cgPoint, &nudged) {
-            AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, nudgeVal)
-        }
-        AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, position)
-
-        // 5. Final size correction — some apps re-constrain size after
+        // 4. Final size correction — some apps re-constrain size after
         //    moving to a different screen.
         let (_, finalSize) = readSettlingIfMismatched(
             window, expectedOrigin: nil, expectedSize: size)
@@ -895,11 +907,13 @@ final class AccessibilityService {
             AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
         }
 
-        // 6. Verify position stuck — some apps (e.g. Electron/Notion)
+        // 5. Verify position stuck — some apps (e.g. Electron/Notion)
         //    asynchronously revert position after a size change, and the
-        //    revert can take longer than the 50 ms wait in step 3.
-        //    Retry up to 3 times with increasing waits. Settle-aware so an
-        //    animated move isn't redirected mid-flight.
+        //    revert can take longer than the 50 ms wait in step 3, and the
+        //    2c bounce leaves the window parked on the primary screen.
+        //    Correct-only-on-mismatch: the former unconditional nudge +
+        //    re-set cancelled Chrome's in-flight animated moves. Retry up
+        //    to 3 times with increasing waits.
         for attempt in 0..<3 {
             let (afterPos, _) = readSettlingIfMismatched(
                 window, expectedOrigin: origin, expectedSize: nil, tolerance: 4)
@@ -915,7 +929,7 @@ final class AccessibilityService {
             AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, position)
         }
 
-        // 7. Re-raise in case the bounce changed z-order.
+        // 6. Re-raise in case the bounce changed z-order.
         raiseWindow(window)
     }
 
