@@ -476,8 +476,11 @@ final class AccessibilityService {
 
         // If the app constrained the size (e.g. minimum window size),
         // recalculate the position so the window stays within the
-        // target screen's visible area.
-        let (actualPos, actualSize) = readPositionAndSize(of: window)
+        // target screen's visible area. Settle-aware: an animated apply
+        // (Chrome) must not be judged — or repositioned — mid-flight,
+        // otherwise the clamp below fits the position to a stale size.
+        let (actualPos, actualSize) = readSettlingIfMismatched(
+            window, expectedOrigin: targetOrigin, expectedSize: targetSize)
         let constrained = abs(actualSize.width - targetSize.width) > 2
                        || abs(actualSize.height - targetSize.height) > 2
         if constrained {
@@ -525,6 +528,52 @@ final class AccessibilityService {
             AXValueGetValue(szVal, .cgSize, &size)
         }
         return (pos, size)
+    }
+
+    /// Waits until a window's frame stops changing and returns the settled
+    /// position and size.
+    ///
+    /// Some apps — notably Chrome — animate AX-initiated frame changes over
+    /// a few hundred milliseconds. An immediate read-back mid-animation
+    /// looks like the app rejected or constrained the change, which used to
+    /// trigger rescue paths (bounce, position re-sets) that redirected the
+    /// in-flight animation and left the window at an intermediate frame.
+    /// Callers should read once first and only settle-wait on a mismatch,
+    /// so apps that apply frames synchronously pay no extra latency.
+    private func settledPositionAndSize(of window: AXUIElement,
+                                        timeout: TimeInterval = 0.45) -> (pos: CGPoint, size: CGSize) {
+        var last = readPositionAndSize(of: window)
+        let deadline = Date().addingTimeInterval(timeout)
+        while Date() < deadline {
+            usleep(60_000) // 60 ms between samples
+            let now = readPositionAndSize(of: window)
+            let stable = abs(now.pos.x - last.pos.x) <= 1
+                      && abs(now.pos.y - last.pos.y) <= 1
+                      && abs(now.size.width - last.size.width) <= 1
+                      && abs(now.size.height - last.size.height) <= 1
+            if stable { return now }
+            last = now
+        }
+        return last
+    }
+
+    /// Reads the frame once and, only if it doesn't match the expected
+    /// origin/size, waits for any in-flight animation to settle before
+    /// returning. `expectedOrigin` may be nil to compare size only.
+    private func readSettlingIfMismatched(_ window: AXUIElement,
+                                          expectedOrigin: CGPoint?,
+                                          expectedSize: CGSize?,
+                                          tolerance: CGFloat = 2) -> (pos: CGPoint, size: CGSize) {
+        let first = readPositionAndSize(of: window)
+        var mismatch = false
+        if let o = expectedOrigin {
+            mismatch = mismatch || abs(first.pos.x - o.x) > tolerance || abs(first.pos.y - o.y) > tolerance
+        }
+        if let s = expectedSize {
+            mismatch = mismatch || abs(first.size.width - s.width) > tolerance || abs(first.size.height - s.height) > tolerance
+        }
+        guard mismatch else { return first }
+        return settledPositionAndSize(of: window)
     }
 
     /// Converts an AppKit frame to AX origin + size.
@@ -625,12 +674,15 @@ final class AccessibilityService {
             throw WindowAccessError.sizeSetFailed
         }
 
-        // 2b. Verify that the size actually changed.  Some apps (e.g. Chrome)
-        //     return .success but silently ignore the size change.  In that
-        //     case, bounce the window to the top-left of the visible area
+        // 2b. Verify that the size actually changed.  Some apps return
+        //     .success but silently ignore the size change.  Others (Chrome)
+        //     accept it and animate towards it — settle first so an
+        //     in-flight animation isn't mistaken for a refusal.  On a real
+        //     refusal, bounce the window to the top-left of the visible area
         //     (giving maximum room to expand), resize there, then continue
         //     to position correction below.
-        let (_, afterSize) = readPositionAndSize(of: window)
+        let (_, afterSize) = readSettlingIfMismatched(
+            window, expectedOrigin: nil, expectedSize: size)
         let sizeUnchanged = abs(afterSize.width - size.width) > 2
                          || abs(afterSize.height - size.height) > 2
         if sizeUnchanged {
@@ -663,8 +715,11 @@ final class AccessibilityService {
 
         // 6. Verify position stuck — some apps asynchronously revert
         //    position after a size change even on the primary screen.
+        //    Settle-aware: don't re-set position while an animated move
+        //    (Chrome) is still in flight — the re-set would redirect it.
         for attempt in 0..<3 {
-            let (afterPos, _) = readPositionAndSize(of: window)
+            let (afterPos, _) = readSettlingIfMismatched(
+                window, expectedOrigin: origin, expectedSize: nil, tolerance: 4)
             let posOK = abs(afterPos.x - origin.x) <= 4
                      && abs(afterPos.y - origin.y) <= 4
             guard !posOK else { break }
@@ -675,6 +730,17 @@ final class AccessibilityService {
                 AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, v)
             }
             AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, position)
+        }
+
+        // 7. Final size assertion. The primary-screen path never re-checked
+        //    size after the position fixes; apps that re-assert their own
+        //    bounds late (Chrome) could leave the size drifted with nothing
+        //    correcting it. One settled re-set, then let the caller's
+        //    constrained handling take over.
+        let (_, settledSize) = readSettlingIfMismatched(
+            window, expectedOrigin: nil, expectedSize: size)
+        if abs(settledSize.width - size.width) > 2 || abs(settledSize.height - size.height) > 2 {
+            AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
         }
     }
 
@@ -722,9 +788,12 @@ final class AccessibilityService {
 
         // 2b. If the size doesn't match the target (e.g. the app still
         //     uses the old screen's constraints after a cross-screen
-        //     move), wait briefly and retry up to 2 times.
+        //     move), wait briefly and retry up to 2 times. Settle-aware:
+        //     Chrome animates cross-display moves over a few hundred ms,
+        //     and re-setting size mid-animation redirects the animation.
         for _ in 0..<2 {
-            let (_, afterSize) = readPositionAndSize(of: window)
+            let (_, afterSize) = readSettlingIfMismatched(
+                window, expectedOrigin: nil, expectedSize: size)
             let sizeMismatch = abs(afterSize.width - size.width) > 2
                             || abs(afterSize.height - size.height) > 2
             guard sizeMismatch else { break }
@@ -735,7 +804,8 @@ final class AccessibilityService {
         // 2c. If size is still wrong and fits on the primary screen,
         //     bounce there to resize — AX is more reliable on primary.
         do {
-            let (_, sz) = readPositionAndSize(of: window)
+            let (_, sz) = readSettlingIfMismatched(
+                window, expectedOrigin: nil, expectedSize: size)
             let stillWrong = abs(sz.width - size.width) > 2
                           || abs(sz.height - size.height) > 2
             if stillWrong, let primary = NSScreen.screens.first {
@@ -768,7 +838,8 @@ final class AccessibilityService {
 
         // 5. Final size correction — some apps re-constrain size after
         //    moving to a different screen.
-        let (_, finalSize) = readPositionAndSize(of: window)
+        let (_, finalSize) = readSettlingIfMismatched(
+            window, expectedOrigin: nil, expectedSize: size)
         if abs(finalSize.width - size.width) > 2 || abs(finalSize.height - size.height) > 2 {
             AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
         }
@@ -776,9 +847,11 @@ final class AccessibilityService {
         // 6. Verify position stuck — some apps (e.g. Electron/Notion)
         //    asynchronously revert position after a size change, and the
         //    revert can take longer than the 50 ms wait in step 3.
-        //    Retry up to 3 times with increasing waits.
+        //    Retry up to 3 times with increasing waits. Settle-aware so an
+        //    animated move isn't redirected mid-flight.
         for attempt in 0..<3 {
-            let (afterPos, _) = readPositionAndSize(of: window)
+            let (afterPos, _) = readSettlingIfMismatched(
+                window, expectedOrigin: origin, expectedSize: nil, tolerance: 4)
             let posOK = abs(afterPos.x - origin.x) <= 4
                      && abs(afterPos.y - origin.y) <= 4
             guard !posOK else { break }
