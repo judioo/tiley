@@ -107,6 +107,27 @@ enum WindowAccessError: LocalizedError {
 }
 
 final class AccessibilityService {
+    /// `_AXUIElementGetWindow` — private HIServices API that returns the
+    /// CGWindowID backing an AX window element. ABI-stable for over a decade
+    /// (yabai, AltTab, and Rectangle all rely on it). Resolved via dlsym so
+    /// the app degrades to frame-matching if the symbol ever disappears.
+    private typealias AXGetWindowFunc = @convention(c) (AXUIElement, UnsafeMutablePointer<CGWindowID>) -> AXError
+
+    private static let _axGetWindow: AXGetWindowFunc? = {
+        guard let handle = dlopen(nil, RTLD_LAZY),
+              let sym = dlsym(handle, "_AXUIElementGetWindow") else { return nil }
+        return unsafeBitCast(sym, to: AXGetWindowFunc.self)
+    }()
+
+    /// Returns the CGWindowID for an AX window element, or nil if the
+    /// private API is unavailable or the element has no backing window.
+    static func cgWindowID(of window: AXUIElement) -> CGWindowID? {
+        guard let fn = _axGetWindow else { return nil }
+        var wid: CGWindowID = 0
+        guard fn(window, &wid) == .success, wid != 0 else { return nil }
+        return wid
+    }
+
     func checkAccess(prompt: Bool) -> Bool {
         let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: prompt] as CFDictionary
         return AXIsProcessTrustedWithOptions(options)
@@ -227,6 +248,9 @@ final class AccessibilityService {
         let appName = NSRunningApplication(processIdentifier: pid)?.localizedName ?? NSLocalizedString("App", comment: "Generic app name fallback")
         let windowTitle = try? copyStringAttribute(windowElement, attribute: kAXTitleAttribute)
 
+        let cgWindowID = Self.cgWindowID(of: windowElement)
+            ?? cgWindowIDByBoundsMatch(pid: pid, axOrigin: origin, size: sizeRect)
+
         let result = WindowTarget(
             appElement: appElement,
             windowElement: windowElement,
@@ -236,11 +260,38 @@ final class AccessibilityService {
             frame: frame,
             visibleFrame: visibleFrame,
             screenFrame: screenFrame,
-            isHidden: NSRunningApplication(processIdentifier: pid)?.isHidden ?? false
+            isHidden: NSRunningApplication(processIdentifier: pid)?.isHidden ?? false,
+            cgWindowID: cgWindowID
         )
         let elapsed = (CFAbsoluteTimeGetCurrent() - perfStart) * 1000
         debugLog("windowTarget(for: \(pid)) done (\(String(format: "%.1f", elapsed))ms)")
         return result
+    }
+
+    /// Fallback CGWindowID resolution when `_AXUIElementGetWindow` is
+    /// unavailable: match the AX frame against the app's on-screen layer-0
+    /// CG windows. The list is front-to-back, so on a tie the frontmost
+    /// (focused) window wins.
+    private func cgWindowIDByBoundsMatch(pid: pid_t, axOrigin: CGPoint, size: CGSize) -> CGWindowID {
+        guard let list = CGWindowListCopyWindowInfo(
+            [.optionOnScreenOnly, .excludeDesktopElements],
+            kCGNullWindowID
+        ) as? [[CFString: Any]] else { return 0 }
+        let tolerance: CGFloat = 5
+        for info in list {
+            guard info[kCGWindowOwnerPID] as? pid_t == pid,
+                  (info[kCGWindowLayer] as? Int) == 0,
+                  let wid = info[kCGWindowNumber] as? CGWindowID,
+                  let boundsRef = info[kCGWindowBounds],
+                  let bounds = CGRect(dictionaryRepresentation: boundsRef as! CFDictionary) else { continue }
+            if abs(bounds.origin.x - axOrigin.x) < tolerance,
+               abs(bounds.origin.y - axOrigin.y) < tolerance,
+               abs(bounds.width - size.width) < tolerance,
+               abs(bounds.height - size.height) < tolerance {
+                return wid
+            }
+        }
+        return 0
     }
 
     /// Detects per-axis resize capability of a window using non-destructive
@@ -1025,6 +1076,8 @@ final class AccessibilityService {
             let element: AXUIElement
             let origin: CGPoint   // AX/CG top-left coordinates
             let size: CGSize
+            /// Resolved via _AXUIElementGetWindow; 0 when unavailable.
+            let windowID: CGWindowID
         }
 
         perfLog("cgEntries filtered (\(cgEntries.count) entries, \(orderedPIDs.count) unique PIDs)")
@@ -1045,7 +1098,8 @@ final class AccessibilityService {
                 guard AXValueGetValue(pos, .cgPoint, &origin),
                       AXValueGetValue(sz, .cgSize, &size) else { continue }
                 guard size.width > 0, size.height > 0 else { continue }
-                infos.append(AXWindowInfo(element: w, origin: origin, size: size))
+                let wid = Self.cgWindowID(of: w) ?? 0
+                infos.append(AXWindowInfo(element: w, origin: origin, size: size, windowID: wid))
             }
             axWindowsByPID[pid] = infos
         }
@@ -1058,18 +1112,31 @@ final class AccessibilityService {
         for cgEntry in currentSpaceEntries {
             guard !hiddenPIDs.contains(cgEntry.pid) else { continue }
             guard let axInfos = axWindowsByPID[cgEntry.pid] else { continue }
+            var matchedIndex: Int?
+
+            // Exact match by CGWindowID (private AX API) — immune to the
+            // frame heuristics below, which fail for apps whose CG bounds
+            // and AX frame disagree mid-animation (Chrome).
+            if cgEntry.windowID != 0 {
+                matchedIndex = axInfos.firstIndex { info in
+                    info.windowID == cgEntry.windowID
+                        && !usedAXWindows.contains(ObjectIdentifier(info.element))
+                }
+            }
+
             // Find matching AX window by position/size comparison.
             let tolerance: CGFloat = 5
-            var matchedIndex: Int?
-            for (i, axInfo) in axInfos.enumerated() {
-                let id = ObjectIdentifier(axInfo.element)
-                guard !usedAXWindows.contains(id) else { continue }
-                if abs(axInfo.origin.x - cgEntry.bounds.origin.x) < tolerance
-                    && abs(axInfo.origin.y - cgEntry.bounds.origin.y) < tolerance
-                    && abs(axInfo.size.width - cgEntry.bounds.width) < tolerance
-                    && abs(axInfo.size.height - cgEntry.bounds.height) < tolerance {
-                    matchedIndex = i
-                    break
+            if matchedIndex == nil {
+                for (i, axInfo) in axInfos.enumerated() {
+                    let id = ObjectIdentifier(axInfo.element)
+                    guard !usedAXWindows.contains(id) else { continue }
+                    if abs(axInfo.origin.x - cgEntry.bounds.origin.x) < tolerance
+                        && abs(axInfo.origin.y - cgEntry.bounds.origin.y) < tolerance
+                        && abs(axInfo.size.width - cgEntry.bounds.width) < tolerance
+                        && abs(axInfo.size.height - cgEntry.bounds.height) < tolerance {
+                        matchedIndex = i
+                        break
+                    }
                 }
             }
 
@@ -1216,7 +1283,8 @@ final class AccessibilityService {
                     frame: frame,
                     visibleFrame: visibleFrame,
                     screenFrame: screenFrame,
-                    isHidden: true
+                    isHidden: true,
+                    cgWindowID: Self.cgWindowID(of: w) ?? 0
                 ))
                 addedAny = true
             }
