@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- **Move to Space**: a new shortcut (Settings › Display Move Shortcuts, global or inside the overlay) opens a picker of the Mission Control desktops on the window's display, each showing the apps on it. Press 1–9 or 0 (or click) to send the window there; you follow it. Tiley jumps straight to the desktop when its system "Switch to Desktop N" shortcut is on, and otherwise steps with ⌃← / ⌃→. Settings shows which desktops lack a shortcut, with buttons to turn the missing ones on (Desktop 1–16, after confirming) and to open Keyboard Shortcuts.
 - Pressing a layout preset's global shortcut again within 3 seconds now moves the window to the next display and applies the same preset there, cycling through displays and wrapping back to the first. A "Repeat shortcut cycles displays" toggle in Settings › Layouts (on by default) restores the old repeat-in-place behavior when turned off.
 
 ### Fixed
