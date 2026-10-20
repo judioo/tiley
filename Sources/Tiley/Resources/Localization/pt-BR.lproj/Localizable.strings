@@ -186,6 +186,9 @@
 "Unpinned from All Spaces" = "Desafixada de Todos os Spaces";
 "Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "Pressione o atalho de novo para desafixar. Uma janela fixada acompanha você ao trocar de mesa pelo teclado; depois de um gesto ou do Mission Control, o Tiley a traz quando a troca termina.";
 "Unpin" = "Desafixar";
-"All Spaces" = "Todos os Spaces";
 "Stop keeping this window on every desktop" = "Deixar de manter esta janela em todas as mesas";
 "Keep this window on whichever desktop you're on" = "Manter esta janela na mesa em que você estiver";
+"Pin This Window" = "Fixar Esta Janela";
+"Also pinned to all spaces" = "Também fixadas em todos os Spaces";
+"⇧P unpins all" = "⇧P desafixa todas";
+"%d windows" = "%d janelas";

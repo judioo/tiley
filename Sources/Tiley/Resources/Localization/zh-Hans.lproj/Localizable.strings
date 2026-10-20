@@ -186,6 +186,9 @@
 "Unpinned from All Spaces" = "已取消固定到所有空间";
 "Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "再次按下快捷键即可取消固定。用键盘切换桌面时，固定的窗口会随之移动；通过轻扫或调度中心切换后，Tiley 会在切换完成后将其移过来。";
 "Unpin" = "取消固定";
-"All Spaces" = "所有空间";
 "Stop keeping this window on every desktop" = "不再在每个桌面上显示此窗口";
 "Keep this window on whichever desktop you're on" = "让此窗口始终显示在当前桌面上";
+"Pin This Window" = "固定此窗口";
+"Also pinned to all spaces" = "其他已固定到所有空间的窗口";
+"⇧P unpins all" = "⇧P 全部取消固定";
+"%d windows" = "%d 个窗口";

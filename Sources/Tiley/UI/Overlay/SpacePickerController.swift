@@ -31,9 +31,19 @@ struct SpacePickerContent {
     let warning: String?
     /// True when the window is already pinned to all Spaces.
     let isPinned: Bool
+    /// Other windows pinned to all Spaces, which can be unpinned from here
+    /// even though the picker targets the focused window.
+    let otherPinned: [PinnedWindowItem]
 
-    /// The key that toggles Pin to All Spaces.
+    /// The key that toggles Pin to All Spaces; with Shift it unpins everything.
     static let pinKey = "p"
+}
+
+/// A pinned window listed in the picker.
+struct PinnedWindowItem: Identifiable {
+    let id: CGWindowID
+    let appIcon: NSImage?
+    let label: String
 }
 
 // MARK: - Style constants
@@ -59,17 +69,24 @@ final class SpacePickerController {
     private var panel: SpacePickerPanel?
     private let onPick: (UInt64) -> Void
     private let onTogglePin: () -> Void
+    private let onUnpin: ([CGWindowID]) -> Void
     private let onCancel: () -> Void
     private let items: [SpacePickerItem]
     private let canTogglePin: Bool
+    /// Every pinned window, the target included when it is pinned.
+    private let allPinnedIDs: [CGWindowID]
     private var finished = false
 
     init(content: SpacePickerContent, on screen: NSScreen,
          onPick: @escaping (UInt64) -> Void,
          onTogglePin: @escaping () -> Void,
+         onUnpin: @escaping ([CGWindowID]) -> Void,
+         targetWindowID: CGWindowID,
          onCancel: @escaping () -> Void) {
         self.onPick = onPick
         self.onTogglePin = onTogglePin
+        self.onUnpin = onUnpin
+        self.allPinnedIDs = content.otherPinned.map(\.id) + (content.isPinned ? [targetWindowID] : [])
         self.onCancel = onCancel
         self.items = content.items
         // Unpinning always works; pinning needs the switch shortcuts.
@@ -79,6 +96,7 @@ final class SpacePickerController {
             content: content,
             onPick: { [weak self] id in self?.pick(id) },
             onTogglePin: { [weak self] in self?.togglePin() },
+            onUnpin: { [weak self] id in self?.unpin([id]) },
             onOpenSettings: { [weak self] in self?.openSettings() }
         )
         let hosting = NSHostingView(rootView: view)
@@ -119,6 +137,13 @@ final class SpacePickerController {
         onTogglePin()
     }
 
+    private func unpin(_ ids: [CGWindowID]) {
+        guard !finished, !ids.isEmpty else { return }
+        finished = true
+        close()
+        onUnpin(ids)
+    }
+
     /// Closes the picker and opens the Mission Control shortcut settings.
     private func openSettings() {
         cancel()
@@ -139,6 +164,10 @@ final class SpacePickerController {
         let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
         if modifiers == .command, event.charactersIgnoringModifiers == "," {
             openSettings()
+            return true
+        }
+        if modifiers == .shift, event.charactersIgnoringModifiers?.lowercased() == SpacePickerContent.pinKey {
+            if allPinnedIDs.isEmpty { NSSound.beep() } else { unpin(allPinnedIDs) }
             return true
         }
         if modifiers.isEmpty, event.charactersIgnoringModifiers?.lowercased() == SpacePickerContent.pinKey {
@@ -197,6 +226,7 @@ private struct SpacePickerView: View {
     let content: SpacePickerContent
     let onPick: (UInt64) -> Void
     let onTogglePin: () -> Void
+    let onUnpin: (CGWindowID) -> Void
     let onOpenSettings: () -> Void
 
     /// Desktop tiles plus the All Spaces tile.
@@ -249,6 +279,11 @@ private struct SpacePickerView: View {
                 PinTile(isPinned: content.isPinned,
                         isEnabled: content.isPinned || content.warning == nil,
                         action: onTogglePin)
+            }
+
+            if !content.otherPinned.isEmpty {
+                PinnedWindowsList(items: content.otherPinned, onUnpin: onUnpin)
+                    .frame(maxWidth: gridWidth, alignment: .leading)
             }
 
             HStack(spacing: 12) {
@@ -391,7 +426,7 @@ private struct PinTile: View {
                     Spacer()
                     Text(isPinned
                          ? NSLocalizedString("Unpin", comment: "Space picker: tile that unpins the window from all spaces")
-                         : NSLocalizedString("All Spaces", comment: "Space picker: tile that pins the window to all spaces"))
+                         : NSLocalizedString("Pin This Window", comment: "Space picker: tile that pins the picker's window to all spaces"))
                         .font(.system(size: 11, weight: isPinned ? .semibold : .regular))
                         .foregroundStyle(isPinned ? Color.accentColor : .secondary)
                         .padding(.bottom, 6)
@@ -413,5 +448,60 @@ private struct PinTile: View {
         .help(isPinned
               ? NSLocalizedString("Stop keeping this window on every desktop", comment: "Space picker: tooltip for the unpin tile")
               : NSLocalizedString("Keep this window on whichever desktop you're on", comment: "Space picker: tooltip for the pin tile"))
+    }
+}
+
+/// The other pinned windows, each with an unpin button.
+private struct PinnedWindowsList: View {
+    let items: [PinnedWindowItem]
+    let onUnpin: (CGWindowID) -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Text(NSLocalizedString("Also pinned to all spaces", comment: "Space picker: heading for the list of other pinned windows"))
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.secondary)
+                Spacer(minLength: 0)
+                Text(NSLocalizedString("⇧P unpins all", comment: "Space picker: hint that Shift-P unpins every pinned window"))
+                    .font(.system(size: 11))
+                    .foregroundStyle(.tertiary)
+            }
+            ForEach(items) { item in
+                PinnedWindowRow(item: item) { onUnpin(item.id) }
+            }
+        }
+    }
+}
+
+private struct PinnedWindowRow: View {
+    let item: PinnedWindowItem
+    let onUnpin: () -> Void
+    @State private var isHovered = false
+
+    var body: some View {
+        HStack(spacing: 8) {
+            if let icon = item.appIcon {
+                Image(nsImage: icon)
+                    .resizable()
+                    .frame(width: 18, height: 18)
+            }
+            Text(item.label)
+                .font(.system(size: 12))
+                .lineLimit(1)
+                .truncationMode(.middle)
+            Spacer(minLength: 8)
+            Button(action: onUnpin) {
+                Label(NSLocalizedString("Unpin", comment: "Space picker: tile that unpins the window from all spaces"),
+                      systemImage: "pin.slash")
+                    .font(.system(size: 11))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(isHovered ? Color.accentColor : .secondary)
+            .onHover { isHovered = $0 }
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 5)
+        .background(Color.primary.opacity(0.06), in: RoundedRectangle(cornerRadius: 7, style: .continuous))
     }
 }
