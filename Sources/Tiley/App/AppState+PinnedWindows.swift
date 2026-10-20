@@ -51,6 +51,60 @@ extension AppState {
         showPinFeedback(pinned: pinned, target: target)
     }
 
+    /// Unpins the given windows (from the picker's pinned list).
+    func unpinWindows(_ windowIDs: [CGWindowID]) {
+        let removed = windowIDs.compactMap { pinnedWindows.removeValue(forKey: $0) }
+        guard !removed.isEmpty else { return }
+        debugLog("unpinWindows: \(removed.map { "\($0.appName) wid=\($0.windowID)" }) total=\(pinnedWindows.count)")
+        updateSpaceSwitchTap()
+
+        pinHUD?.dismiss()
+        let subtitle = removed.count == 1
+            ? pinnedWindowLabel(removed[0])
+            : String(format: NSLocalizedString("%d windows", comment: "HUD subtitle when several windows were unpinned"), removed.count)
+        let hud = PinHUDController(
+            title: NSLocalizedString("Unpinned from All Spaces", comment: "HUD shown when a window is unpinned from all spaces"),
+            subtitle: subtitle,
+            systemImage: "pin.slash",
+            icon: removed.count == 1 ? NSRunningApplication(processIdentifier: removed[0].pid)?.icon : nil
+        )
+        pinHUD = hud
+        let mouse = NSEvent.mouseLocation
+        if let screen = NSScreen.screens.first(where: { NSMouseInRect(mouse, $0.frame, false) }) ?? NSScreen.main {
+            hud.show(on: screen)
+        }
+    }
+
+    /// Pinned windows other than `windowID`, for the picker's list. Windows
+    /// that have closed are dropped.
+    func pinnedWindowItems(excluding windowID: CGWindowID) -> [PinnedWindowItem] {
+        for id in pinnedWindows.keys where !windowExists(id) {
+            pinnedWindows.removeValue(forKey: id)
+        }
+        updateSpaceSwitchTap()
+        return pinnedWindows.values
+            .filter { $0.windowID != windowID }
+            .sorted { $0.windowID < $1.windowID }
+            .map { pinned in
+                PinnedWindowItem(
+                    id: pinned.windowID,
+                    appIcon: NSRunningApplication(processIdentifier: pinned.pid)?.icon,
+                    label: pinnedWindowLabel(pinned)
+                )
+            }
+    }
+
+    /// "App — window title", or just the app name when the title is unknown.
+    private func pinnedWindowLabel(_ pinned: PinnedWindow) -> String {
+        var value: CFTypeRef?
+        if let element = pinned.windowElement,
+           AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &value) == .success,
+           let title = value as? String, !title.isEmpty {
+            return "\(pinned.appName) — \(title)"
+        }
+        return pinned.appName
+    }
+
     func unpinAllWindows() {
         pinnedWindows.removeAll()
         pinFollowTask?.cancel()

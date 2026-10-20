@@ -198,6 +198,9 @@
 "Unpinned from All Spaces" = "모든 스페이스 고정 해제됨";
 "Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "단축키를 다시 누르면 고정이 해제됩니다. 키보드로 데스크탑을 전환하면 고정된 윈도우가 함께 이동하며, 스와이프나 Mission Control로 전환하면 전환이 끝난 뒤 Tiley가 윈도우를 가져옵니다.";
 "Unpin" = "고정 해제";
-"All Spaces" = "모든 스페이스";
 "Stop keeping this window on every desktop" = "이 윈도우를 모든 데스크탑에 표시하지 않음";
 "Keep this window on whichever desktop you're on" = "이 윈도우를 현재 데스크탑에 항상 표시";
+"Pin This Window" = "이 윈도우 고정";
+"Also pinned to all spaces" = "모든 스페이스에 고정된 다른 윈도우";
+"⇧P unpins all" = "⇧P로 모두 해제";
+"%d windows" = "윈도우 %d개";

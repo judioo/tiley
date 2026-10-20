@@ -198,6 +198,9 @@
 "Unpinned from All Spaces" = "Non più fissata su tutti gli spazi";
 "Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "Premi di nuovo l’abbreviazione per sbloccarla. Una finestra fissata ti segue quando cambi scrivania con la tastiera; dopo uno scorrimento o Mission Control, Tiley la porta lì al termine del cambio.";
 "Unpin" = "Sblocca";
-"All Spaces" = "Tutti gli spazi";
 "Stop keeping this window on every desktop" = "Non mantenere più questa finestra su ogni scrivania";
 "Keep this window on whichever desktop you're on" = "Mantieni questa finestra sulla scrivania in cui ti trovi";
+"Pin This Window" = "Fissa questa finestra";
+"Also pinned to all spaces" = "Fissate anche su tutti gli spazi";
+"⇧P unpins all" = "⇧P le sblocca tutte";
+"%d windows" = "%d finestre";

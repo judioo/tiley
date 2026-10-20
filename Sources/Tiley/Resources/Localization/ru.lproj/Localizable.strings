@@ -198,6 +198,9 @@
 "Unpinned from All Spaces" = "Откреплено от всех пространств";
 "Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "Нажмите сочетание клавиш ещё раз, чтобы открепить. Закреплённое окно переходит вместе с вами при смене рабочего стола с клавиатуры; после жеста или Mission Control Tiley переносит его, когда переключение завершится.";
 "Unpin" = "Открепить";
-"All Spaces" = "Все пространства";
 "Stop keeping this window on every desktop" = "Больше не держать это окно на каждом рабочем столе";
 "Keep this window on whichever desktop you're on" = "Держать это окно на текущем рабочем столе";
+"Pin This Window" = "Закрепить это окно";
+"Also pinned to all spaces" = "Также закреплены на всех пространствах";
+"⇧P unpins all" = "⇧P открепляет все";
+"%d windows" = "Окон: %d";
