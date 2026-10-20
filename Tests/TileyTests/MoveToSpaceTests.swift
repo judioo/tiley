@@ -67,4 +67,26 @@ struct MoveToSpaceTests {
         #expect(label(16) == "⌃⌥6")
         #expect(label(17) == nil)
     }
+
+    @Test("settings saved before Pin to All Spaces decode with an empty entry")
+    func decodesSettingsWithoutPin() throws {
+        var legacy = try JSONSerialization.jsonObject(
+            with: JSONEncoder().encode(DisplayShortcutSettings.default)
+        ) as! [String: Any]
+        legacy.removeValue(forKey: "pinToAllSpaces")
+        let data = try JSONSerialization.data(withJSONObject: legacy)
+
+        let decoded = try JSONDecoder().decode(DisplayShortcutSettings.self, from: data)
+        #expect(decoded.pinToAllSpaces == .empty)
+    }
+
+    @Test("space-switch shortcuts match ignoring the arrow keys' fn and keypad flags")
+    func switchShortcutMatching() {
+        let right = SpaceSwitchShortcut(keyCode: 124, flags: [.maskControl, .maskSecondaryFn])
+        #expect(right.matches(keyCode: 124, flags: [.maskControl, .maskSecondaryFn, .maskNumericPad]))
+        #expect(right.matches(keyCode: 124, flags: [.maskControl]))
+        #expect(!right.matches(keyCode: 124, flags: [.maskControl, .maskShift]))
+        #expect(!right.matches(keyCode: 124, flags: [.maskSecondaryFn]))
+        #expect(!right.matches(keyCode: 123, flags: [.maskControl, .maskSecondaryFn]))
+    }
 }

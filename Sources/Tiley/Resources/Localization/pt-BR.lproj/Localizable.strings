@@ -173,7 +173,7 @@
 "Move to Space" = "Mover para Espaço";
 "Desktop %d" = "Mesa %d";
 "Current" = "Atual";
-"Press a number to move the window · Esc to cancel" = "Pressione um número para mover a janela · Esc para cancelar";
+"Press a number to move the window · P to pin to all spaces · Esc to cancel" = "Pressione um número para mover a janela · P para fixar em todos os Spaces · Esc para cancelar";
 "Turn on “Move left a space” and “Move right a space” in System Settings › Keyboard › Keyboard Shortcuts › Mission Control to move windows between spaces." = "Ative “Mover um espaço para a esquerda” e “Mover um espaço para a direita” em Ajustes do Sistema › Teclado › Atalhos de Teclado › Mission Control para mover janelas entre espaços.";
 "Mission Control Shortcuts…" = "Atalhos do Mission Control…";
 "All Displays" = "Todos os monitores";
@@ -191,3 +191,13 @@
 "Skipped Desktop %@: its key is already used by another system shortcut." = "Mesa %@ ignorada: a tecla já é usada por outro atalho do sistema.";
 "OK" = "OK";
 "Turn On" = "Ativar";
+
+/* Pin to All Spaces */
+"Pin to All Spaces" = "Fixar em Todos os Spaces";
+"Pinned to All Spaces" = "Fixada em Todos os Spaces";
+"Unpinned from All Spaces" = "Desafixada de Todos os Spaces";
+"Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "Pressione o atalho de novo para desafixar. Uma janela fixada acompanha você ao trocar de mesa pelo teclado; depois de um gesto ou do Mission Control, o Tiley a traz quando a troca termina.";
+"Unpin" = "Desafixar";
+"All Spaces" = "Todos os Spaces";
+"Stop keeping this window on every desktop" = "Deixar de manter esta janela em todas as mesas";
+"Keep this window on whichever desktop you're on" = "Manter esta janela na mesa em que você estiver";

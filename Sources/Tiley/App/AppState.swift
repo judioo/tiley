@@ -262,6 +262,18 @@ final class AppState: NSObject, NSMenuDelegate {
     @ObservationIgnored var displayHighlightWindow: NSWindow?
     /// The open "Move to Space" picker, if any.
     @ObservationIgnored var spacePickerController: SpacePickerController?
+    /// Windows pinned to all Spaces, keyed by CG window ID. Not persisted:
+    /// window IDs don't survive the app relaunching.
+    @ObservationIgnored var pinnedWindows: [CGWindowID: PinnedWindow] = [:]
+    /// True while Tiley is driving a space move (Move to Space, or carrying
+    /// a pinned window), so its own space changes don't trigger a follow.
+    @ObservationIgnored var spaceMoveInProgress = false
+    @ObservationIgnored var pinFollowTask: Task<Void, Never>?
+    @ObservationIgnored var spaceSwitchEventTap: CFMachPort?
+    @ObservationIgnored var spaceSwitchEventTapSource: CFRunLoopSource?
+    /// The system space-switch shortcuts, read when the tap is (re)armed.
+    @ObservationIgnored var spaceSwitchShortcuts: [(shortcut: SpaceSwitchShortcut, kind: SpaceSwitchKind)] = []
+    @ObservationIgnored var pinHUD: PinHUDController?
 
     // MARK: - Window Grouping
     /// Active window groups, keyed by group UUID.
@@ -716,6 +728,7 @@ final class AppState: NSObject, NSMenuDelegate {
         windowListCacheTask?.cancel()
         appLaunchTerminationTask?.cancel()
         uninstallGroupObservation()
+        unpinAllWindows()
     }
 
     func requestAccessibilityAccess() {

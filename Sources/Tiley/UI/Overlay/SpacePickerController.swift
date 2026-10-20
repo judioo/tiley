@@ -29,6 +29,11 @@ struct SpacePickerContent {
     let items: [SpacePickerItem]
     /// Shown when the system shortcuts Tiley needs are turned off.
     let warning: String?
+    /// True when the window is already pinned to all Spaces.
+    let isPinned: Bool
+
+    /// The key that toggles Pin to All Spaces.
+    static let pinKey = "p"
 }
 
 // MARK: - Style constants
@@ -53,19 +58,27 @@ private enum PickerStyle {
 final class SpacePickerController {
     private var panel: SpacePickerPanel?
     private let onPick: (UInt64) -> Void
+    private let onTogglePin: () -> Void
     private let onCancel: () -> Void
     private let items: [SpacePickerItem]
+    private let canTogglePin: Bool
     private var finished = false
 
     init(content: SpacePickerContent, on screen: NSScreen,
-         onPick: @escaping (UInt64) -> Void, onCancel: @escaping () -> Void) {
+         onPick: @escaping (UInt64) -> Void,
+         onTogglePin: @escaping () -> Void,
+         onCancel: @escaping () -> Void) {
         self.onPick = onPick
+        self.onTogglePin = onTogglePin
         self.onCancel = onCancel
         self.items = content.items
+        // Unpinning always works; pinning needs the switch shortcuts.
+        self.canTogglePin = content.isPinned || content.warning == nil
 
         let view = SpacePickerView(
             content: content,
             onPick: { [weak self] id in self?.pick(id) },
+            onTogglePin: { [weak self] in self?.togglePin() },
             onOpenSettings: { [weak self] in self?.openSettings() }
         )
         let hosting = NSHostingView(rootView: view)
@@ -99,6 +112,13 @@ final class SpacePickerController {
         onPick(id)
     }
 
+    private func togglePin() {
+        guard !finished, canTogglePin else { return }
+        finished = true
+        close()
+        onTogglePin()
+    }
+
     /// Closes the picker and opens the Mission Control shortcut settings.
     private func openSettings() {
         cancel()
@@ -119,6 +139,10 @@ final class SpacePickerController {
         let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
         if modifiers == .command, event.charactersIgnoringModifiers == "," {
             openSettings()
+            return true
+        }
+        if modifiers.isEmpty, event.charactersIgnoringModifiers?.lowercased() == SpacePickerContent.pinKey {
+            if canTogglePin { togglePin() } else { NSSound.beep() }
             return true
         }
         guard let chars = event.charactersIgnoringModifiers, chars.count == 1,
@@ -172,10 +196,14 @@ private final class SpacePickerPanel: NSPanel {
 private struct SpacePickerView: View {
     let content: SpacePickerContent
     let onPick: (UInt64) -> Void
+    let onTogglePin: () -> Void
     let onOpenSettings: () -> Void
 
+    /// Desktop tiles plus the All Spaces tile.
+    private var tileCount: Int { content.items.count + 1 }
+
     private var columns: [GridItem] {
-        let count = max(1, min(PickerStyle.maxColumns, content.items.count))
+        let count = max(1, min(PickerStyle.maxColumns, tileCount))
         return Array(repeating: GridItem(.fixed(PickerStyle.tileWidth), spacing: PickerStyle.tileSpacing), count: count)
     }
 
@@ -218,10 +246,13 @@ private struct SpacePickerView: View {
                 ForEach(content.items) { item in
                     SpaceTile(item: item, isEnabled: content.warning == nil) { onPick(item.id) }
                 }
+                PinTile(isPinned: content.isPinned,
+                        isEnabled: content.isPinned || content.warning == nil,
+                        action: onTogglePin)
             }
 
             HStack(spacing: 12) {
-                Text(NSLocalizedString("Press a number to move the window · Esc to cancel", comment: "Space picker hint"))
+                Text(NSLocalizedString("Press a number to move the window · P to pin to all spaces · Esc to cancel", comment: "Space picker hint"))
                     .font(.system(size: 11))
                     .foregroundStyle(.tertiary)
                 Spacer(minLength: 0)
@@ -248,7 +279,7 @@ private struct SpacePickerView: View {
     }
 
     private var gridWidth: CGFloat {
-        let count = CGFloat(max(1, min(PickerStyle.maxColumns, content.items.count)))
+        let count = CGFloat(max(1, min(PickerStyle.maxColumns, tileCount)))
         return count * PickerStyle.tileWidth + (count - 1) * PickerStyle.tileSpacing
     }
 }
@@ -324,5 +355,63 @@ private struct SpaceTile: View {
             }
         }
         .padding(.top, 4)
+    }
+}
+
+/// Pins the window to all Spaces, or unpins it when it already is.
+private struct PinTile: View {
+    let isPinned: Bool
+    let isEnabled: Bool
+    let action: () -> Void
+    @State private var isHovered = false
+
+    var body: some View {
+        Button(action: action) {
+            ZStack(alignment: .topLeading) {
+                RoundedRectangle(cornerRadius: PickerStyle.tileCornerRadius, style: .continuous)
+                    .fill(Color.primary.opacity(isHovered && isEnabled ? 0.14 : 0.06))
+
+                Image(systemName: isPinned ? "pin.slash" : "pin.fill")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundStyle(isPinned ? Color.accentColor : .secondary)
+                    .padding(.top, 4)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                Text(SpacePickerContent.pinKey.uppercased())
+                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                    .frame(minWidth: 22, minHeight: 22)
+                    .background(
+                        isEnabled ? Color.accentColor : Color.secondary.opacity(0.4),
+                        in: RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    )
+                    .foregroundStyle(.white)
+                    .padding(6)
+
+                VStack {
+                    Spacer()
+                    Text(isPinned
+                         ? NSLocalizedString("Unpin", comment: "Space picker: tile that unpins the window from all spaces")
+                         : NSLocalizedString("All Spaces", comment: "Space picker: tile that pins the window to all spaces"))
+                        .font(.system(size: 11, weight: isPinned ? .semibold : .regular))
+                        .foregroundStyle(isPinned ? Color.accentColor : .secondary)
+                        .padding(.bottom, 6)
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .frame(width: PickerStyle.tileWidth, height: PickerStyle.tileHeight)
+            .overlay(
+                RoundedRectangle(cornerRadius: PickerStyle.tileCornerRadius, style: .continuous)
+                    .strokeBorder(isPinned ? Color.accentColor : Color.primary.opacity(0.1),
+                                  style: StrokeStyle(lineWidth: isPinned ? 2 : 1, dash: isPinned ? [] : [4, 3]))
+            )
+            .opacity(isEnabled ? 1 : 0.5)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(!isEnabled)
+        .onHover { isHovered = $0 }
+        .help(isPinned
+              ? NSLocalizedString("Stop keeping this window on every desktop", comment: "Space picker: tooltip for the unpin tile")
+              : NSLocalizedString("Keep this window on whichever desktop you're on", comment: "Space picker: tooltip for the pin tile"))
     }
 }

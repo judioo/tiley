@@ -173,7 +173,7 @@
 "Move to Space" = "In Space verschieben";
 "Desktop %d" = "Schreibtisch %d";
 "Current" = "Aktuell";
-"Press a number to move the window · Esc to cancel" = "Zahl drücken, um das Fenster zu verschieben · Esc zum Abbrechen";
+"Press a number to move the window · P to pin to all spaces · Esc to cancel" = "Zahl drücken, um das Fenster zu bewegen · P zum Anheften an alle Spaces · Esc zum Abbrechen";
 "Turn on “Move left a space” and “Move right a space” in System Settings › Keyboard › Keyboard Shortcuts › Mission Control to move windows between spaces." = "Aktiviere „Einen Space nach links“ und „Einen Space nach rechts“ unter Systemeinstellungen › Tastatur › Tastaturkurzbefehle › Mission Control, um Fenster zwischen Spaces zu verschieben.";
 "Mission Control Shortcuts…" = "Mission Control-Kurzbefehle …";
 "All Displays" = "Alle Displays";
@@ -191,3 +191,13 @@
 "Skipped Desktop %@: its key is already used by another system shortcut." = "Schreibtisch %@ übersprungen: Die Taste wird bereits von einem anderen Systemkurzbefehl verwendet.";
 "OK" = "OK";
 "Turn On" = "Aktivieren";
+
+/* Pin to All Spaces */
+"Pin to All Spaces" = "An alle Spaces anheften";
+"Pinned to All Spaces" = "An alle Spaces angeheftet";
+"Unpinned from All Spaces" = "Von allen Spaces gelöst";
+"Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "Drücke den Kurzbefehl erneut, um das Fenster zu lösen. Ein angeheftetes Fenster wechselt mit, wenn du Schreibtische per Tastatur wechselst; nach einem Wischen oder Mission Control holt Tiley es nach, sobald der Wechsel abgeschlossen ist.";
+"Unpin" = "Lösen";
+"All Spaces" = "Alle Spaces";
+"Stop keeping this window on every desktop" = "Dieses Fenster nicht mehr auf jedem Schreibtisch zeigen";
+"Keep this window on whichever desktop you're on" = "Dieses Fenster auf dem jeweils aktuellen Schreibtisch halten";
