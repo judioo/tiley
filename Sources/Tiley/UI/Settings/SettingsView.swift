@@ -614,6 +614,29 @@ struct SettingsView: View {
                     .padding(.leading, shortcutIconColumnWidth + 8)
                     .padding(.bottom, 6)
 
+                Divider().opacity(0.4)
+
+                displayShortcutRow(
+                    label: NSLocalizedString("Pin to All Spaces", comment: "Shortcut action - keeps a window on whichever desktop is visible"),
+                    localBinding: $draftSettings.displayShortcutSettings.pinToAllSpaces.local,
+                    localEnabledBinding: $draftSettings.displayShortcutSettings.pinToAllSpaces.localEnabled,
+                    globalBinding: $draftSettings.displayShortcutSettings.pinToAllSpaces.global,
+                    globalEnabledBinding: $draftSettings.displayShortcutSettings.pinToAllSpaces.globalEnabled,
+                    localKeyPath: "pinToAllSpaces.local",
+                    globalKeyPath: "pinToAllSpaces.global",
+                    systemImage: "pin"
+                )
+
+                Text(NSLocalizedString(
+                    "Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes.",
+                    comment: "Settings hint explaining how Pin to All Spaces works"))
+                    .font(.system(size: 11))
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, shortcutIconColumnWidth + 8)
+                    .padding(.bottom, 6)
+
                 let resolver = Self.cachedDisplayResolver()
                 ForEach(resolver.displays, id: \.displayID) { resolved in
                     Divider().opacity(0.4)
@@ -792,7 +815,7 @@ struct SettingsView: View {
     private func validateDisplayShortcut(_ candidate: HotKeyShortcut, excludeKeyPath: String) -> String? {
         // Reserved keys
         if !candidate.isGlobal {
-            if !excludeKeyPath.hasPrefix("selectNextWindow") && !excludeKeyPath.hasPrefix("selectPreviousWindow") && !excludeKeyPath.hasPrefix("bringToFront") && !excludeKeyPath.hasPrefix("closeOrQuit") && !excludeKeyPath.hasPrefix("moveToSpace") {
+            if !excludeKeyPath.hasPrefix("selectNextWindow") && !excludeKeyPath.hasPrefix("selectPreviousWindow") && !excludeKeyPath.hasPrefix("bringToFront") && !excludeKeyPath.hasPrefix("closeOrQuit") && !excludeKeyPath.hasPrefix("moveToSpace") && !excludeKeyPath.hasPrefix("pinToAllSpaces") {
                 if draftWindowActionConflicts(with: candidate) {
                     return NSLocalizedString("This shortcut is already used for a window action.", comment: "Shortcut conflict with window action")
                 }
@@ -856,6 +879,9 @@ struct SettingsView: View {
         if let s = candidate.isGlobal ? ds.moveToSpace.global : ds.moveToSpace.local {
             allSlots.append(("moveToSpace\(suffix)", s))
         }
+        if let s = candidate.isGlobal ? ds.pinToAllSpaces.global : ds.pinToAllSpaces.local {
+            allSlots.append(("pinToAllSpaces\(suffix)", s))
+        }
         for (kp, s) in allSlots where kp != excludeKeyPath {
             if s.keyCode == candidate.keyCode && s.modifiers == candidate.modifiers {
                 return NSLocalizedString("This shortcut is already used by another display shortcut.", comment: "Display shortcut conflict with another display shortcut")
@@ -877,6 +903,8 @@ struct SettingsView: View {
            let s = ds.closeOrQuit.local, s == shortcut { return true }
         if ds.moveToSpace.localEnabled,
            let s = ds.moveToSpace.local, s == shortcut { return true }
+        if ds.pinToAllSpaces.localEnabled,
+           let s = ds.pinToAllSpaces.local, s == shortcut { return true }
         return false
     }
 }

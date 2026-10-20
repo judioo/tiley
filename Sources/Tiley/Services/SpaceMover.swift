@@ -30,6 +30,24 @@ struct DisplaySpaces {
 struct SpaceSwitchShortcut: Equatable {
     let keyCode: CGKeyCode
     let flags: CGEventFlags
+
+    /// The modifiers that decide whether a key press is this shortcut. Arrow
+    /// keys also carry the function and numeric-pad flags, which are ignored.
+    static let significantFlags: CGEventFlags = [.maskControl, .maskAlternate, .maskCommand, .maskShift]
+
+    /// True when a key-down with this key code and these flags triggers the shortcut.
+    func matches(keyCode: CGKeyCode, flags: CGEventFlags) -> Bool {
+        keyCode == self.keyCode
+            && flags.intersection(Self.significantFlags) == self.flags.intersection(Self.significantFlags)
+    }
+}
+
+/// What a system space-switch shortcut does.
+enum SpaceSwitchKind: Equatable {
+    /// "Move left/right a space".
+    case step(right: Bool)
+    /// "Switch to Desktop N" (numbered across all displays).
+    case desktop(Int)
 }
 
 enum SpaceMoveError: Error {
@@ -177,6 +195,18 @@ enum SpaceMover {
             return shortcut
         }
         return nil
+    }
+
+    /// Every space-switch shortcut that is currently on.
+    static func activeSwitchShortcuts() -> [(shortcut: SpaceSwitchShortcut, kind: SpaceSwitchKind)] {
+        var result: [(SpaceSwitchShortcut, SpaceSwitchKind)] = []
+        for right in [false, true] {
+            if let s = spaceSwitchShortcut(right: right) { result.append((s, .step(right: right))) }
+        }
+        for n in 1...maxDesktopHotKeys {
+            if let s = desktopShortcut(number: n) { result.append((s, .desktop(n))) }
+        }
+        return result
     }
 
     /// The N in "Switch to Desktop N" for a space. Mission Control numbers
@@ -426,35 +456,15 @@ enum SpaceMover {
             return .failure(.shortcutDisabled)
         }
 
-        // Physically held modifiers (from the shortcut that opened the picker)
-        // would merge into the synthesized events.
-        _ = await waitUntil(timeout: 2.0) {
-            CGEventSource.flagsState(.hidSystemState)
-                .intersection([.maskControl, .maskAlternate, .maskCommand, .maskShift]).isEmpty
-        }
+        guard cgBounds(of: windowID) != nil else { return .failure(.windowNotFound) }
+        debugLog("SpaceMover: wid=\(windowID) from=\(currentIndex) to=\(targetIndex) desktopN=\(desktopNumber.map(String.init) ?? "nil") direct=\(directShortcut.map { "key=\($0.keyCode) flags=0x\(String($0.flags.rawValue, radix: 16))" } ?? "off")")
 
-        guard let bounds = cgBounds(of: windowID) else { return .failure(.windowNotFound) }
-        debugLog("SpaceMover: wid=\(windowID) from=\(currentIndex) to=\(targetIndex) desktopN=\(desktopNumber.map(String.init) ?? "nil") direct=\(directShortcut.map { "key=\($0.keyCode) flags=0x\(String($0.flags.rawValue, radix: 16))" } ?? "off") bounds=\(bounds)")
-
-        let source = CGEventSource(stateID: .hidSystemState)
-        let savedCursor = CGEvent(source: nil)?.location
-
-        // Try points along the top edge until one actually drags the window.
-        // Apps that draw their own title bar (Chrome's tab strip) ignore
-        // window drags over tabs and controls.
-        var grabbed: CGPoint?
-        for candidate in grabCandidates(bounds: bounds, pid: pid).prefix(maxGrabAttempts) {
-            if await beginWindowDrag(windowID: windowID, at: candidate, source: source) {
-                grabbed = candidate
-                break
-            }
+        var held: HeldWindow
+        switch await holdWindow(windowID: windowID, pid: pid) {
+        case .success(let h): held = h
+        case .failure(let error): return .failure(error)
         }
-        guard let grab = grabbed else {
-            if let savedCursor { CGWarpMouseCursorPosition(savedCursor) }
-            debugLog("SpaceMover: no point on the top edge dragged the window")
-            return .failure(.noDraggableArea)
-        }
-        var dragPoint = CGPoint(x: grab.x + grabProbeDistance, y: grab.y)
+        let source = held.source
 
         var failure: SpaceMoveError?
         var arrived = false
@@ -496,20 +506,10 @@ enum SpaceMover {
                 break
             }
             try? await Task.sleep(nanoseconds: switchSettleDelay)
-            // Keep the drag alive so the window stays attached.
-            dragPoint.x += right ? 1 : -1
-            postMouse(.leftMouseDragged, at: dragPoint, source: source)
+            held.keepAlive(towardsRight: right)
         }
 
-        // Return to the grab point before releasing so the keep-alive nudges
-        // don't shift the window sideways.
-        postMouse(.leftMouseDragged, at: grab, source: source)
-        try? await Task.sleep(nanoseconds: 50_000_000)
-        postMouse(.leftMouseUp, at: grab, source: source)
-        if let savedCursor {
-            try? await Task.sleep(nanoseconds: 50_000_000)
-            CGWarpMouseCursorPosition(savedCursor)
-        }
+        await release(held)
 
         if let failure {
             debugLog("SpaceMover: failed \(failure)")
@@ -526,7 +526,150 @@ enum SpaceMover {
         return .success(())
     }
 
+    // MARK: - Carrying a window through a switch
+
+    /// Holds the window by its top edge, presses `shortcut` (a space-switch
+    /// key the user pressed and Tiley swallowed), and lets go once the display
+    /// has landed on another space. The window rides along in the same
+    /// animation. Returns the space the display ended on.
+    ///
+    /// When the window can't be held, the shortcut is still pressed so the
+    /// user's switch happens; the result is then `.failure`.
+    @MainActor
+    static func carryWindow(
+        windowID: CGWindowID,
+        pid: pid_t,
+        windowElement: AXUIElement?,
+        pressing shortcut: SpaceSwitchShortcut,
+        displayID: CGDirectDisplayID
+    ) async -> Result<UInt64, SpaceMoveError> {
+        guard let startSpace = spaces(forDisplayID: displayID)?.currentSpaceID else {
+            postKey(shortcut, source: CGEventSource(stateID: .hidSystemState))
+            return .failure(.spacesUnavailable)
+        }
+        // Bring it above the app's other windows so the grab lands on it.
+        // Activating the app could switch to another of its spaces, so
+        // only raise; the grab's hit-test skips points covered by other apps.
+        if let windowElement {
+            AXUIElementPerformAction(windowElement, kAXRaiseAction as CFString)
+        }
+
+        let hold = await holdWindow(windowID: windowID, pid: pid)
+        // holdWindow waits for the user to let go of the modifiers. If they
+        // switched again meanwhile (repeat presses pass through), replaying
+        // the swallowed press would overshoot; leave the window to the
+        // catch-up follow instead.
+        if spaces(forDisplayID: displayID)?.currentSpaceID != startSpace {
+            if case .success(let held) = hold { await release(held) }
+            return .failure(.windowNotOnCurrentSpace)
+        }
+        let held: HeldWindow
+        switch hold {
+        case .success(let h):
+            held = h
+        case .failure(let error):
+            postKey(shortcut, source: CGEventSource(stateID: .hidSystemState))
+            return .failure(error)
+        }
+
+        postKey(shortcut, source: held.source)
+        var landed: UInt64?
+        let switched = await waitUntil(timeout: switchTimeout) {
+            guard let now = spaces(forDisplayID: displayID)?.currentSpaceID, now != startSpace else { return false }
+            landed = now
+            return true
+        }
+        if switched {
+            try? await Task.sleep(nanoseconds: switchSettleDelay)
+        }
+        await release(held)
+
+        guard switched, let landed else {
+            debugLog("SpaceMover: carry wid=\(windowID) — the switch never happened")
+            return .failure(.spaceSwitchTimedOut)
+        }
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        guard spaceID(ofWindow: windowID) == landed else {
+            debugLog("SpaceMover: carry wid=\(windowID) — the window stayed behind")
+            return .failure(.windowDidNotMove)
+        }
+        if let windowElement {
+            AXUIElementPerformAction(windowElement, kAXRaiseAction as CFString)
+        }
+        return .success(landed)
+    }
+
+    // MARK: - Holding a window
+
+    /// A window held by a synthesized title-bar mouse-down.
+    struct HeldWindow {
+        let windowID: CGWindowID
+        /// Where the mouse button went down.
+        let grab: CGPoint
+        /// The current (nudged) cursor position of the drag.
+        var dragPoint: CGPoint
+        let source: CGEventSource?
+        /// The user's cursor position before the grab, restored on release.
+        let savedCursor: CGPoint?
+
+        /// Nudges the drag so the window stays attached across a switch.
+        mutating func keepAlive(towardsRight right: Bool) {
+            dragPoint.x += right ? 1 : -1
+            SpaceMover.postMouse(.leftMouseDragged, at: dragPoint, source: source)
+        }
+    }
+
+    /// Presses the mouse on the window's top edge, trying points until one
+    /// actually drags the window. Waits for physically held modifiers to be
+    /// released first, since they would merge into the synthesized events.
+    @MainActor
+    static func holdWindow(windowID: CGWindowID, pid: pid_t) async -> Result<HeldWindow, SpaceMoveError> {
+        _ = await waitUntil(timeout: 2.0) {
+            CGEventSource.flagsState(.hidSystemState)
+                .intersection([.maskControl, .maskAlternate, .maskCommand, .maskShift]).isEmpty
+        }
+        guard let bounds = cgBounds(of: windowID) else { return .failure(.windowNotFound) }
+
+        let source = CGEventSource(stateID: .hidSystemState)
+        let savedCursor = CGEvent(source: nil)?.location
+
+        // Apps that draw their own title bar (Chrome's tab strip) ignore
+        // window drags over tabs and controls.
+        for candidate in grabCandidates(bounds: bounds, pid: pid).prefix(maxGrabAttempts) {
+            if await beginWindowDrag(windowID: windowID, at: candidate, source: source) {
+                return .success(HeldWindow(
+                    windowID: windowID,
+                    grab: candidate,
+                    dragPoint: CGPoint(x: candidate.x + grabProbeDistance, y: candidate.y),
+                    source: source,
+                    savedCursor: savedCursor
+                ))
+            }
+        }
+        if let savedCursor { CGWarpMouseCursorPosition(savedCursor) }
+        debugLog("SpaceMover: no point on the top edge dragged the window")
+        return .failure(.noDraggableArea)
+    }
+
+    /// Lets go of a held window and puts the cursor back.
+    @MainActor
+    static func release(_ held: HeldWindow) async {
+        // Return to the grab point before releasing so the keep-alive nudges
+        // don't shift the window sideways.
+        postMouse(.leftMouseDragged, at: held.grab, source: held.source)
+        try? await Task.sleep(nanoseconds: 50_000_000)
+        postMouse(.leftMouseUp, at: held.grab, source: held.source)
+        if let savedCursor = held.savedCursor {
+            try? await Task.sleep(nanoseconds: 50_000_000)
+            CGWarpMouseCursorPosition(savedCursor)
+        }
+    }
+
     // MARK: - Helpers
+
+    /// Stamped into every event Tiley synthesizes (eventSourceUserData), so
+    /// Tiley's own event taps can tell them from the user's.
+    static let syntheticEventMarker: Int64 = 0x5449_4C59 // "TILY"
 
     /// Window bounds in CoreGraphics (top-left origin) coordinates.
     private static func cgBounds(of windowID: CGWindowID) -> CGRect? {
@@ -629,6 +772,7 @@ enum SpaceMover {
         guard let event = CGEvent(mouseEventSource: source, mouseType: type,
                                   mouseCursorPosition: point, mouseButton: .left) else { return }
         event.flags = []
+        event.setIntegerValueField(.eventSourceUserData, value: syntheticEventMarker)
         event.post(tap: .cghidEventTap)
     }
 
@@ -636,6 +780,7 @@ enum SpaceMover {
         for down in [true, false] {
             guard let event = CGEvent(keyboardEventSource: source, virtualKey: shortcut.keyCode, keyDown: down) else { continue }
             event.flags = shortcut.flags
+            event.setIntegerValueField(.eventSourceUserData, value: syntheticEventMarker)
             event.post(tap: .cghidEventTap)
         }
     }

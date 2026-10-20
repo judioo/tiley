@@ -161,7 +161,7 @@
 "Move to Space" = "Sposta in Spazio";
 "Desktop %d" = "Scrivania %d";
 "Current" = "Attuale";
-"Press a number to move the window · Esc to cancel" = "Premi un numero per spostare la finestra · Esc per annullare";
+"Press a number to move the window · P to pin to all spaces · Esc to cancel" = "Premi un numero per spostare la finestra · P per fissarla su tutti gli spazi · Esc per annullare";
 "Turn on “Move left a space” and “Move right a space” in System Settings › Keyboard › Keyboard Shortcuts › Mission Control to move windows between spaces." = "Attiva «Sposta a sinistra di uno spazio» e «Sposta a destra di uno spazio» in Impostazioni di Sistema › Tastiera › Abbreviazioni da tastiera › Mission Control per spostare le finestre tra gli spazi.";
 "Mission Control Shortcuts…" = "Abbreviazioni di Mission Control…";
 "All Displays" = "Tutti i monitor";
@@ -179,3 +179,13 @@
 "Skipped Desktop %@: its key is already used by another system shortcut." = "Scrivania %@ saltata: il tasto è già usato da un’altra abbreviazione di sistema.";
 "OK" = "OK";
 "Turn On" = "Attiva";
+
+/* Pin to All Spaces */
+"Pin to All Spaces" = "Fissa su tutti gli spazi";
+"Pinned to All Spaces" = "Fissata su tutti gli spazi";
+"Unpinned from All Spaces" = "Non più fissata su tutti gli spazi";
+"Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "Premi di nuovo l’abbreviazione per sbloccarla. Una finestra fissata ti segue quando cambi scrivania con la tastiera; dopo uno scorrimento o Mission Control, Tiley la porta lì al termine del cambio.";
+"Unpin" = "Sblocca";
+"All Spaces" = "Tutti gli spazi";
+"Stop keeping this window on every desktop" = "Non mantenere più questa finestra su ogni scrivania";
+"Keep this window on whichever desktop you're on" = "Mantieni questa finestra sulla scrivania in cui ti trovi";

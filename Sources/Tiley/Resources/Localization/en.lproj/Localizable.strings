@@ -161,7 +161,7 @@
 "Move to Space" = "Move to Space";
 "Desktop %d" = "Desktop %d";
 "Current" = "Current";
-"Press a number to move the window · Esc to cancel" = "Press a number to move the window · Esc to cancel";
+"Press a number to move the window · P to pin to all spaces · Esc to cancel" = "Press a number to move the window · P to pin to all spaces · Esc to cancel";
 "Turn on “Move left a space” and “Move right a space” in System Settings › Keyboard › Keyboard Shortcuts › Mission Control to move windows between spaces." = "Turn on “Move left a space” and “Move right a space” in System Settings › Keyboard › Keyboard Shortcuts › Mission Control to move windows between spaces.";
 "Mission Control Shortcuts…" = "Mission Control Shortcuts…";
 "All Displays" = "All Displays";
@@ -179,3 +179,13 @@
 "Skipped Desktop %@: its key is already used by another system shortcut." = "Skipped Desktop %@: its key is already used by another system shortcut.";
 "OK" = "OK";
 "Turn On" = "Turn On";
+
+/* Pin to All Spaces */
+"Pin to All Spaces" = "Pin to All Spaces";
+"Pinned to All Spaces" = "Pinned to All Spaces";
+"Unpinned from All Spaces" = "Unpinned from All Spaces";
+"Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes.";
+"Unpin" = "Unpin";
+"All Spaces" = "All Spaces";
+"Stop keeping this window on every desktop" = "Stop keeping this window on every desktop";
+"Keep this window on whichever desktop you're on" = "Keep this window on whichever desktop you're on";

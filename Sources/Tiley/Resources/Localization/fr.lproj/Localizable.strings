@@ -161,7 +161,7 @@
 "Move to Space" = "Déplacer vers un Space";
 "Desktop %d" = "Bureau %d";
 "Current" = "Actuel";
-"Press a number to move the window · Esc to cancel" = "Appuyez sur un chiffre pour déplacer la fenêtre · Échap pour annuler";
+"Press a number to move the window · P to pin to all spaces · Esc to cancel" = "Appuyez sur un chiffre pour déplacer la fenêtre · P pour l’épingler à tous les Spaces · Échap pour annuler";
 "Turn on “Move left a space” and “Move right a space” in System Settings › Keyboard › Keyboard Shortcuts › Mission Control to move windows between spaces." = "Activez « Déplacer d’un espace vers la gauche » et « Déplacer d’un espace vers la droite » dans Réglages Système › Clavier › Raccourcis clavier › Mission Control pour déplacer des fenêtres entre les espaces.";
 "Mission Control Shortcuts…" = "Raccourcis Mission Control…";
 "All Displays" = "Tous les écrans";
@@ -179,3 +179,13 @@
 "Skipped Desktop %@: its key is already used by another system shortcut." = "Bureau %@ ignoré : sa touche est déjà utilisée par un autre raccourci système.";
 "OK" = "OK";
 "Turn On" = "Activer";
+
+/* Pin to All Spaces */
+"Pin to All Spaces" = "Épingler à tous les Spaces";
+"Pinned to All Spaces" = "Épinglée à tous les Spaces";
+"Unpinned from All Spaces" = "Désépinglée de tous les Spaces";
+"Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "Appuyez de nouveau sur le raccourci pour désépingler. Une fenêtre épinglée vous suit quand vous changez de bureau au clavier ; après un balayage ou Mission Control, Tiley l’amène une fois le changement terminé.";
+"Unpin" = "Désépingler";
+"All Spaces" = "Tous les Spaces";
+"Stop keeping this window on every desktop" = "Ne plus garder cette fenêtre sur chaque bureau";
+"Keep this window on whichever desktop you're on" = "Garder cette fenêtre sur le bureau où vous êtes";
