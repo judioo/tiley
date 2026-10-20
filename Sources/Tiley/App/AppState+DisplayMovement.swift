@@ -22,6 +22,11 @@ extension AppState {
             showSpacePicker(for: target)
             return
         }
+        if case .pinToAllSpaces = action {
+            guard let target = windowManager?.captureFocusedWindow() else { return }
+            togglePinToAllSpaces(target)
+            return
+        }
         guard let target = windowManager?.captureFocusedWindow() else { return }
         moveWindowToDisplay(target: target, action: action)
     }
@@ -35,6 +40,14 @@ extension AppState {
             guard let target = selected ?? activeLayoutTarget else { return }
             dismissOverlayImmediately()
             showSpacePicker(for: target)
+            return
+        }
+        if case .pinToAllSpaces = action {
+            let selected = (activeTargetIndex >= 0 && activeTargetIndex < availableWindowTargets.count)
+                ? availableWindowTargets[activeTargetIndex] : nil
+            guard let target = selected ?? activeLayoutTarget else { return }
+            dismissOverlayImmediately()
+            togglePinToAllSpaces(target)
             return
         }
         if case .moveToOther = action {
@@ -75,7 +88,7 @@ extension AppState {
             guard screens.count > 1 else { return }
             destinationScreen = screens[(currentIndex - 1 + screens.count) % screens.count]
 
-        case .moveToOther, .moveToSpace:
+        case .moveToOther, .moveToSpace, .pinToAllSpaces:
             return // handled separately via picker
 
         case .moveToDisplay(let targetDisplayID):

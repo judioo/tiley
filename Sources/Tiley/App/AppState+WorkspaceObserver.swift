@@ -125,6 +125,7 @@ extension AppState {
                 await MainActor.run { [weak self] in
                     self?.dissolveGroupsWithSplitSpaces()
                     self?.scheduleWindowListCacheRefresh()
+                    self?.schedulePinnedWindowFollow()
                 }
             }
         }

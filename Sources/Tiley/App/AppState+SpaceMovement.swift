@@ -45,7 +45,8 @@ extension AppState {
             windowLabel: target.windowTitle.flatMap { $0.isEmpty ? nil : "\(target.appName) — \($0)" } ?? target.appName,
             displayName: screen.localizedName,
             items: items,
-            warning: warning
+            warning: warning,
+            isPinned: pinnedWindows[target.cgWindowID] != nil
         )
 
         let displayID = screen.displayID
@@ -55,6 +56,10 @@ extension AppState {
             onPick: { [weak self] spaceID in
                 self?.spacePickerController = nil
                 self?.moveWindow(target, toSpace: spaceID, displayID: displayID)
+            },
+            onTogglePin: { [weak self] in
+                self?.spacePickerController = nil
+                self?.togglePinToAllSpaces(target)
             },
             onCancel: { [weak self] in
                 self?.spacePickerController = nil
@@ -69,6 +74,12 @@ extension AppState {
         Task { @MainActor in
             // Let the picker's key-up and fade-out finish before driving input.
             try? await Task.sleep(nanoseconds: 120_000_000)
+            spaceMoveInProgress = true
+            defer {
+                spaceMoveInProgress = false
+                // Pinned windows follow the user to the destination.
+                schedulePinnedWindowFollow()
+            }
             let result = await SpaceMover.moveWindow(
                 windowID: target.cgWindowID,
                 pid: target.processIdentifier,

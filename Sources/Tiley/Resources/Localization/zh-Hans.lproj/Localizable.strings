@@ -173,7 +173,7 @@
 "Move to Space" = "移动到空间";
 "Desktop %d" = "桌面 %d";
 "Current" = "当前";
-"Press a number to move the window · Esc to cancel" = "按数字键移动窗口 · 按 Esc 取消";
+"Press a number to move the window · P to pin to all spaces · Esc to cancel" = "按数字键移动窗口 · 按 P 固定到所有空间 · 按 Esc 取消";
 "Turn on “Move left a space” and “Move right a space” in System Settings › Keyboard › Keyboard Shortcuts › Mission Control to move windows between spaces." = "要在空间之间移动窗口，请在“系统设置” › “键盘” › “键盘快捷键” › “调度中心”中打开“向左移动一个空间”和“向右移动一个空间”。";
 "Mission Control Shortcuts…" = "调度中心快捷键…";
 "All Displays" = "所有显示器";
@@ -191,3 +191,13 @@
 "Skipped Desktop %@: its key is already used by another system shortcut." = "已跳过桌面 %@：其按键已被另一个系统快捷键使用。";
 "OK" = "好";
 "Turn On" = "打开";
+
+/* Pin to All Spaces */
+"Pin to All Spaces" = "固定到所有空间";
+"Pinned to All Spaces" = "已固定到所有空间";
+"Unpinned from All Spaces" = "已取消固定到所有空间";
+"Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "再次按下快捷键即可取消固定。用键盘切换桌面时，固定的窗口会随之移动；通过轻扫或调度中心切换后，Tiley 会在切换完成后将其移过来。";
+"Unpin" = "取消固定";
+"All Spaces" = "所有空间";
+"Stop keeping this window on every desktop" = "不再在每个桌面上显示此窗口";
+"Keep this window on whichever desktop you're on" = "让此窗口始终显示在当前桌面上";

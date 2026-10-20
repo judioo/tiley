@@ -21,6 +21,8 @@ struct DisplayShortcutSettings: Codable, Equatable {
     var closeOrQuit: DisplayShortcutEntry
     /// Shows a picker of the display's Mission Control spaces to send the window to.
     var moveToSpace: DisplayShortcutEntry
+    /// Pins the window to all Spaces, or unpins it.
+    var pinToAllSpaces: DisplayShortcutEntry
 
     static let defaultCloseOrQuit = DisplayShortcutEntry(
         local: HotKeyShortcut(keyCode: UInt32(kVK_ANSI_Slash), modifiers: 0),
@@ -57,7 +59,8 @@ struct DisplayShortcutSettings: Codable, Equatable {
         selectPreviousWindow: defaultSelectPreviousWindow,
         bringToFront: defaultBringToFront,
         closeOrQuit: defaultCloseOrQuit,
-        moveToSpace: .empty
+        moveToSpace: .empty,
+        pinToAllSpaces: .empty
     )
 
     init(from decoder: any Decoder) throws {
@@ -77,6 +80,8 @@ struct DisplayShortcutSettings: Codable, Equatable {
             ?? Self.defaultCloseOrQuit
         moveToSpace = try container.decodeIfPresent(DisplayShortcutEntry.self, forKey: .moveToSpace)
             ?? .empty
+        pinToAllSpaces = try container.decodeIfPresent(DisplayShortcutEntry.self, forKey: .pinToAllSpaces)
+            ?? .empty
     }
 
     init(
@@ -89,7 +94,8 @@ struct DisplayShortcutSettings: Codable, Equatable {
         selectPreviousWindow: DisplayShortcutEntry = defaultSelectPreviousWindow,
         bringToFront: DisplayShortcutEntry = defaultBringToFront,
         closeOrQuit: DisplayShortcutEntry = defaultCloseOrQuit,
-        moveToSpace: DisplayShortcutEntry = .empty
+        moveToSpace: DisplayShortcutEntry = .empty,
+        pinToAllSpaces: DisplayShortcutEntry = .empty
     ) {
         self.moveToPrimary = moveToPrimary
         self.moveToNext = moveToNext
@@ -101,6 +107,7 @@ struct DisplayShortcutSettings: Codable, Equatable {
         self.bringToFront = bringToFront
         self.closeOrQuit = closeOrQuit
         self.moveToSpace = moveToSpace
+        self.pinToAllSpaces = pinToAllSpaces
     }
 
     /// Returns the entry matching a fingerprint and occurrence index, or nil.
@@ -191,6 +198,8 @@ enum DisplayHotKeyAction {
     case moveToDisplay(displayID: CGDirectDisplayID)
     /// Shows the space picker for the focused window.
     case moveToSpace
+    /// Pins the focused window to all Spaces, or unpins it.
+    case pinToAllSpaces
 }
 
 // MARK: - Display fingerprint resolution
