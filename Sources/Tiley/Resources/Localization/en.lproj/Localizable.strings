@@ -198,6 +198,9 @@
 "Unpinned from All Spaces" = "Unpinned from All Spaces";
 "Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes." = "Press the shortcut again to unpin. A pinned window rides along when you switch desktops with the keyboard; after a swipe or Mission Control, Tiley brings it over once the switch finishes.";
 "Unpin" = "Unpin";
-"All Spaces" = "All Spaces";
 "Stop keeping this window on every desktop" = "Stop keeping this window on every desktop";
 "Keep this window on whichever desktop you're on" = "Keep this window on whichever desktop you're on";
+"Pin This Window" = "Pin This Window";
+"Also pinned to all spaces" = "Also pinned to all spaces";
+"⇧P unpins all" = "⇧P unpins all";
+"%d windows" = "%d windows";

@@ -46,7 +46,8 @@ extension AppState {
             displayName: screen.localizedName,
             items: items,
             warning: warning,
-            isPinned: pinnedWindows[target.cgWindowID] != nil
+            isPinned: pinnedWindows[target.cgWindowID] != nil,
+            otherPinned: pinnedWindowItems(excluding: target.cgWindowID)
         )
 
         let displayID = screen.displayID
@@ -61,6 +62,11 @@ extension AppState {
                 self?.spacePickerController = nil
                 self?.togglePinToAllSpaces(target)
             },
+            onUnpin: { [weak self] ids in
+                self?.spacePickerController = nil
+                self?.unpinWindows(ids)
+            },
+            targetWindowID: target.cgWindowID,
             onCancel: { [weak self] in
                 self?.spacePickerController = nil
             }
